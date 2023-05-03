@@ -2,7 +2,8 @@ import React from 'react';
 
 type ToDoListPropsType = {
   title: string
-  tasks: TaskType[]
+  tasksData: TaskType[]
+  removeTask: (taskId: number) => void
 }
 
 export type TaskType = {
@@ -11,19 +12,28 @@ export type TaskType = {
   isChecked: boolean
 }
 
-const ToDoList = (props: ToDoListPropsType) => {
+const ToDoList: React.FC<ToDoListPropsType> = ({tasksData, title, removeTask}) => {
+  // const  {tasks, title} = props --> the write is longer than above in brackets
+  const tasksJSX: JSX.Element[] = tasksData.map((item) => {
+    return (
+      // key is the difference between old and new added element for React
+      <li key={item.id}>
+        <input type="checkbox" checked={item.isChecked}/>
+        <span>{item.title}</span>
+        <button onClick={() => removeTask(item.id)}>x</button>
+      </li>
+    )
+  })
   return (
     <div>
       <div>
-        <h3>{props.title}</h3>
+        <h3>{title}</h3>
         <div>
           <input/>
           <button>+</button>
         </div>
         <ul>
-          <li><input type="checkbox" checked={props.tasks[0].isChecked}/> <span>{props.tasks[0].title}</span></li>
-          <li><input type="checkbox" checked={props.tasks[1].isChecked}/> <span>{props.tasks[1].title}</span></li>
-          <li><input type="checkbox" checked={props.tasks[2].isChecked}/> <span>{props.tasks[2].title}</span></li>
+          {tasksJSX}
         </ul>
         <div>
           <button>All</button>
