@@ -29,6 +29,7 @@ const ToDoList: React.FC<ToDoListPropsType> = ({
 
   const [text, setText] = useState('')
   const [error, setError] = useState<string | null>('')
+  const [buttonName, setButtonName] = useState<FilterType>('all')
 
   const anotherTask = () => {
     if (text.trim()) {
@@ -53,14 +54,17 @@ const ToDoList: React.FC<ToDoListPropsType> = ({
 
   const onClickHandlerAll = () => {
     changeFilter("all")
+    setButtonName('all')
   }
 
   const onClickHandlerActive = () => {
     changeFilter("active")
+    setButtonName('active')
   }
 
   const onClickHandlerCompleted = () => {
     changeFilter("completed")
+    setButtonName('completed')
   }
 
   const tasksJSX: JSX.Element[] = tasksData.map((item) => {
@@ -101,9 +105,9 @@ const ToDoList: React.FC<ToDoListPropsType> = ({
           {tasksJSX}
         </ul>
         <div>
-          <button onClick={onClickHandlerAll}>All</button>
-          <button onClick={onClickHandlerActive}>Active</button>
-          <button onClick={onClickHandlerCompleted}>Completed</button>
+          <button className={buttonName === 'all' ? style.activeFilter : ''} onClick={onClickHandlerAll}>All</button>
+          <button className={buttonName === 'active' ? style.activeFilter : ''} onClick={onClickHandlerActive}>Active</button>
+          <button className={buttonName === 'completed' ? style.activeFilter : ''} onClick={onClickHandlerCompleted}>Completed</button>
         </div>
       </div>
     </div>
