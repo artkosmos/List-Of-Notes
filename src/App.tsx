@@ -33,6 +33,11 @@ function App() {
     setTasksData(newTasks)
   }
 
+  const changeStatus = (taskID: string, checkedValue: boolean) => {
+    // we always must do copies
+    setTasksData(tasksData.map(item => item.id === taskID ? {...item, isChecked: checkedValue} : item))
+  }
+
   const getFilteredTask = (tasksData: TaskType[], filter: FilterType): TaskType[] => {
     switch (filter) {
       case "active":
@@ -55,6 +60,7 @@ function App() {
         removeTask={removeTask}
         changeFilter={changeFilter}
         addTask={addTask}
+        changeStatus={changeStatus}
       />
     </div>
   )

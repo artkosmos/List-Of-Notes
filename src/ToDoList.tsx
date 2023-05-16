@@ -7,6 +7,7 @@ type ToDoListPropsType = {
   removeTask: (taskId: string) => void
   changeFilter: (filter: FilterType) => void
   addTask: (text: string) => void
+  changeStatus: (taskID: string, checkedValue: boolean) => void
 }
 
 export type TaskType = {
@@ -15,7 +16,14 @@ export type TaskType = {
   isChecked: boolean
 }
 
-const ToDoList: React.FC<ToDoListPropsType> = ({tasksData, title, removeTask, changeFilter, addTask}) => {
+const ToDoList: React.FC<ToDoListPropsType> = ({
+                                                 tasksData,
+                                                 title,
+                                                 removeTask,
+                                                 changeFilter,
+                                                 addTask,
+                                                 changeStatus
+                                               }) => {
   // const  {tasks, title} = props --> the write is the same, but it'll be longer than above in brackets
 
   let [text, setText] = useState('')
@@ -54,10 +62,14 @@ const ToDoList: React.FC<ToDoListPropsType> = ({tasksData, title, removeTask, ch
       removeTask(item.id)
     }
 
+    const onChangeStatusHandler = (event: ChangeEvent<HTMLInputElement>) => {
+      changeStatus(item.id, event.currentTarget.checked)
+    }
+
     return (
       // key need to add always or may be error
       <li key={item.id}>
-        <input type="checkbox" checked={item.isChecked}/>
+        <input type="checkbox" checked={item.isChecked} onChange={onChangeStatusHandler}/>
         <span>{item.title}</span>
         <button onClick={onClickRemoveHandler}>x</button>
       </li>
