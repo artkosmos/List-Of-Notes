@@ -67,20 +67,22 @@ const ToDoList: React.FC<ToDoListPropsType> = ({
     setButtonName('completed')
   }
 
+  const onChangeStatusHandler = (taskID: string, eventValue: boolean) => {
+    changeStatus(taskID, eventValue)
+  }
+
+
   const tasksJSX: JSX.Element[] = tasksData.map((item) => {
 
     const onClickRemoveHandler = () => {
       removeTask(item.id)
     }
 
-    const onChangeStatusHandler = (event: ChangeEvent<HTMLInputElement>) => {
-      changeStatus(item.id, event.currentTarget.checked)
-    }
-
     return (
       // key need to add always or may be error
-      <li key={item.id}>
-        <input type="checkbox" checked={item.isChecked} onChange={onChangeStatusHandler}/>
+      <li key={item.id} className={item.isChecked ? style.isDone : ''}>
+        <input type="checkbox" checked={item.isChecked} onChange={(event) =>
+          onChangeStatusHandler(item.id, event.currentTarget.checked)}/>
         <span>{item.title}</span>
         <button onClick={onClickRemoveHandler}>x</button>
       </li>
@@ -94,9 +96,9 @@ const ToDoList: React.FC<ToDoListPropsType> = ({
         <h3>{title}</h3>
         <div>
           <input className={error ? style.error : ''}
-            value={text}
-            onChange={onChangeHandler}
-            onKeyDown={onPressHandler}
+                 value={text}
+                 onChange={onChangeHandler}
+                 onKeyDown={onPressHandler}
           />
           <button onClick={anotherTask}>+</button>
         </div>
@@ -106,8 +108,11 @@ const ToDoList: React.FC<ToDoListPropsType> = ({
         </ul>
         <div>
           <button className={buttonName === 'all' ? style.activeFilter : ''} onClick={onClickHandlerAll}>All</button>
-          <button className={buttonName === 'active' ? style.activeFilter : ''} onClick={onClickHandlerActive}>Active</button>
-          <button className={buttonName === 'completed' ? style.activeFilter : ''} onClick={onClickHandlerCompleted}>Completed</button>
+          <button className={buttonName === 'active' ? style.activeFilter : ''} onClick={onClickHandlerActive}>Active
+          </button>
+          <button className={buttonName === 'completed' ? style.activeFilter : ''}
+                  onClick={onClickHandlerCompleted}>Completed
+          </button>
         </div>
       </div>
     </div>
