@@ -5,16 +5,18 @@ import style from './ToDoList.module.css'
 type ToDoListPropsType = {
   title: string
   tasksData: TaskType[]
-  removeTask: (taskId: string) => void
-  changeFilter: (filter: FilterType) => void
-  addTask: (text: string) => void
-  changeStatus: (taskID: string, checkedValue: boolean) => void
+  removeTask: (todolistID: string, taskId: string) => void
+  changeFilter: (todolistID: string, filter: FilterType) => void
+  addTask: (todolistID: string, text: string) => void
+  changeStatus: (todolistID: string, taskID: string, checkedValue: boolean) => void
+  todolistID: string
+  removeToDoList: (todolistID: string) => void
 }
 
 export type TaskType = {
   id: string
   title: string
-  isChecked: boolean
+  isDone: boolean
 }
 
 const ToDoList: React.FC<ToDoListPropsType> = ({
@@ -23,7 +25,9 @@ const ToDoList: React.FC<ToDoListPropsType> = ({
                                                  removeTask,
                                                  changeFilter,
                                                  addTask,
-                                                 changeStatus
+                                                 changeStatus,
+                                                 todolistID,
+                                                 removeToDoList
                                                }) => {
   // const  {tasks, title} = props --> the write is the same, but it'll be longer than above in brackets
 
@@ -33,7 +37,7 @@ const ToDoList: React.FC<ToDoListPropsType> = ({
 
   const anotherTask = () => {
     if (text.trim()) {
-      addTask(text.trim())
+      addTask(todolistID, text.trim())
       setText('')
     } else {
       setError('Title is required')
@@ -47,44 +51,48 @@ const ToDoList: React.FC<ToDoListPropsType> = ({
   }
 
   const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    setError('')
+    setError(null)
     const currentValue = event.currentTarget.value
     setText(currentValue)
   }
 
   const onClickHandlerAll = () => {
-    changeFilter("all")
+    changeFilter(todolistID, "all")
     setButtonName('all')
   }
 
   const onClickHandlerActive = () => {
-    changeFilter("active")
+    changeFilter(todolistID, "active")
     setButtonName('active')
   }
 
   const onClickHandlerCompleted = () => {
-    changeFilter("completed")
+    changeFilter(todolistID, "completed")
     setButtonName('completed')
   }
 
   const onChangeStatusHandler = (taskID: string, eventValue: boolean) => {
-    changeStatus(taskID, eventValue)
+    changeStatus(todolistID, taskID, eventValue)
+  }
+
+  const removeToDoListHandler = () => {
+    removeToDoList(todolistID)
+  }
+
+  const onClickRemoveHandler = (taskID: string) => {
+    removeTask(todolistID, taskID)
   }
 
 
   const tasksJSX: JSX.Element[] = tasksData.map((item) => {
 
-    const onClickRemoveHandler = () => {
-      removeTask(item.id)
-    }
-
     return (
       // key need to add always or may be error
-      <li key={item.id} className={item.isChecked ? style.isDone : ''}>
-        <input type="checkbox" checked={item.isChecked} onChange={(event) =>
+      <li key={item.id} className={item.isDone ? style.isDone : ''}>
+        <input type="checkbox" checked={item.isDone} onChange={(event) =>
           onChangeStatusHandler(item.id, event.currentTarget.checked)}/>
         <span>{item.title}</span>
-        <button onClick={onClickRemoveHandler}>x</button>
+        <button onClick={() => onClickRemoveHandler(item.id)}>x</button>
       </li>
     )
   })
@@ -94,13 +102,14 @@ const ToDoList: React.FC<ToDoListPropsType> = ({
     <div>
       <div>
         <h3>{title}</h3>
+        <button onClick={removeToDoListHandler}>Delete list</button>
         <div>
           <input className={error ? style.error : ''}
                  value={text}
                  onChange={onChangeHandler}
                  onKeyDown={onPressHandler}
           />
-          <button onClick={anotherTask}>+</button>
+          <button onClick={anotherTask}>Add</button>
         </div>
         {error && <div className={style.errorMessage}>{error}</div>}
         <ul>
