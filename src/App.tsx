@@ -52,6 +52,10 @@ function App() {
     ]
   });
 
+  const updateTask = (todolistID: string, taskID: string, updatedTitle: string) => {
+    console.log(updatedTitle)
+  }
+
   const removeTask = (todolistID: string, taskId: string): void => {
     setTasks(
       {...tasks, [todolistID]: tasks[todolistID].filter((item => item.id !== taskId))}
@@ -124,6 +128,7 @@ function App() {
             addTask={addTask}
             changeStatus={changeStatus}
             removeToDoList={removeToDoList}
+            updateTask={updateTask}
           />
         )
       })}

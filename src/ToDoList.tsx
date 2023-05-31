@@ -2,16 +2,18 @@ import React, {useState} from 'react';
 import {FilterType} from "./App";
 import style from './ToDoList.module.css'
 import {AddItemForm} from "./AddItemForm";
+import {EditableSpan} from "./EditableSpan";
 
 type ToDoListPropsType = {
   title: string
   tasksData: TaskType[]
   removeTask: (todolistID: string, taskId: string) => void
   changeFilter: (todolistID: string, filter: FilterType) => void
-  addTask: ( todolistID: string, text: string) => void
+  addTask: (todolistID: string, text: string) => void
   changeStatus: (todolistID: string, taskID: string, checkedValue: boolean) => void
   todolistID: string
   removeToDoList: (todolistID: string) => void
+  updateTask: (todolistID: string, taskId: string, title: string) => void
 }
 
 export type TaskType = {
@@ -28,7 +30,8 @@ const ToDoList: React.FC<ToDoListPropsType> = ({
                                                  addTask,
                                                  changeStatus,
                                                  todolistID,
-                                                 removeToDoList
+                                                 removeToDoList,
+                                                 updateTask
                                                }) => {
   // const  {tasks, title} = props --> the write is the same, but it'll be longer than above in brackets
 
@@ -87,6 +90,10 @@ const ToDoList: React.FC<ToDoListPropsType> = ({
     addTask(todolistID, text)
   }
 
+  const updateTaskTitle = (taskID: string, updatedTitle: string) => {
+    updateTask(todolistID, taskID, updatedTitle)
+  }
+
 
   const tasksJSX: JSX.Element[] = tasksData.map((item) => {
 
@@ -95,7 +102,8 @@ const ToDoList: React.FC<ToDoListPropsType> = ({
       <li key={item.id} className={item.isDone ? style.isDone : ''}>
         <input type="checkbox" checked={item.isDone} onChange={(event) =>
           onChangeStatusHandler(item.id, event.currentTarget.checked)}/>
-        <span>{item.title}</span>
+        {/*<span>{item.title}</span>*/}
+        <EditableSpan oldTitle={item.title} callBack={(updatedTitle) => updateTaskTitle(item.id, updatedTitle)}/>
         <button onClick={() => onClickRemoveHandler(item.id)}>x</button>
       </li>
     )
