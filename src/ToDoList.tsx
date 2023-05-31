@@ -14,6 +14,7 @@ type ToDoListPropsType = {
   todolistID: string
   removeToDoList: (todolistID: string) => void
   updateTask: (todolistID: string, taskId: string, title: string) => void
+  updateToDoList: (todolistID: string, title: string) => void
 }
 
 export type TaskType = {
@@ -31,7 +32,8 @@ const ToDoList: React.FC<ToDoListPropsType> = ({
                                                  changeStatus,
                                                  todolistID,
                                                  removeToDoList,
-                                                 updateTask
+                                                 updateTask,
+                                                 updateToDoList
                                                }) => {
   // const  {tasks, title} = props --> the write is the same, but it'll be longer than above in brackets
 
@@ -94,6 +96,10 @@ const ToDoList: React.FC<ToDoListPropsType> = ({
     updateTask(todolistID, taskID, updatedTitle)
   }
 
+  const updateToDoListTitle = (updatedTitle: string) => {
+    updateToDoList(todolistID, updatedTitle)
+  }
+
 
   const tasksJSX: JSX.Element[] = tasksData.map((item) => {
 
@@ -114,7 +120,8 @@ const ToDoList: React.FC<ToDoListPropsType> = ({
     <div>
       <div className={'todolist'}>
         <button onClick={removeToDoListHandler}>Delete list</button>
-        <h3>{title}</h3>
+        {/*<h3>{title}</h3>*/}
+        <h3><EditableSpan oldTitle={title} callBack={updateToDoListTitle}/></h3>
         {/*<div>
           <input className={error ? style.error : ''}
                  value={text}
