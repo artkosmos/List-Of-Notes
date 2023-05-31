@@ -33,7 +33,6 @@ function App() {
     {id: todolistID1, title: 'What to learn', filter: 'all'},
     {id: todolistID2, title: 'What to buy', filter: 'all'},
   ])
-  console.log(todolists)
 
   let [tasks, setTasks] = useState<TasksAssocType>({
     [todolistID1]: [
@@ -52,8 +51,10 @@ function App() {
     ]
   });
 
+  console.log(tasks)
+
   const updateTask = (todolistID: string, taskID: string, updatedTitle: string) => {
-    console.log(updatedTitle)
+    setTasks({...tasks, [todolistID]: tasks[todolistID].map(element => element.id === taskID ? {...element, title: updatedTitle}  : element)})
   }
 
   const removeTask = (todolistID: string, taskId: string): void => {
