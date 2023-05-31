@@ -3,6 +3,7 @@ import './App.css';
 import ToDoList, {TaskType} from "./ToDoList";
 import {v1} from "uuid";
 import toDoList from "./ToDoList";
+import {AddItemForm} from "./AddItemForm";
 
 export type FilterType = 'all' | 'active' | 'completed'
 export type ToDoListType = {
@@ -84,10 +85,16 @@ function App() {
     delete tasks[todolistID]
   }
 
+  const addToDoList = () => {
+
+  }
+
   // Main concept:
   // logic function --> some actions + set function --> logic function throw through the props
   return (
     <div className="App">
+      <AddItemForm callBack={()=>{}} todolistID={v1()}/>
+
       {todolists.map(item => {
 
         const getFilteredTask = (tasks: TaskType[], filter: FilterType) => {

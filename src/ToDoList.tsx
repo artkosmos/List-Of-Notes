@@ -1,13 +1,14 @@
 import React, {useState, KeyboardEvent, ChangeEvent} from 'react';
 import {FilterType} from "./App";
 import style from './ToDoList.module.css'
+import {AddItemForm} from "./AddItemForm";
 
 type ToDoListPropsType = {
   title: string
   tasksData: TaskType[]
   removeTask: (todolistID: string, taskId: string) => void
   changeFilter: (todolistID: string, filter: FilterType) => void
-  addTask: (todolistID: string, text: string) => void
+  addTask: ( todolistID: string, text: string) => void
   changeStatus: (todolistID: string, taskID: string, checkedValue: boolean) => void
   todolistID: string
   removeToDoList: (todolistID: string) => void
@@ -31,30 +32,29 @@ const ToDoList: React.FC<ToDoListPropsType> = ({
                                                }) => {
   // const  {tasks, title} = props --> the write is the same, but it'll be longer than above in brackets
 
-  const [text, setText] = useState('')
-  const [error, setError] = useState<string | null>('')
+  // const [text, setText] = useState('')
+  // const [error, setError] = useState<string | null>('')
   const [buttonName, setButtonName] = useState<FilterType>('all')
 
-  const anotherTask = () => {
+  /*const anotherTask = () => {
     if (text.trim()) {
       addTask(todolistID, text.trim())
       setText('')
     } else {
       setError('Title is required')
     }
-  }
+  }*/
 
-  const onPressHandler = (event: KeyboardEvent<HTMLInputElement>) => {
+  /*const onPressHandler = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
       anotherTask()
     }
-  }
+  }*/
 
-  const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+  /*const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     setError(null)
-    const currentValue = event.currentTarget.value
-    setText(currentValue)
-  }
+    setText(event.currentTarget.value)
+  }*/
 
   const onClickHandlerAll = () => {
     changeFilter(todolistID, "all")
@@ -100,10 +100,10 @@ const ToDoList: React.FC<ToDoListPropsType> = ({
   // render
   return (
     <div>
-      <div>
+      <div className={'todolist'}>
         <h3>{title}</h3>
         <button onClick={removeToDoListHandler}>Delete list</button>
-        <div>
+        {/*<div>
           <input className={error ? style.error : ''}
                  value={text}
                  onChange={onChangeHandler}
@@ -111,7 +111,8 @@ const ToDoList: React.FC<ToDoListPropsType> = ({
           />
           <button onClick={anotherTask}>Add</button>
         </div>
-        {error && <div className={style.errorMessage}>{error}</div>}
+        {error && <div className={style.errorMessage}>{error}</div>}*/}
+        <AddItemForm callBack={addTask} todolistID={todolistID}/>
         <ul>
           {tasksJSX}
         </ul>

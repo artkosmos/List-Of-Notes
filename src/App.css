@@ -3,9 +3,9 @@
   display: flex;
 }
 
-.App > div {
+.App .todolist {
   background-color: #aeb9f3;
-  margin-right: 50px;
+  margin: 0 30px;
   padding: 10px;
   border: 2px solid black;
 }
