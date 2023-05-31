@@ -2,8 +2,7 @@ import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import style from "./ToDoList.module.css";
 
 type AddItemFormPropsType = {
-  callBack: (todolistID: string, text: string) => void
-  todolistID: string
+  callBack: (text: string) => void
 }
 
 export const AddItemForm = (props: AddItemFormPropsType) => {
@@ -13,7 +12,7 @@ export const AddItemForm = (props: AddItemFormPropsType) => {
 
   const anotherTask = () => {
     if (text.trim()) {
-      props.callBack(props.todolistID, text.trim())
+      props.callBack(text.trim())
       setText('')
     } else {
       setError('Title is required')

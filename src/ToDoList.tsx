@@ -1,4 +1,4 @@
-import React, {useState, KeyboardEvent, ChangeEvent} from 'react';
+import React, {useState} from 'react';
 import {FilterType} from "./App";
 import style from './ToDoList.module.css'
 import {AddItemForm} from "./AddItemForm";
@@ -83,6 +83,10 @@ const ToDoList: React.FC<ToDoListPropsType> = ({
     removeTask(todolistID, taskID)
   }
 
+  const addTaskHandler = (text: string) => {
+    addTask(todolistID, text)
+  }
+
 
   const tasksJSX: JSX.Element[] = tasksData.map((item) => {
 
@@ -101,8 +105,8 @@ const ToDoList: React.FC<ToDoListPropsType> = ({
   return (
     <div>
       <div className={'todolist'}>
-        <h3>{title}</h3>
         <button onClick={removeToDoListHandler}>Delete list</button>
+        <h3>{title}</h3>
         {/*<div>
           <input className={error ? style.error : ''}
                  value={text}
@@ -112,7 +116,7 @@ const ToDoList: React.FC<ToDoListPropsType> = ({
           <button onClick={anotherTask}>Add</button>
         </div>
         {error && <div className={style.errorMessage}>{error}</div>}*/}
-        <AddItemForm callBack={addTask} todolistID={todolistID}/>
+        <AddItemForm callBack={addTaskHandler}/>
         <ul>
           {tasksJSX}
         </ul>

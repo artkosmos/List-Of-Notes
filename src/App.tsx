@@ -33,6 +33,7 @@ function App() {
     {id: todolistID1, title: 'What to learn', filter: 'all'},
     {id: todolistID2, title: 'What to buy', filter: 'all'},
   ])
+  console.log(todolists)
 
   let [tasks, setTasks] = useState<TasksAssocType>({
     [todolistID1]: [
@@ -85,15 +86,18 @@ function App() {
     delete tasks[todolistID]
   }
 
-  const addToDoList = () => {
-
+  const addToDoList = (title: string) => {
+    const todolistID = v1()
+    const newTodolist: ToDoListType = {id: todolistID, title, filter: 'all'}
+    setTodoLists([...todolists, newTodolist])
+    setTasks({...tasks, [todolistID]: []})
   }
 
   // Main concept:
   // logic function --> some actions + set function --> logic function throw through the props
   return (
     <div className="App">
-      <AddItemForm callBack={()=>{}} todolistID={v1()}/>
+      <AddItemForm callBack={addToDoList}/>
 
       {todolists.map(item => {
 
