@@ -49,9 +49,10 @@ export const AddItemForm = (props: AddItemFormPropsType) => {
                onKeyDown={onPressHandler}
         />*/}
         <TextField
+          // error={!!error}
           size={'small'}
           id="outlined-basic"
-          label="Write something..."
+          label={error ? "Title is required" : "Write something..."}
           variant="outlined"
           value={text}
           onChange={onChangeHandler}
@@ -60,7 +61,7 @@ export const AddItemForm = (props: AddItemFormPropsType) => {
         {/*<button onClick={anotherTask}>Add</button>*/}
         <Button onClick={anotherTask} style={buttonStyles} variant="contained">Add</Button>
       </div>
-      {error && <div className={style.errorMessage}>{error}</div>}
+      {/*{error && <div className={style.errorMessage}>{error}</div>}*/}
     </div>
   );
 };
