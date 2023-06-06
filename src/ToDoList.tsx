@@ -3,6 +3,8 @@ import {FilterType} from "./App";
 import style from './ToDoList.module.css'
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 type ToDoListPropsType = {
   title: string
@@ -100,6 +102,13 @@ const ToDoList: React.FC<ToDoListPropsType> = ({
     updateToDoList(todolistID, updatedTitle)
   }
 
+  const deleteButtonStyles = {
+    maxWidth: '10px',
+    maxHeight: '10px',
+    minWidth: '10px',
+    minHeight: '10px',
+  }
+
 
   const tasksJSX: JSX.Element[] = tasksData.map((item) => {
 
@@ -110,7 +119,10 @@ const ToDoList: React.FC<ToDoListPropsType> = ({
           onChangeStatusHandler(item.id, event.currentTarget.checked)}/>
         {/*<span>{item.title}</span>*/}
         <EditableSpan oldTitle={item.title} callBack={(updatedTitle) => updateTaskTitle(item.id, updatedTitle)}/>
-        <button onClick={() => onClickRemoveHandler(item.id)}>x</button>
+        {/*<button onClick={() => onClickRemoveHandler(item.id)}>x</button>*/}
+        <IconButton aria-label="delete" size={'small'} onClick={() => onClickRemoveHandler(item.id)}>
+          <DeleteIcon fontSize={'small'} />
+        </IconButton>
       </li>
     )
   })
@@ -119,7 +131,11 @@ const ToDoList: React.FC<ToDoListPropsType> = ({
   return (
     <div>
       <div className={'todolist'}>
-        <button onClick={removeToDoListHandler}>Delete list</button>
+        <IconButton aria-label="delete" onClick={removeToDoListHandler}>
+          <DeleteIcon />
+          Delete list
+        </IconButton>
+        {/*<button onClick={removeToDoListHandler}>Delete list</button>*/}
         {/*<h3>{title}</h3>*/}
         <h3><EditableSpan oldTitle={title} callBack={updateToDoListTitle}/></h3>
         {/*<div>
