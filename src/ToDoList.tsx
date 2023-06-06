@@ -6,6 +6,7 @@ import {EditableSpan} from "./EditableSpan";
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Button from '@mui/material/Button';
+import Checkbox from '@mui/material/Checkbox';
 
 type ToDoListPropsType = {
   title: string
@@ -108,8 +109,13 @@ const ToDoList: React.FC<ToDoListPropsType> = ({
     return (
       // key need to add always or may be error
       <li key={item.id} className={item.isDone ? style.isDone : ''}>
-        <input type="checkbox" checked={item.isDone} onChange={(event) =>
-          onChangeStatusHandler(item.id, event.currentTarget.checked)}/>
+        {/*<input type="checkbox" checked={item.isDone} onChange={(event) =>
+          onChangeStatusHandler(item.id, event.currentTarget.checked)}/>*/}
+        <Checkbox
+          onChange={(event) => onChangeStatusHandler(item.id, event.currentTarget.checked)}
+          checked={item.isDone}
+          size={'small'}
+        />
         {/*<span>{item.title}</span>*/}
         <EditableSpan oldTitle={item.title} callBack={(updatedTitle) => updateTaskTitle(item.id, updatedTitle)}/>
         {/*<button onClick={() => onClickRemoveHandler(item.id)}>x</button>*/}

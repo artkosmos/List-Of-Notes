@@ -49,7 +49,7 @@ export const AddItemForm = (props: AddItemFormPropsType) => {
                onKeyDown={onPressHandler}
         />*/}
         <TextField
-          // error={!!error}
+          error={!!error}
           size={'small'}
           id="outlined-basic"
           label={error ? "Title is required" : "Write something..."}
