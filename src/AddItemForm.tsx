@@ -1,5 +1,6 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import style from "./ToDoList.module.css";
+import Button from '@mui/material/Button';
 
 type AddItemFormPropsType = {
   callBack: (text: string) => void
@@ -30,6 +31,14 @@ export const AddItemForm = (props: AddItemFormPropsType) => {
     }
   }
 
+  const buttonStyles = {
+    maxWidth: '40px',
+    maxHeight: '25px',
+    minWidth: '40px',
+    minHeight: '25px',
+    marginLeft: '5px'
+  }
+
   return (
     <div>
       <div>
@@ -38,7 +47,8 @@ export const AddItemForm = (props: AddItemFormPropsType) => {
                onChange={onChangeHandler}
                onKeyDown={onPressHandler}
         />
-        <button onClick={anotherTask}>Add</button>
+        {/*<button onClick={anotherTask}>Add</button>*/}
+        <Button onClick={anotherTask} style={buttonStyles} variant="contained">Add</Button>
       </div>
       {error && <div className={style.errorMessage}>{error}</div>}
     </div>
