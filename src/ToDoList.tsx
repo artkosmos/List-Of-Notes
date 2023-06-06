@@ -5,6 +5,7 @@ import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
+import Button from '@mui/material/Button';
 
 type ToDoListPropsType = {
   title: string
@@ -102,14 +103,6 @@ const ToDoList: React.FC<ToDoListPropsType> = ({
     updateToDoList(todolistID, updatedTitle)
   }
 
-  const deleteButtonStyles = {
-    maxWidth: '10px',
-    maxHeight: '10px',
-    minWidth: '10px',
-    minHeight: '10px',
-  }
-
-
   const tasksJSX: JSX.Element[] = tasksData.map((item) => {
 
     return (
@@ -152,12 +145,30 @@ const ToDoList: React.FC<ToDoListPropsType> = ({
           {tasksJSX}
         </ul>
         <div>
-          <button className={buttonName === 'all' ? style.activeFilter : ''} onClick={onClickHandlerAll}>All</button>
+          <Button
+            variant={buttonName === 'all' ? "outlined" : "contained"}
+            color="secondary"
+            onClick={onClickHandlerAll}
+          >All
+          </Button>
+          <Button
+            variant={buttonName === 'active' ? "outlined" : "contained"}
+            color="success"
+            onClick={onClickHandlerActive}
+          >Active
+          </Button>
+          <Button
+            variant={buttonName === 'completed' ? "outlined" : "contained"}
+            color="error"
+            onClick={onClickHandlerCompleted}
+          >Completed
+          </Button>
+          {/*<button className={buttonName === 'all' ? style.activeFilter : ''} onClick={onClickHandlerAll}>All</button>
           <button className={buttonName === 'active' ? style.activeFilter : ''} onClick={onClickHandlerActive}>Active
           </button>
           <button className={buttonName === 'completed' ? style.activeFilter : ''}
                   onClick={onClickHandlerCompleted}>Completed
-          </button>
+          </button>*/}
         </div>
       </div>
     </div>
