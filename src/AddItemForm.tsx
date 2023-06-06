@@ -1,6 +1,7 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import style from "./ToDoList.module.css";
 import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
 
 type AddItemFormPropsType = {
   callBack: (text: string) => void
@@ -33,19 +34,28 @@ export const AddItemForm = (props: AddItemFormPropsType) => {
 
   const buttonStyles = {
     maxWidth: '40px',
-    maxHeight: '25px',
+    maxHeight: '40px',
     minWidth: '40px',
-    minHeight: '25px',
-    marginLeft: '5px'
+    minHeight: '40px',
+    marginLeft: '10px'
   }
 
   return (
     <div>
       <div>
-        <input className={error ? style.error : ''}
+        {/*<input className={error ? style.error : ''}
                value={text}
                onChange={onChangeHandler}
                onKeyDown={onPressHandler}
+        />*/}
+        <TextField
+          size={'small'}
+          id="outlined-basic"
+          label="Write something..."
+          variant="outlined"
+          value={text}
+          onChange={onChangeHandler}
+          onKeyDown={onPressHandler}
         />
         {/*<button onClick={anotherTask}>Add</button>*/}
         <Button onClick={anotherTask} style={buttonStyles} variant="contained">Add</Button>
