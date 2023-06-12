@@ -1,11 +1,14 @@
-.App {
-  padding: 30px;
+
+.contentWrapper {
+  padding: 50px;
   display: flex;
+  flex-direction: column;
+  gap: 50px;
 }
 
-.App .todolist {
-  background-color: #aeb9f3;
-  margin: 0 30px;
-  padding: 10px;
-  border: 2px solid black;
+.listsWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 80px;
 }

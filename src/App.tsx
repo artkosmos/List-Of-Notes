@@ -4,6 +4,7 @@ import ToDoList, {TaskType} from "./ToDoList";
 import {v1} from "uuid";
 import {AddItemForm} from "./AddItemForm";
 import ButtonAppBar from "./ButtonAppBar";
+import Paper from '@mui/material/Paper';
 
 export type FilterType = 'all' | 'active' | 'completed'
 export type ToDoListType = {
@@ -52,7 +53,13 @@ function App() {
   });
 
   const updateTask = (todolistID: string, taskID: string, updatedTitle: string) => {
-    setTasks({...tasks, [todolistID]: tasks[todolistID].map(element => element.id === taskID ? {...element, title: updatedTitle}  : element)})
+    setTasks({
+      ...tasks,
+      [todolistID]: tasks[todolistID].map(element => element.id === taskID ? {
+        ...element,
+        title: updatedTitle
+      } : element)
+    })
   }
 
   const updateToDoList = (todolistID: string, updatedTitle: string) => {
@@ -105,38 +112,43 @@ function App() {
   return (
     <div className="App">
       <ButtonAppBar/>
-      <AddItemForm callBack={addToDoList}/>
+      <div className={'contentWrapper'}>
+        <AddItemForm callBack={addToDoList}/>
 
-      {todolists.map(item => {
+        <div className={'listsWrapper'}>
+          {todolists.map(item => {
+            const getFilteredTask = (tasks: TaskType[], filter: FilterType) => {
+              switch (filter) {
+                case "active":
+                  return tasks.filter((item) => !item.isDone)
+                case "completed":
+                  return tasks.filter((item) => item.isDone)
+                default:
+                  return tasks
+              }
+            }
+            const filteredTasksData = getFilteredTask(tasks[item.id], item.filter)
 
-        const getFilteredTask = (tasks: TaskType[], filter: FilterType) => {
-          switch (filter) {
-            case "active":
-              return tasks.filter((item) => !item.isDone)
-            case "completed":
-              return tasks.filter((item) => item.isDone)
-            default:
-              return tasks
-          }
-        }
-        const filteredTasksData = getFilteredTask(tasks[item.id], item.filter)
-
-        return (
-          <ToDoList
-            key={item.id}
-            todolistID={item.id}
-            tasksData={filteredTasksData}
-            title={item.title}
-            removeTask={removeTask}
-            changeFilter={changeFilter}
-            addTask={addTask}
-            changeStatus={changeStatus}
-            removeToDoList={removeToDoList}
-            updateTask={updateTask}
-            updateToDoList={updateToDoList}
-          />
-        )
-      })}
+            return (
+              <Paper elevation={12} style={{padding: '20px', backgroundColor: '#ececdc'}}>
+                <ToDoList
+                key={item.id}
+                todolistID={item.id}
+                tasksData={filteredTasksData}
+                title={item.title}
+                removeTask={removeTask}
+                changeFilter={changeFilter}
+                addTask={addTask}
+                changeStatus={changeStatus}
+                removeToDoList={removeToDoList}
+                updateTask={updateTask}
+                updateToDoList={updateToDoList}
+              />
+              </Paper>
+            )
+          })}
+        </div>
+      </div>
     </div>
   )
 }

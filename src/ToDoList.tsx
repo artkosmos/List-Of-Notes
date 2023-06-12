@@ -129,7 +129,7 @@ const ToDoList: React.FC<ToDoListPropsType> = ({
   // render
   return (
     <div>
-      <div className={'todolist'}>
+      <div className={style.todolist}>
         <IconButton aria-label="delete" onClick={removeToDoListHandler}>
           <DeleteIcon />
           Delete list
@@ -147,7 +147,7 @@ const ToDoList: React.FC<ToDoListPropsType> = ({
         </div>
         {error && <div className={style.errorMessage}>{error}</div>}*/}
         <AddItemForm callBack={addTaskHandler}/>
-        <ul>
+        <ul className={style.list}>
           {tasksJSX}
         </ul>
         <div>

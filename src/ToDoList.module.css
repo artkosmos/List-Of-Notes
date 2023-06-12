@@ -15,3 +15,8 @@
 .isDone {
   opacity: 0.5;
 }
+
+.list {
+  list-style-type: none;
+  padding: 0;
+}
