@@ -2,9 +2,8 @@ import React, {useState} from 'react';
 import './App.css';
 import ToDoList, {TaskType} from "./ToDoList";
 import {v1} from "uuid";
-import toDoList from "./ToDoList";
 import {AddItemForm} from "./AddItemForm";
-import {Button} from "@mui/material";
+import ButtonAppBar from "./ButtonAppBar";
 
 export type FilterType = 'all' | 'active' | 'completed'
 export type ToDoListType = {
@@ -34,8 +33,6 @@ function App() {
     {id: todolistID1, title: 'What to learn', filter: 'all'},
     {id: todolistID2, title: 'What to buy', filter: 'all'},
   ])
-
-  console.log(todolists)
 
   let [tasks, setTasks] = useState<TasksAssocType>({
     [todolistID1]: [
@@ -107,6 +104,7 @@ function App() {
   // logic function --> some actions + set function --> logic function throw through the props
   return (
     <div className="App">
+      <ButtonAppBar/>
       <AddItemForm callBack={addToDoList}/>
 
       {todolists.map(item => {
