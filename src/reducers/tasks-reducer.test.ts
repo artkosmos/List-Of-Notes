@@ -1,6 +1,6 @@
 import {v1} from "uuid";
 import {TasksAssocType} from "../App";
-import {addTaskAC, removeTaskAC, TaskReducer} from "./tasks-reducer";
+import {addTaskAC, removeTaskAC, TaskReducer, updateTaskAC} from "./tasks-reducer";
 
 const todolistID1 = v1()
 const todolistID2 = v1()
@@ -22,20 +22,30 @@ const startState: TasksAssocType = {
 
 test('correct task should be added', () => {
 
-  const text = 'React'
+  const text: string = 'React'
 
-  const endState = TaskReducer(startState, addTaskAC(todolistID1, text))
+  const resultState = TaskReducer(startState, addTaskAC(todolistID1, text))
 
-  expect(endState[todolistID1].length).toBe(3)
-  expect(endState[todolistID2].length).toBe(2)
-  expect(endState[todolistID1][0].title).toBe('React')
+  expect(resultState[todolistID1].length).toBe(3)
+  expect(resultState[todolistID2].length).toBe(2)
+  expect(resultState[todolistID1][0].title).toBe('React')
 })
 
 test('correct task should be removed', () => {
 
-  const endState = TaskReducer(startState, removeTaskAC(todolistID2, taskID_3))
+  const resultState = TaskReducer(startState, removeTaskAC(todolistID2, taskID_3))
 
-  expect(endState[todolistID1].length).toBe(2)
-  expect(endState[todolistID2].length).toBe(1)
-  expect(endState[todolistID2][0].title).toBe('Milk')
+  expect(resultState[todolistID1].length).toBe(2)
+  expect(resultState[todolistID2].length).toBe(1)
+  expect(resultState[todolistID2][0].title).toBe('Milk')
+})
+
+test('correct task should be updated', () => {
+
+  const updatedTitle = 'Blue Cheese'
+
+  const resultState = TaskReducer(startState, updateTaskAC(todolistID2, taskID_3, updatedTitle))
+
+  expect(resultState[todolistID2][0].title).toBe('Blue Cheese')
+  expect(resultState[todolistID2][1].title).toBe('Milk')
 })
