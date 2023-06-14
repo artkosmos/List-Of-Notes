@@ -1,6 +1,7 @@
 import {v1} from "uuid";
 import {TasksAssocType} from "../App";
 import {addTaskAC, removeTaskAC, TaskReducer, updateTaskAC} from "./tasks-reducer";
+import {addToDoListAC} from "./todolists-reducer";
 
 const todolistID1 = v1()
 const todolistID2 = v1()
@@ -42,10 +43,20 @@ test('correct task should be removed', () => {
 
 test('correct task should be updated', () => {
 
-  const updatedTitle = 'Blue Cheese'
+  const updatedTitle: string = 'Blue Cheese'
 
   const resultState = TaskReducer(startState, updateTaskAC(todolistID2, taskID_3, updatedTitle))
 
   expect(resultState[todolistID2][0].title).toBe('Blue Cheese')
   expect(resultState[todolistID2][1].title).toBe('Milk')
+})
+
+test('correct task should be added with new todolist', () => {
+
+  const newTodolistID: string = v1()
+  const title: string = 'something'
+
+  const resultState = TaskReducer(startState, addToDoListAC(title, newTodolistID))
+
+  expect(resultState[newTodolistID].length).toBe(0)
 })
