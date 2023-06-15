@@ -130,13 +130,13 @@ const ToDoList: React.FC<ToDoListPropsType> = ({
   return (
     <div>
       <div className={style.todolist}>
-        <IconButton aria-label="delete" onClick={removeToDoListHandler}>
+        <IconButton aria-label="delete" onClick={removeToDoListHandler} className={style.delete}>
           <DeleteIcon />
-          Delete list
+          <span>Delete list</span>
         </IconButton>
         {/*<button onClick={removeToDoListHandler}>Delete list</button>*/}
         {/*<h3>{title}</h3>*/}
-        <h3><EditableSpan oldTitle={title} callBack={updateToDoListTitle}/></h3>
+        <h2><EditableSpan oldTitle={title} callBack={updateToDoListTitle}/></h2>
         {/*<div>
           <input className={error ? style.error : ''}
                  value={text}
@@ -150,23 +150,26 @@ const ToDoList: React.FC<ToDoListPropsType> = ({
         <ul className={style.list}>
           {tasksJSX}
         </ul>
-        <div>
+        <div className={style.buttonWrapper}>
           <Button
             variant={buttonName === 'all' ? "outlined" : "contained"}
             color="secondary"
             onClick={onClickHandlerAll}
+            style={{height: '30px'}}
           >All
           </Button>
           <Button
             variant={buttonName === 'active' ? "outlined" : "contained"}
             color="success"
             onClick={onClickHandlerActive}
+            style={{height: '30px'}}
           >Active
           </Button>
           <Button
             variant={buttonName === 'completed' ? "outlined" : "contained"}
             color="error"
             onClick={onClickHandlerCompleted}
+            style={{height: '30px'}}
           >Completed
           </Button>
           {/*<button className={buttonName === 'all' ? style.activeFilter : ''} onClick={onClickHandlerAll}>All</button>

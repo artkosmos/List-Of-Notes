@@ -19,4 +19,24 @@
 .list {
   list-style-type: none;
   padding: 0;
+  align-self: flex-start;
+}
+
+.buttonWrapper {
+  display: flex;
+  gap: 10px;
+}
+
+.todolist {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.delete {
+  align-self: flex-end;
+  font-size: 12px;
+  display: flex;
+  flex-direction: column;
 }

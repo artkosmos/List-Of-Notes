@@ -10,19 +10,19 @@ type AddItemFormPropsType = {
 export const AddItemForm = (props: AddItemFormPropsType) => {
 
   const [text, setText] = useState('')
-  const [error, setError] = useState<string | null>('')
+  const [error, setError] = useState<boolean>(false)
 
   const anotherTask = () => {
     if (text.trim()) {
       props.callBack(text.trim())
       setText('')
     } else {
-      setError('Title is required')
+      setError(true)
     }
   }
 
   const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    setError(null)
+    setError(false)
     setText(event.currentTarget.value)
   }
 
@@ -49,7 +49,7 @@ export const AddItemForm = (props: AddItemFormPropsType) => {
                onKeyDown={onPressHandler}
         />*/}
         <TextField
-          error={!!error}
+          error={error}
           size={'small'}
           id="outlined-basic"
           label={error ? "Title is required" : "Write something..."}
