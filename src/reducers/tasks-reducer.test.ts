@@ -1,6 +1,6 @@
 import {v1} from "uuid";
 import {TasksAssocType} from "../App";
-import {addTaskAC, removeTaskAC, TaskReducer, updateTaskAC} from "./tasks-reducer";
+import {addTaskAC, changeTaskStatusAC, removeTaskAC, TaskReducer, updateTaskAC} from "./tasks-reducer";
 import {addToDoListAC, removeToDoListAC} from "./todolists-reducer";
 
 const todolistID1 = v1()
@@ -67,4 +67,14 @@ test('correct tasks should be deleted with deleted todolist', () => {
 
   expect(resultState[todolistID1]).toBe(undefined)
   expect(resultState[todolistID2].length).toBe(2)
+})
+
+test('correct task status should be changed', () => {
+
+  const isDone = false
+
+  const resultState = TaskReducer(startState, changeTaskStatusAC(todolistID1, taskID_2, isDone))
+
+  expect(resultState[todolistID1][1].isDone).toBe(false)
+  expect(resultState[todolistID1][0].isDone).toBe(true)
 })
