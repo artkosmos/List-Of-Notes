@@ -36,7 +36,10 @@
 
 .delete {
   align-self: flex-end;
-  font-size: 12px;
   display: flex;
   flex-direction: column;
+}
+
+.deleteText {
+  font-size: 12px;
 }

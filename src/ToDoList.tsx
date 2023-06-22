@@ -132,7 +132,7 @@ const ToDoList: React.FC<ToDoListPropsType> = ({
       <div className={style.todolist}>
         <IconButton aria-label="delete" onClick={removeToDoListHandler} className={style.delete}>
           <DeleteIcon />
-          <span>Delete list</span>
+          <span className={style.deleteText}>Delete list</span>
         </IconButton>
         {/*<button onClick={removeToDoListHandler}>Delete list</button>*/}
         {/*<h3>{title}</h3>*/}

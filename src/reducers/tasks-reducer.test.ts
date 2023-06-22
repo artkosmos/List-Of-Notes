@@ -1,6 +1,6 @@
 import {v1} from "uuid";
 import {TasksAssocType} from "../App";
-import {addTaskAC, changeTaskStatusAC, removeTaskAC, TaskReducer, updateTaskAC} from "./tasks-reducer";
+import {addTaskAC, changeTaskStatusAC, removeTaskAC, TaskReducer, updateTaskTitleAC} from "./tasks-reducer";
 import {addToDoListAC, removeToDoListAC} from "./todolists-reducer";
 
 const todolistID1 = v1()
@@ -45,7 +45,7 @@ test('correct task should be updated', () => {
 
   const updatedTitle: string = 'Blue Cheese'
 
-  const resultState = TaskReducer(startState, updateTaskAC(todolistID2, taskID_3, updatedTitle))
+  const resultState = TaskReducer(startState, updateTaskTitleAC(todolistID2, taskID_3, updatedTitle))
 
   expect(resultState[todolistID2][0].title).toBe('Blue Cheese')
   expect(resultState[todolistID2][1].title).toBe('Milk')
@@ -57,8 +57,10 @@ test('empty tasks should be added with new todolist', () => {
   const title: string = 'something'
 
   const resultState = TaskReducer(startState, addToDoListAC(title, newTodolistID))
+  // title don't use in this test
 
-  expect(resultState[newTodolistID].length).toBe(0)
+  expect(Object.keys(resultState).length).toBe(3)
+  expect(resultState[newTodolistID]).toEqual([])
 })
 
 test('correct tasks should be deleted with deleted todolist', () => {
@@ -67,6 +69,7 @@ test('correct tasks should be deleted with deleted todolist', () => {
 
   expect(resultState[todolistID1]).toBe(undefined)
   expect(resultState[todolistID2].length).toBe(2)
+  expect(Object.keys(resultState).length).toBe(1)
 })
 
 test('correct task status should be changed', () => {
@@ -76,5 +79,5 @@ test('correct task status should be changed', () => {
   const resultState = TaskReducer(startState, changeTaskStatusAC(todolistID1, taskID_2, isDone))
 
   expect(resultState[todolistID1][1].isDone).toBe(false)
-  expect(resultState[todolistID1][0].isDone).toBe(true)
+  expect(resultState[todolistID2][1].isDone).toBe(true)
 })

@@ -1,4 +1,4 @@
-import React, {useReducer} from 'react';
+import {useReducer} from 'react';
 import './App.css';
 import ToDoList, {TaskType} from "./ToDoList";
 import {v1} from "uuid";
@@ -12,7 +12,7 @@ import {
   TodoListReducer,
   updateToDoListTitleAC
 } from "./reducers/todolists-reducer";
-import {addTaskAC, changeTaskStatusAC, removeTaskAC, TaskReducer, updateTaskAC} from "./reducers/tasks-reducer";
+import {addTaskAC, changeTaskStatusAC, removeTaskAC, TaskReducer, updateTaskTitleAC} from "./reducers/tasks-reducer";
 
 export type FilterType = 'all' | 'active' | 'completed'
 export type ToDoListType = {
@@ -53,7 +53,7 @@ function App() {
   });
 
   const updateTask = (todolistID: string, taskID: string, updatedTitle: string) => {
-    dispatchTasks(updateTaskAC(todolistID, taskID, updatedTitle))
+    dispatchTasks(updateTaskTitleAC(todolistID, taskID, updatedTitle))
   }
 
   const removeTask = (todolistID: string, taskId: string): void => {
