@@ -3,23 +3,34 @@ import {TasksAssocType} from "../App";
 import {addTaskAC, changeTaskStatusAC, removeTaskAC, TaskReducer, updateTaskTitleAC} from "./tasks-reducer";
 import {addToDoListAC, removeToDoListAC} from "./todolists-reducer";
 
-const todolistID1 = v1()
-const todolistID2 = v1()
-const taskID_1 = v1()
-const taskID_2 = v1()
-const taskID_3 = v1()
-const taskID_4 = v1()
+let todolistID1: string
+let todolistID2: string
+let taskID_1: string
+let taskID_2: string
+let taskID_3: string
+let taskID_4: string
 
-const startState: TasksAssocType = {
-  [todolistID1]: [
-    {id: taskID_1, title: "HTML&CSS", isDone: true},
-    {id: taskID_2, title: "JS", isDone: true}
-  ],
-  [todolistID2]: [
-    {id: taskID_3, title: "Cheese", isDone: true},
-    {id: taskID_4, title: "Milk", isDone: true}
-  ]
-}
+let startState: TasksAssocType
+
+beforeEach(() => {
+  todolistID1 = v1()
+  todolistID2 = v1()
+  taskID_1 = v1()
+  taskID_2 = v1()
+  taskID_3 = v1()
+  taskID_4 = v1()
+
+  startState = {
+    [todolistID1]: [
+      {id: taskID_1, title: "HTML&CSS", isDone: true},
+      {id: taskID_2, title: "JS", isDone: true}
+    ],
+    [todolistID2]: [
+      {id: taskID_3, title: "Cheese", isDone: true},
+      {id: taskID_4, title: "Milk", isDone: true}
+    ]
+  }
+})
 
 test('correct task should be added', () => {
 
