@@ -1,4 +1,4 @@
-import {useReducer} from 'react';
+import {Reducer, useReducer} from 'react';
 import './App.css';
 import ToDoList, {TaskType} from "./ToDoList";
 import {v1} from "uuid";
@@ -7,7 +7,7 @@ import ButtonAppBar from "./ButtonAppBar";
 import Paper from '@mui/material/Paper';
 import {
   addToDoListAC,
-  changeToDoListFilterAC,
+  changeToDoListFilterAC, ActionsTodolistsType,
   removeToDoListAC,
   TodoListReducer,
   updateToDoListTitleAC
@@ -30,7 +30,7 @@ function App() {
   let todolistID1 = v1();
   let todolistID2 = v1();
 
-  let [todolists, dispatchTodolists] = useReducer(TodoListReducer, [
+  let [todolists, dispatchTodolists] = useReducer<Reducer<ToDoListType[], ActionsTodolistsType>>(TodoListReducer, [
     {id: todolistID1, title: 'What to learn', filter: 'all'},
     {id: todolistID2, title: 'What to buy', filter: 'all'},
   ])
