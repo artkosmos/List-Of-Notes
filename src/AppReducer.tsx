@@ -20,11 +20,11 @@ export type ToDoListType = {
   title: string
   filter: FilterType
 }
-export type TasksAssocType = {
+export type TasksStateType = {
   [key: string]: TaskType[]
 }
 
-function App() {
+function AppReducer() {
   // we store data higher to follow "raise the state" concept
 
   let todolistID1 = v1();
@@ -87,8 +87,6 @@ function App() {
     dispatchTodolists(updateToDoListTitleAC(todolistID, updatedTitle))
   }
 
-  // Main concept:
-  // logic function --> some actions + set function --> logic function throw through the props
   return (
     <div className="App">
       <ButtonAppBar/>
@@ -133,4 +131,4 @@ function App() {
   )
 }
 
-export default App;
+export default AppReducer;

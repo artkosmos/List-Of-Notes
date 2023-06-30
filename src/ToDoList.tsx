@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {FilterType} from "./App";
+import {FilterType} from "./AppReducer";
 import style from './ToDoList.module.css'
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";

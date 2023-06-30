@@ -1,5 +1,5 @@
 import {v1} from "uuid";
-import {TasksAssocType} from "../App";
+import {TasksStateType} from "../AppReducer";
 import {addTaskAC, changeTaskStatusAC, removeTaskAC, TaskReducer, updateTaskTitleAC} from "./tasks-reducer";
 import {addToDoListAC, removeToDoListAC} from "./todolists-reducer";
 
@@ -10,7 +10,7 @@ let taskID_2: string
 let taskID_3: string
 let taskID_4: string
 
-let startState: TasksAssocType
+let startState: TasksStateType
 
 beforeEach(() => {
   todolistID1 = v1()
