@@ -1,4 +1,4 @@
-import {Reducer, useReducer} from 'react';
+import {Reducer, useCallback, useReducer} from 'react';
 import './App.css';
 import ToDoList, {TaskType} from "./ToDoList";
 import {v1} from "uuid";
@@ -60,9 +60,9 @@ function AppReducer() {
     dispatchTasks(removeTaskAC(todolistID, taskId))
   }
 
-  const addTask = (todolistID: string, text: string) => {
+  const addTask = useCallback((todolistID: string, text: string) => {
     dispatchTasks(addTaskAC(todolistID, text))
-  }
+  }, [])
 
   const changeStatus = (todolistID: string, taskID: string, isDone: boolean) => {
     dispatchTasks(changeTaskStatusAC(todolistID, taskID, isDone))
@@ -77,11 +77,11 @@ function AppReducer() {
     dispatchTasks(removeToDoListAC(todolistID))
   }
 
-  const addToDoList = (title: string) => {
+  const addToDoList = useCallback((title: string) => {
     const action = addToDoListAC(title, v1())
     dispatchTodolists(action)
     dispatchTasks(action)
-  }
+  }, [])
 
   const updateToDoList = (todolistID: string, updatedTitle: string) => {
     dispatchTodolists(updateToDoListTitleAC(todolistID, updatedTitle))
@@ -108,7 +108,7 @@ function AppReducer() {
             const filteredTasksData = getFilteredTask(tasks[item.id], item.filter)
 
             return (
-              <Paper elevation={12} style={{padding: '15px', backgroundColor: '#ececdc'}}>
+              <Paper key={item.id} elevation={12} style={{padding: '15px', backgroundColor: '#ececdc'}}>
                 <ToDoList
                   key={item.id}
                   todolistID={item.id}

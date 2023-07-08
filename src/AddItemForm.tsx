@@ -1,4 +1,4 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import React, {ChangeEvent, KeyboardEvent, memo, useState} from 'react';
 import style from "./ToDoList.module.css";
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -7,7 +7,7 @@ type AddItemFormPropsType = {
   callBack: (text: string) => void
 }
 
-export const AddItemForm = (props: AddItemFormPropsType) => {
+export const AddItemForm = memo((props: AddItemFormPropsType) => {
 
   const [text, setText] = useState('')
   const [error, setError] = useState<boolean>(false)
@@ -64,5 +64,5 @@ export const AddItemForm = (props: AddItemFormPropsType) => {
       {/*{error && <div className={style.errorMessage}>{error}</div>}*/}
     </div>
   );
-};
+})
 

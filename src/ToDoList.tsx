@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {FilterType} from "./AppReducer";
 import style from './ToDoList.module.css'
 import {AddItemForm} from "./AddItemForm";
@@ -92,9 +92,9 @@ const ToDoList: React.FC<ToDoListPropsType> = ({
     removeTask(todolistID, taskID)
   }
 
-  const addTaskHandler = (text: string) => {
+  const addTaskHandler = useCallback((text: string) => {
     addTask(todolistID, text)
-  }
+  }, [addTask])
 
   const updateTaskTitle = (taskID: string, updatedTitle: string) => {
     updateTask(todolistID, taskID, updatedTitle)
