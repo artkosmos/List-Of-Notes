@@ -52,30 +52,30 @@ function AppReducer() {
     ]
   });
 
-  const updateTask = (todolistID: string, taskID: string, updatedTitle: string) => {
+  const updateTask = useCallback((todolistID: string, taskID: string, updatedTitle: string) => {
     dispatchTasks(updateTaskTitleAC(todolistID, taskID, updatedTitle))
-  }
+  }, [])
 
-  const removeTask = (todolistID: string, taskId: string): void => {
+  const removeTask = useCallback((todolistID: string, taskId: string): void => {
     dispatchTasks(removeTaskAC(todolistID, taskId))
-  }
+  }, [])
 
   const addTask = useCallback((todolistID: string, text: string) => {
     dispatchTasks(addTaskAC(todolistID, text))
   }, [])
 
-  const changeStatus = (todolistID: string, taskID: string, isDone: boolean) => {
+  const changeStatus = useCallback((todolistID: string, taskID: string, isDone: boolean) => {
     dispatchTasks(changeTaskStatusAC(todolistID, taskID, isDone))
-  }
+  }, [])
 
-  const changeFilter = (todolistID: string, filter: FilterType) => {
+  const changeFilter = useCallback((todolistID: string, filter: FilterType) => {
     dispatchTodolists(changeToDoListFilterAC(todolistID, filter))
-  }
+  }, [])
 
-  const removeToDoList = (todolistID: string) => {
+  const removeToDoList = useCallback((todolistID: string) => {
     dispatchTodolists(removeToDoListAC(todolistID))
     dispatchTasks(removeToDoListAC(todolistID))
-  }
+  }, [])
 
   const addToDoList = useCallback((title: string) => {
     const action = addToDoListAC(title, v1())
@@ -83,9 +83,9 @@ function AppReducer() {
     dispatchTasks(action)
   }, [])
 
-  const updateToDoList = (todolistID: string, updatedTitle: string) => {
+  const updateToDoList = useCallback((todolistID: string, updatedTitle: string) => {
     dispatchTodolists(updateToDoListTitleAC(todolistID, updatedTitle))
-  }
+  }, [])
 
   return (
     <div className="App">
@@ -95,24 +95,13 @@ function AppReducer() {
 
         <div className={'listsWrapper'}>
           {todolists.map(item => {
-            const getFilteredTask = (tasks: TaskType[], filter: FilterType) => {
-              switch (filter) {
-                case "active":
-                  return tasks.filter((item) => !item.isDone)
-                case "completed":
-                  return tasks.filter((item) => item.isDone)
-                default:
-                  return tasks
-              }
-            }
-            const filteredTasksData = getFilteredTask(tasks[item.id], item.filter)
 
             return (
               <Paper key={item.id} elevation={12} style={{padding: '15px', backgroundColor: '#ececdc'}}>
                 <ToDoList
                   key={item.id}
                   todolistID={item.id}
-                  tasksData={filteredTasksData}
+                  tasksData={tasks[item.id]}
                   title={item.title}
                   removeTask={removeTask}
                   changeFilter={changeFilter}
@@ -121,6 +110,7 @@ function AppReducer() {
                   removeToDoList={removeToDoList}
                   updateTask={updateTask}
                   updateToDoList={updateToDoList}
+                  filter={item.filter}
                 />
               </Paper>
             )

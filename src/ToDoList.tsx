@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {memo, useCallback, useState} from 'react';
 import {FilterType} from "./AppReducer";
 import style from './ToDoList.module.css'
 import {AddItemForm} from "./AddItemForm";
@@ -19,6 +19,7 @@ type ToDoListPropsType = {
   removeToDoList: (todolistID: string) => void
   updateTask: (todolistID: string, taskId: string, title: string) => void
   updateToDoList: (todolistID: string, title: string) => void
+  filter: FilterType
 }
 
 export type TaskType = {
@@ -27,43 +28,36 @@ export type TaskType = {
   isDone: boolean
 }
 
-const ToDoList: React.FC<ToDoListPropsType> = ({
-                                                 tasksData,
-                                                 title,
-                                                 removeTask,
-                                                 changeFilter,
-                                                 addTask,
-                                                 changeStatus,
-                                                 todolistID,
-                                                 removeToDoList,
-                                                 updateTask,
-                                                 updateToDoList
-                                               }) => {
-  // const  {tasks, title} = props --> the write is the same, but it'll be longer than above in brackets
+const ToDoList = memo(({
+                         tasksData,
+                         title,
+                         removeTask,
+                         changeFilter,
+                         addTask,
+                         changeStatus,
+                         todolistID,
+                         removeToDoList,
+                         updateTask,
+                         updateToDoList,
+                         filter
+                       }: ToDoListPropsType) => {
 
-  // const [text, setText] = useState('')
-  // const [error, setError] = useState<string | null>('')
   const [buttonName, setButtonName] = useState<FilterType>('all')
 
-  /*const anotherTask = () => {
-    if (text.trim()) {
-      addTask(todolistID, text.trim())
-      setText('')
-    } else {
-      setError('Title is required')
+  const getFilteredTask = (tasks: TaskType[], filter: FilterType) => {
+    switch (filter) {
+      case "active":
+        return tasks.filter((item) => !item.isDone)
+      case "completed":
+        return tasks.filter((item) => item.isDone)
+      default:
+        return tasks
     }
-  }*/
+  }
 
-  /*const onPressHandler = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
-      anotherTask()
-    }
-  }*/
+  const filteredTasksData = getFilteredTask(tasksData, filter)
 
-  /*const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    setError(null)
-    setText(event.currentTarget.value)
-  }*/
+  console.log('Rendering Todolist')
 
   const onClickHandlerAll = () => {
     changeFilter(todolistID, "all")
@@ -104,7 +98,7 @@ const ToDoList: React.FC<ToDoListPropsType> = ({
     updateToDoList(todolistID, updatedTitle)
   }
 
-  const tasksJSX: JSX.Element[] = tasksData.map((item) => {
+  const tasksJSX: JSX.Element[] = filteredTasksData.map((item) => {
 
     return (
       // key need to add always or may be error
@@ -120,7 +114,7 @@ const ToDoList: React.FC<ToDoListPropsType> = ({
         <EditableSpan oldTitle={item.title} callBack={(updatedTitle) => updateTaskTitle(item.id, updatedTitle)}/>
         {/*<button onClick={() => onClickRemoveHandler(item.id)}>x</button>*/}
         <IconButton aria-label="delete" size={'small'} onClick={() => onClickRemoveHandler(item.id)}>
-          <DeleteIcon fontSize={'small'} />
+          <DeleteIcon fontSize={'small'}/>
         </IconButton>
       </li>
     )
@@ -131,7 +125,7 @@ const ToDoList: React.FC<ToDoListPropsType> = ({
     <div>
       <div className={style.todolist}>
         <IconButton aria-label="delete" onClick={removeToDoListHandler} className={style.delete}>
-          <DeleteIcon />
+          <DeleteIcon/>
           <span className={style.deleteText}>Delete list</span>
         </IconButton>
         {/*<button onClick={removeToDoListHandler}>Delete list</button>*/}
@@ -182,6 +176,6 @@ const ToDoList: React.FC<ToDoListPropsType> = ({
       </div>
     </div>
   );
-};
+})
 
 export default ToDoList;
