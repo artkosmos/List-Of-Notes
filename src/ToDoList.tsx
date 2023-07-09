@@ -7,6 +7,7 @@ import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
+import {Task} from "./Task";
 
 type ToDoListPropsType = {
   title: string
@@ -57,8 +58,6 @@ const ToDoList = memo(({
 
   const filteredTasksData = getFilteredTask(tasksData, filter)
 
-  console.log('Rendering Todolist')
-
   const onClickHandlerAll = useCallback(() => {
     changeFilter(todolistID, "all")
     setButtonName('all')
@@ -74,25 +73,26 @@ const ToDoList = memo(({
     setButtonName('completed')
   }, [])
 
-  const onChangeStatusHandler = (taskID: string, eventValue: boolean) => {
+  const onChangeStatusHandler = useCallback((taskID: string, eventValue: boolean) => {
     changeStatus(todolistID, taskID, eventValue)
-  }
+  }, [changeStatus])
+
+  const updateTaskTitle = useCallback((taskID: string, updatedTitle: string) => {
+    updateTask(todolistID, taskID, updatedTitle)
+  }, [updateTask])
+
+  const onClickRemoveHandler = useCallback((taskID: string) => {
+    removeTask(todolistID, taskID)
+  }, [removeTask])
+
 
   const removeToDoListHandler = () => {
     removeToDoList(todolistID)
   }
 
-  const onClickRemoveHandler = (taskID: string) => {
-    removeTask(todolistID, taskID)
-  }
-
   const addTaskHandler = useCallback((text: string) => {
     addTask(todolistID, text)
   }, [addTask])
-
-  const updateTaskTitle = (taskID: string, updatedTitle: string) => {
-    updateTask(todolistID, taskID, updatedTitle)
-  }
 
   const updateToDoListTitle = (updatedTitle: string) => {
     updateToDoList(todolistID, updatedTitle)
@@ -101,22 +101,13 @@ const ToDoList = memo(({
   const tasksJSX: JSX.Element[] = filteredTasksData.map((item) => {
 
     return (
-      // key need to add always or may be error
-      <li key={item.id} className={item.isDone ? style.isDone : ''}>
-        {/*<input type="checkbox" checked={item.isDone} onChange={(event) =>
-          onChangeStatusHandler(item.id, event.currentTarget.checked)}/>*/}
-        <Checkbox
-          onChange={(event) => onChangeStatusHandler(item.id, event.currentTarget.checked)}
-          checked={item.isDone}
-          size={'small'}
-        />
-        {/*<span>{item.title}</span>*/}
-        <EditableSpan oldTitle={item.title} callBack={(updatedTitle) => updateTaskTitle(item.id, updatedTitle)}/>
-        {/*<button onClick={() => onClickRemoveHandler(item.id)}>x</button>*/}
-        <IconButton aria-label="delete" size={'small'} onClick={() => onClickRemoveHandler(item.id)}>
-          <DeleteIcon fontSize={'small'}/>
-        </IconButton>
-      </li>
+      <Task
+        key={item.id}
+        task={item}
+        changeStatus={onChangeStatusHandler}
+        updateTask={updateTaskTitle}
+        removeTask={onClickRemoveHandler}
+      />
     )
   })
 
