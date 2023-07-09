@@ -11,6 +11,7 @@ import {StateType} from "./store/store";
 import {TodolistType} from "./AppRedux";
 import {addTaskAC, changeTaskStatusAC, removeTaskAC, updateTaskTitleAC} from "./reducers/tasks-reducer";
 import {changeToDoListFilterAC, removeToDoListAC, updateToDoListTitleAC} from "./reducers/todolists-reducer";
+import {TaskRedux} from "./TaskRedux";
 
 type ToDoListPropsType = {
   todolist: TodolistType
@@ -55,45 +56,22 @@ const ToDoListRedux = ({todolist}: ToDoListPropsType) => {
     dispatch(changeToDoListFilterAC(id, "completed"))
   }
 
-  const onChangeStatusHandler = (taskID: string, eventValue: boolean) => {
-    dispatch(changeTaskStatusAC(id, taskID, eventValue))
-  }
-
   const removeToDoListHandler = () => {
     dispatch(removeToDoListAC(id))
-  }
-
-  const onClickRemoveHandler = (taskID: string) => {
-    dispatch(removeTaskAC(id, taskID))
   }
 
   const addTaskHandler = (text: string) => {
     dispatch(addTaskAC(id, text))
   }
 
-  const updateTaskTitle = (taskID: string, updatedTitle: string) => {
-    dispatch(updateTaskTitleAC(id, taskID, updatedTitle))
-  }
-
   const updateToDoListTitle = (updatedTitle: string) => {
     dispatch(updateToDoListTitleAC(id, updatedTitle))
   }
 
-  const tasksJSX: JSX.Element[] = filteredTasksData.map((item) => {
+  const tasksJSX: JSX.Element[] = filteredTasksData.map((item, index) => {
 
     return (
-      // key need to add always or might be error
-      <li key={item.id} className={item.isDone ? style.isDone : ''}>
-        <Checkbox
-          onChange={(event) => onChangeStatusHandler(item.id, event.currentTarget.checked)}
-          checked={item.isDone}
-          size={'small'}
-        />
-        <EditableSpan oldTitle={item.title} callBack={(updatedTitle) => updateTaskTitle(item.id, updatedTitle)}/>
-        <IconButton aria-label="delete" size={'small'} onClick={() => onClickRemoveHandler(item.id)}>
-          <DeleteIcon fontSize={'small'} />
-        </IconButton>
-      </li>
+      <TaskRedux key={item.id} todolistID={id} task={item}/>
     )
   })
 
