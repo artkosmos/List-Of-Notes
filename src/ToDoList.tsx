@@ -59,20 +59,20 @@ const ToDoList = memo(({
 
   console.log('Rendering Todolist')
 
-  const onClickHandlerAll = () => {
+  const onClickHandlerAll = useCallback(() => {
     changeFilter(todolistID, "all")
     setButtonName('all')
-  }
+  }, [])
 
-  const onClickHandlerActive = () => {
+  const onClickHandlerActive = useCallback(() => {
     changeFilter(todolistID, "active")
     setButtonName('active')
-  }
+  }, [])
 
-  const onClickHandlerCompleted = () => {
+  const onClickHandlerCompleted = useCallback(() => {
     changeFilter(todolistID, "completed")
     setButtonName('completed')
-  }
+  }, [])
 
   const onChangeStatusHandler = (taskID: string, eventValue: boolean) => {
     changeStatus(todolistID, taskID, eventValue)
@@ -145,27 +145,27 @@ const ToDoList = memo(({
           {tasksJSX}
         </ul>
         <div className={style.buttonWrapper}>
-          <Button
+          <ButtonMemo
+            title={'All'}
             variant={buttonName === 'all' ? "outlined" : "contained"}
-            color="secondary"
+            color={"secondary"}
             onClick={onClickHandlerAll}
             style={{height: '30px'}}
-          >All
-          </Button>
-          <Button
+          />
+          <ButtonMemo
+            title={'Active'}
             variant={buttonName === 'active' ? "outlined" : "contained"}
-            color="success"
+            color={"success"}
             onClick={onClickHandlerActive}
             style={{height: '30px'}}
-          >Active
-          </Button>
-          <Button
+          />
+          <ButtonMemo
+            title={'Completed'}
             variant={buttonName === 'completed' ? "outlined" : "contained"}
-            color="error"
+            color={"error"}
             onClick={onClickHandlerCompleted}
             style={{height: '30px'}}
-          >Completed
-          </Button>
+          />
           {/*<button className={buttonName === 'all' ? style.activeFilter : ''} onClick={onClickHandlerAll}>All</button>
           <button className={buttonName === 'active' ? style.activeFilter : ''} onClick={onClickHandlerActive}>Active
           </button>
@@ -175,7 +175,25 @@ const ToDoList = memo(({
         </div>
       </div>
     </div>
-  );
+  )
+})
+
+type ButtonMemoPropsType = {
+  title: string
+  variant: 'text' | 'outlined' | 'contained'
+  color: 'inherit' | 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning'
+  style?: {}
+  onClick: () => void
+}
+
+const ButtonMemo = memo((props: ButtonMemoPropsType) => {
+  return <Button
+    variant={props.variant}
+    color={props.color}
+    onClick={props.onClick}
+    style={props.style}
+  >{props.title}
+  </Button>
 })
 
 export default ToDoList;
