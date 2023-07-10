@@ -4,14 +4,14 @@ import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
-import Button from '@mui/material/Button';
-import Checkbox from '@mui/material/Checkbox';
 import {useDispatch, useSelector} from "react-redux";
 import {StateType} from "./store/store";
 import {TodolistType} from "./AppRedux";
-import {addTaskAC, changeTaskStatusAC, removeTaskAC, updateTaskTitleAC} from "./reducers/tasks-reducer";
+import {addTaskAC} from "./reducers/tasks-reducer";
 import {changeToDoListFilterAC, removeToDoListAC, updateToDoListTitleAC} from "./reducers/todolists-reducer";
 import {TaskRedux} from "./TaskRedux";
+import React, {useCallback} from "react";
+import {ButtonMemo} from "./ToDoList";
 
 type ToDoListPropsType = {
   todolist: TodolistType
@@ -44,29 +44,29 @@ const ToDoListRedux = ({todolist}: ToDoListPropsType) => {
   }
   const filteredTasksData = getFilteredTask(tasks, filter)
 
-  const onClickHandlerAll = () => {
+  const onClickHandlerAll = useCallback(() => {
     dispatch(changeToDoListFilterAC(id, "all"))
-  }
+  }, [])
 
-  const onClickHandlerActive = () => {
+  const onClickHandlerActive = useCallback(() => {
     dispatch(changeToDoListFilterAC(id, "active"))
-  }
+  }, [])
 
-  const onClickHandlerCompleted = () => {
+  const onClickHandlerCompleted = useCallback(() => {
     dispatch(changeToDoListFilterAC(id, "completed"))
-  }
+  }, [])
 
-  const removeToDoListHandler = () => {
+  const removeToDoListHandler = useCallback(() => {
     dispatch(removeToDoListAC(id))
-  }
+  }, [])
 
-  const addTaskHandler = (text: string) => {
+  const addTaskHandler = useCallback((text: string) => {
     dispatch(addTaskAC(id, text))
-  }
+  }, [])
 
-  const updateToDoListTitle = (updatedTitle: string) => {
+  const updateToDoListTitle = useCallback((updatedTitle: string) => {
     dispatch(updateToDoListTitleAC(id, updatedTitle))
-  }
+  }, [])
 
   const tasksJSX: JSX.Element[] = filteredTasksData.map((item, index) => {
 
@@ -89,27 +89,27 @@ const ToDoListRedux = ({todolist}: ToDoListPropsType) => {
           {tasksJSX}
         </ul>
         <div className={style.buttonWrapper}>
-          <Button
+          <ButtonMemo
+            title={'All'}
             variant={filter === 'all' ? "outlined" : "contained"}
-            color="secondary"
+            color={"secondary"}
             onClick={onClickHandlerAll}
             style={{height: '30px'}}
-          >All
-          </Button>
-          <Button
+          />
+          <ButtonMemo
+            title={'Active'}
             variant={filter === 'active' ? "outlined" : "contained"}
-            color="success"
+            color={"success"}
             onClick={onClickHandlerActive}
             style={{height: '30px'}}
-          >Active
-          </Button>
-          <Button
+          />
+          <ButtonMemo
+            title={'Completed'}
             variant={filter === 'completed' ? "outlined" : "contained"}
-            color="error"
+            color={"error"}
             onClick={onClickHandlerCompleted}
             style={{height: '30px'}}
-          >Completed
-          </Button>
+          />
         </div>
       </div>
     </div>

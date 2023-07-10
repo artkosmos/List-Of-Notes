@@ -177,7 +177,7 @@ type ButtonMemoPropsType = {
   onClick: () => void
 }
 
-const ButtonMemo = memo((props: ButtonMemoPropsType) => {
+export const ButtonMemo = memo((props: ButtonMemoPropsType) => {
   return <Button
     variant={props.variant}
     color={props.color}
