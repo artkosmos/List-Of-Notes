@@ -1,9 +1,8 @@
 import React, {ChangeEvent, KeyboardEvent, memo, useState} from 'react';
-import style from "./ToDoList.module.css";
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 
-type AddItemFormPropsType = {
+export type AddItemFormPropsType = {
   callBack: (text: string) => void
 }
 
