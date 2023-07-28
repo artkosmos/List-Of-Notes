@@ -5,11 +5,10 @@ import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatchType, StateType} from "./store/store";
-import {addTaskAC, addTaskTC, setTasksTC} from "./reducers/tasks-reducer";
+import {addTaskTC, setTasksTC} from "./reducers/tasks-reducer";
 import {
   AppTodolistType,
   changeToDoListFilterAC, deleteTodolistTC, FilterType,
-  removeToDoListAC,
   updateToDoListTitleAC
 } from "./reducers/todolists-reducer";
 import {TaskRedux} from "./TaskRedux";
@@ -69,7 +68,7 @@ export const ToDoListRedux = ({todolist}: ToDoListPropsType) => {
     dispatch(updateToDoListTitleAC(id, updatedTitle))
   }, [])
 
-  const mappedTasks = filteredTasksData.map((item, index) => {
+  const mappedTasks = filteredTasksData.map((item) => {
     return (
       <TaskRedux key={item.id} task={item}/>
     )
