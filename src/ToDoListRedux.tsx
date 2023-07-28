@@ -8,8 +8,7 @@ import {AppDispatchType, StateType} from "./store/store";
 import {addTaskTC, setTasksTC} from "./reducers/tasks-reducer";
 import {
   AppTodolistType,
-  changeToDoListFilterAC, deleteTodolistTC, FilterType,
-  updateToDoListTitleAC
+  changeToDoListFilterAC, deleteTodolistTC, FilterType, updateTodolistTitleTC
 } from "./reducers/todolists-reducer";
 import {TaskRedux} from "./TaskRedux";
 import React, {memo, useCallback, useEffect} from "react";
@@ -64,8 +63,8 @@ export const ToDoListRedux = ({todolist}: ToDoListPropsType) => {
     dispatch(addTaskTC(id, title))
   }, [])
 
-  const updateToDoListTitle = useCallback((updatedTitle: string) => {
-    dispatch(updateToDoListTitleAC(id, updatedTitle))
+  const updateTodolistTitle = useCallback((updatedTitle: string) => {
+    dispatch(updateTodolistTitleTC(id, updatedTitle))
   }, [])
 
   const mappedTasks = filteredTasksData.map((item) => {
@@ -82,7 +81,7 @@ export const ToDoListRedux = ({todolist}: ToDoListPropsType) => {
           <DeleteIcon />
           <span className={style.deleteText}>Delete list</span>
         </IconButton>
-        <h2><EditableSpan oldTitle={title} callBack={updateToDoListTitle}/></h2>
+        <h2><EditableSpan oldTitle={title} callBack={updateTodolistTitle}/></h2>
         <AddItemForm callBack={addTaskHandler}/>
         <ul className={style.list}>
           {mappedTasks}

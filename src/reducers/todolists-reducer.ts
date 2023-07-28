@@ -61,8 +61,8 @@ export const changeToDoListFilterAC = (todolistId: string, filter: FilterType) =
   } as const
 }
 
-type UpdateToDoListTitleAC = ReturnType<typeof updateToDoListTitleAC>
-export const updateToDoListTitleAC = (todolistId: string, title: string) => {
+type UpdateToDoListTitleAC = ReturnType<typeof updateTodolistTitleAC>
+export const updateTodolistTitleAC = (todolistId: string, title: string) => {
   return {
     type: "UPDATE-TODOLIST-TITLE",
     payload: {todolistId, title}
@@ -93,7 +93,14 @@ export const addTodolistTC = (title:string) => (dispatch: Dispatch) => {
 
 export const deleteTodolistTC = (todolistId:string) => (dispatch: Dispatch) => {
   todolistAPI.deleteTodo(todolistId)
-    .then(response => {
+    .then(() => {
       dispatch(removeToDoListAC(todolistId))
+    })
+}
+
+export const updateTodolistTitleTC = (todolistId:string, title: string) => (dispatch: Dispatch) => {
+  todolistAPI.updateTodo(todolistId, title)
+    .then(() => {
+      dispatch(updateTodolistTitleAC(todolistId, title))
     })
 }
