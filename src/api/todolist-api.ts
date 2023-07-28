@@ -1,8 +1,4 @@
-import axios from "axios";
-
-const settings = {
-  withCredentials: true
-}
+import axios, {AxiosResponse} from "axios";
 
 const instance = axios.create({
   baseURL: `https://social-network.samuraijs.com/api/1.1`,
@@ -14,25 +10,25 @@ export const todolistAPI = {
     return instance.get<TodolistType[]>(`/todo-lists`) // instance экземпляр класса axios с начальными настройками
   },                                       // для укорочения (пишем только endpoints и payload) и возможно взаимодействие с несколькими API
   addTodo(title: string) {
-    return instance.post<ResponseType<{item: TodolistType}>>(`/todo-lists`, {title})
+    return instance.post<ResponseType<{item: TodolistType}>, AxiosResponse<ResponseType<{item: TodolistType}>>, {title: string}>(`/todo-lists`, {title})
   },
   deleteTodo(todolistId: string) {
     return instance.delete<ResponseType>(`/todo-lists/${todolistId}`)
   },
   updateTodo(todolistId: string, title: string) {
-    return instance.put<ResponseType>(`/todo-lists/${todolistId}`, {title})
+    return instance.put<ResponseType, AxiosResponse<ResponseType>, {title: string}>(`/todo-lists/${todolistId}`, {title})
   },
-  getTasks(todolistId: string, count: number, page: number) {
-    return instance.get<GetTasksResponseType>(`/todo-lists/${todolistId}/tasks?${count}&${page}`)
+  getTasks(todolistId: string) {
+    return instance.get<GetTasksResponseType>(`/todo-lists/${todolistId}/tasks`)
   },
-  addTask (todolistId: string, title: string) {
+  addTask(todolistId: string, title: string) {
     return instance.post<ResponseType<{item: TaskType}>>(`/todo-lists/${todolistId}/tasks`, {title})
   },
-  deleteTask (todolistId: string, taskId: string) {
+  deleteTask(todolistId: string, taskId: string) {
     return instance.delete<ResponseType>(`/todo-lists/${todolistId}/tasks/${taskId}`)
   },
-  updateTask (todolistId: string, taskId: string, title: string) {
-    return axios.put<ResponseType<{item: TaskType}>>(`/todo-lists/${todolistId}/tasks/${taskId}`, {title})
+  updateTask(todolistId: string, taskId: string, model: UpdateTaskModelType) {
+    return instance.put<ResponseType<{item: TaskType}>, AxiosResponse<ResponseType<{item: TaskType}>>, {model: UpdateTaskModelType}>(`/todo-lists/${todolistId}/tasks/${taskId}`, {model})
   }
 }
 
@@ -43,7 +39,8 @@ export type TodolistType = {
   title: string
 }
 
-type ResponseType<T = {}> = {  // dynamic typing with generic (if value isn't passed it is taken default)
+// dynamic typing with generic (if value isn't passed, it is taken default)
+type ResponseType<T = {}> = {
   resultCode: number
   messages: string[]
   data: T
@@ -69,16 +66,38 @@ type GetTasksResponseType = {
   error: string
 }
 
-// type AddTodoResponseType = {
-//   resultCode: number
-//   messages: string[]
-//   data: {
-//     item: TodolistType
-//   }
-// }
-//
-// type DeleteTodoResponseType = {
-//   resultCode: number
-//   messages: string[]
-//   data: {}
-// }
+export enum TaskStatuses {
+  New = 0,
+  InProgress = 1,
+  Completed = 2,
+  Draft = 3
+}
+
+export enum TaskPriorities {
+  Low = 0,
+  Middle = 1,
+  Hi = 2,
+  Urgently = 3,
+  Later = 4
+}
+
+// main model to send with request
+export type UpdateTaskModelType = {
+  title: string
+  description: string
+  status: TaskStatuses
+  priority: TaskPriorities
+  startDate: string
+  deadline: string
+}
+
+// give necessary properties to rewrite in main model
+export type PropertiesToUpdateType = {
+  title?: string
+  description?: string
+  status?: TaskStatuses
+  priority?: TaskPriorities
+  startDate?: string
+  deadline?: string
+}
+
