@@ -5,7 +5,7 @@ import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatchType, StateType} from "./store/store";
-import {addTaskAC} from "./reducers/tasks-reducer";
+import {addTaskAC, addTaskTC, setTasksTC} from "./reducers/tasks-reducer";
 import {
   AppTodolistType,
   changeToDoListFilterAC, deleteTodolistTC, FilterType,
@@ -30,8 +30,8 @@ export const ToDoListRedux = ({todolist}: ToDoListPropsType) => {
   const dispatch = useDispatch<AppDispatchType>()
 
   useEffect(() => {
-
-  })
+    dispatch(setTasksTC(id))
+  },[])
 
   const getFilteredTask = (tasks: TaskType[], filter: FilterType) => {
     switch (filter) {
@@ -61,8 +61,8 @@ export const ToDoListRedux = ({todolist}: ToDoListPropsType) => {
     dispatch(deleteTodolistTC(id))
   }, [])
 
-  const addTaskHandler = useCallback((text: string) => {
-    dispatch(addTaskAC(id, text))
+  const addTaskHandler = useCallback((title: string) => {
+    dispatch(addTaskTC(id, title))
   }, [])
 
   const updateToDoListTitle = useCallback((updatedTitle: string) => {
@@ -71,7 +71,7 @@ export const ToDoListRedux = ({todolist}: ToDoListPropsType) => {
 
   const mappedTasks = filteredTasksData.map((item, index) => {
     return (
-      <TaskRedux key={item.id} todolistID={id} task={item}/>
+      <TaskRedux key={item.id} task={item}/>
     )
   })
 

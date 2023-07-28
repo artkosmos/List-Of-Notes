@@ -4,36 +4,44 @@ import {EditableSpan} from "./EditableSpan";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {useDispatch} from "react-redux";
-import {TaskType} from "./ToDoListRedux";
 import {Dispatch} from "redux";
-import {changeTaskStatusAC, removeTaskAC, updateTaskTitleAC} from "./reducers/tasks-reducer";
-import {memo} from "react";
+import {changeTaskStatusAC, deleteTaskTC, removeTaskAC, updateTaskTitleAC} from "./reducers/tasks-reducer";
+import {ChangeEvent, memo} from "react";
+import {TaskType} from "./api/todolist-api";
+import {AppDispatchType} from "./store/store";
 
 type TaskReduxType = {
-  todolistID: string
   task: TaskType
 }
 
-export const TaskRedux = memo(({todolistID, task}: TaskReduxType) => {
+export const TaskRedux = memo(({task}: TaskReduxType) => {
 
-  const dispatch: Dispatch = useDispatch()
+  const dispatch = useDispatch<AppDispatchType>()
+
+  const changeTaskStatusHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    dispatch(changeTaskStatusAC(task.todoListId, task.id, event.currentTarget.checked))
+  }
+
+  const removeTaskHandler = () => {
+    dispatch(deleteTaskTC(task.todoListId, task.id))
+  }
 
   return (
     <div>
-      <li className={task.isDone ? style.isDone : ''}>
+      <li className={task.status === 2 ? style.isDone : ''}>
         <Checkbox
-          onChange={(event) => dispatch(changeTaskStatusAC(todolistID, task.id, event.currentTarget.checked))}
-          checked={task.isDone}
+          onChange={changeTaskStatusHandler}
+          checked={task.status === 2}
           size={'small'}
         />
         <EditableSpan
           oldTitle={task.title}
-          callBack={(updatedTitle) => dispatch(updateTaskTitleAC(todolistID, task.id, updatedTitle))}
+          callBack={(updatedTitle) => dispatch(updateTaskTitleAC(task.todoListId, task.id, updatedTitle))}
         />
         <IconButton
           aria-label="delete"
           size={'small'}
-          onClick={() => dispatch(removeTaskAC(todolistID, task.id))}>
+          onClick={removeTaskHandler}>
           <DeleteIcon fontSize={'small'}/>
         </IconButton>
       </li>
