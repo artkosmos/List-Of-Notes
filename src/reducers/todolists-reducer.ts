@@ -1,5 +1,6 @@
 import {Dispatch} from "redux";
 import {todolistAPI, TodolistType} from "../api/todolist-api";
+import {setPreloaderStatusAC} from "./app-reducer";
 
 export type ActionsTodolistsType =
   RemoveToDoListACType
@@ -82,25 +83,36 @@ export const setTodolistsTC = () => (dispatch: Dispatch) => {
     .then(response => {
       dispatch(getTodolistAC(response.data))
     })
+    .catch(error => alert('Loading error >>>' + error))
+    .finally(() => dispatch(setPreloaderStatusAC('succeeded')))
 }
 
 export const addTodolistTC = (title:string) => (dispatch: Dispatch) => {
+  dispatch(setPreloaderStatusAC('loading'))
   todolistAPI.addTodo(title)
     .then(response => {
       dispatch(addTodolistAC(response.data.data.item))
     })
+    .catch(error => alert('Loading error >>>' + error))
+    .finally(() => dispatch(setPreloaderStatusAC('succeeded')))
 }
 
 export const deleteTodolistTC = (todolistId:string) => (dispatch: Dispatch) => {
+  dispatch(setPreloaderStatusAC('loading'))
   todolistAPI.deleteTodo(todolistId)
     .then(() => {
       dispatch(removeToDoListAC(todolistId))
     })
+    .catch(error => alert('Loading error >>>' + error))
+    .finally(() => dispatch(setPreloaderStatusAC('succeeded')))
 }
 
 export const updateTodolistTitleTC = (todolistId:string, title: string) => (dispatch: Dispatch) => {
+  dispatch(setPreloaderStatusAC('loading'))
   todolistAPI.updateTodo(todolistId, title)
     .then(() => {
       dispatch(updateTodolistTitleAC(todolistId, title))
     })
+    .catch(error => alert('Loading error >>>' + error))
+    .finally(() => dispatch(setPreloaderStatusAC('succeeded')))
 }

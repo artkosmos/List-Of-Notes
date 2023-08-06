@@ -3,14 +3,17 @@ import {ToDoListRedux} from "./ToDoListRedux";
 import {AddItemForm} from "./AddItemForm";
 import ButtonAppBar from "./ButtonAppBar";
 import Paper from '@mui/material/Paper';
+import LinearProgress from '@mui/material/LinearProgress';
 import {addTodolistTC, AppTodolistType, setTodolistsTC} from "./reducers/todolists-reducer";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {useCallback, useEffect} from "react";
-import {AppDispatchType, StateType} from "./store/store";
+import {AppDispatchType, useAppSelector} from "./store/store";
+import {RequestStatusType} from "./reducers/app-reducer";
 
 function AppRedux() {
 
-  const todolists = useSelector<StateType, AppTodolistType[]>(state => state.todolists)
+  const todolists = useAppSelector<AppTodolistType[]>(state => state.todolists)
+  const status = useAppSelector<RequestStatusType>(state => state.app.status)
   const dispatch = useDispatch<AppDispatchType>()
 
   useEffect(() => {
@@ -24,6 +27,7 @@ function AppRedux() {
   return (
     <div className="App">
       <ButtonAppBar/>
+      {status === 'loading' && <LinearProgress color="secondary"/>}
       <div className={'contentWrapper'}>
         <AddItemForm callBack={addToDoList}/>
 

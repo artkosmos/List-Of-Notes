@@ -2,6 +2,7 @@ import {AddTodolistACType, getTodolistACType, RemoveToDoListACType} from "./todo
 import {PropertiesToUpdateType,TaskType, todolistAPI, UpdateTaskModelType} from "../api/todolist-api";
 import {Dispatch} from "redux";
 import {StateType} from "../store/store";
+import {setPreloaderStatusAC} from "./app-reducer";
 
 type ActionTasksTypes =
   AddTaskACType
@@ -85,27 +86,38 @@ export const getTasksAC = (todolistId: string, tasks: TaskType[]) => {
 }
 
 export const setTasksTC = (todolistId:string) => (dispatch: Dispatch) => {
+  dispatch(setPreloaderStatusAC('loading'))
   todolistAPI.getTasks(todolistId)
     .then(response => {
       dispatch(getTasksAC(todolistId, response.data.items))
     })
+    .catch(error => alert('Loading error >>>' + error))
+    .finally(() => dispatch(setPreloaderStatusAC('succeeded')))
 }
 
 export const addTaskTC = (todolistId:string, title: string) => (dispatch: Dispatch) => {
+  dispatch(setPreloaderStatusAC('loading'))
   todolistAPI.addTask(todolistId, title)
     .then(response => {
       dispatch(addTaskAC(todolistId, response.data.data.item))
     })
+    .catch(error => alert('Loading error >>>' + error))
+    .finally(() => dispatch(setPreloaderStatusAC('succeeded')))
 }
 
 export const deleteTaskTC = (todolistId:string, taskId: string) => (dispatch: Dispatch) => {
+  dispatch(setPreloaderStatusAC('loading'))
   todolistAPI.deleteTask(todolistId, taskId)
     .then(() => {
       dispatch(removeTaskAC(todolistId, taskId))
     })
+    .catch(error => alert('Loading error >>>' + error))
+    .finally(() => dispatch(setPreloaderStatusAC('succeeded')))
 }
 
 export const updateTaskTC = (todolistId: string, taskId: string, model: PropertiesToUpdateType) => (dispatch: Dispatch, getState: () => StateType) => {
+  dispatch(setPreloaderStatusAC('loading'))
+
   const task = getState().tasks[todolistId].find(item => item.id === taskId)
   if (task) {
     const modelForAPI: UpdateTaskModelType = {
@@ -122,5 +134,7 @@ export const updateTaskTC = (todolistId: string, taskId: string, model: Properti
       .then(() => {
         dispatch(changeTaskAC(todolistId, taskId, model))
       })
+      .catch(error => alert('Loading error >>>' + error))
+      .finally(() => dispatch(setPreloaderStatusAC('succeeded')))
   }
 }
