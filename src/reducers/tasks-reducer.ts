@@ -1,4 +1,4 @@
-import {AddTodolistACType, getTodolistACType, RemoveToDoListACType} from "./todolists-reducer";
+import {AddTodolistACType, GetTodolistACType, RemoveToDoListACType} from "./todolists-reducer";
 import {PropertiesToUpdateType,TaskType, todolistAPI, UpdateTaskModelType} from "../api/todolist-api";
 import {Dispatch} from "redux";
 import {StateType} from "../store/store";
@@ -10,7 +10,7 @@ type ActionTasksTypes =
   | AddTodolistACType
   | RemoveToDoListACType
   | ChangeTaskACType
-  | getTodolistACType
+  | GetTodolistACType
   | GetTasksACType
 
 export type TasksStateType = {

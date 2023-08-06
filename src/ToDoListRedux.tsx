@@ -21,7 +21,7 @@ type ToDoListPropsType = {
 
 export const ToDoListRedux = ({todolist}: ToDoListPropsType) => {
 
-  const {id, title, filter} = todolist
+  const {id, title, filter, entityStatus} = todolist
 
   const tasks = useSelector<StateType, TaskType[]>(state => state.tasks[id])
 
@@ -77,7 +77,11 @@ export const ToDoListRedux = ({todolist}: ToDoListPropsType) => {
   return (
     <div>
       <div className={style.todolist}>
-        <IconButton aria-label="delete" onClick={removeToDoListHandler} className={style.delete}>
+        <IconButton
+          aria-label="delete"
+          onClick={removeToDoListHandler}
+          className={style.delete}
+          disabled={entityStatus === 'loading'}>
           <DeleteIcon />
           <span className={style.deleteText}>Delete list</span>
         </IconButton>
