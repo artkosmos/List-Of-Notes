@@ -2,7 +2,7 @@ import {AddTodolistACType, getTodolistACType, RemoveToDoListACType} from "./todo
 import {PropertiesToUpdateType,TaskType, todolistAPI, UpdateTaskModelType} from "../api/todolist-api";
 import {Dispatch} from "redux";
 import {StateType} from "../store/store";
-import {setPreloaderStatusAC} from "./app-reducer";
+import {setErrorAC, setPreloaderStatusAC} from "./app-reducer";
 
 type ActionTasksTypes =
   AddTaskACType
@@ -99,9 +99,17 @@ export const addTaskTC = (todolistId:string, title: string) => (dispatch: Dispat
   dispatch(setPreloaderStatusAC('loading'))
   todolistAPI.addTask(todolistId, title)
     .then(response => {
-      dispatch(addTaskAC(todolistId, response.data.data.item))
+      if (response.data.resultCode !== 0) {
+        const error = response.data.messages[0]
+        if (error) {
+          dispatch(setErrorAC(error))
+        } else {
+          dispatch(setErrorAC('Unknown error :('))
+        }
+      } else {
+        dispatch(addTaskAC(todolistId, response.data.data.item))
+      }
     })
-    .catch(error => alert('Loading error >>>' + error))
     .finally(() => dispatch(setPreloaderStatusAC('succeeded')))
 }
 

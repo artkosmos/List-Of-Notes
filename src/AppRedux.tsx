@@ -9,6 +9,7 @@ import {useDispatch} from "react-redux";
 import {useCallback, useEffect} from "react";
 import {AppDispatchType, useAppSelector} from "./store/store";
 import {RequestStatusType} from "./reducers/app-reducer";
+import {ErrorSnackbar} from "./ErrorSnackBar";
 
 function AppRedux() {
 
@@ -42,6 +43,7 @@ function AppRedux() {
             )
           })}
         </div>
+        <ErrorSnackbar/>
       </div>
     </div>
   )
