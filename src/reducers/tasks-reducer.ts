@@ -1,4 +1,4 @@
-import {AddTodolistACType, GetTodolistACType, RemoveToDoListACType} from "./todolists-reducer";
+import {AddTodolistACType, GetTodolistACType, RemoveToDoListACType, setTodolistStatusAC} from "./todolists-reducer";
 import {PropertiesToUpdateType,TaskType, todolistAPI, UpdateTaskModelType} from "../api/todolist-api";
 import {Dispatch} from "redux";
 import {StateType} from "../store/store";
@@ -97,6 +97,7 @@ export const setTasksTC = (todolistId:string) => (dispatch: Dispatch) => {
 
 export const addTaskTC = (todolistId:string, title: string) => (dispatch: Dispatch) => {
   dispatch(setPreloaderStatusAC('loading'))
+  dispatch(setTodolistStatusAC(todolistId, 'loading'))
   todolistAPI.addTask(todolistId, title)
     .then(response => {
       if (response.data.resultCode !== 0) {
@@ -110,7 +111,14 @@ export const addTaskTC = (todolistId:string, title: string) => (dispatch: Dispat
         dispatch(addTaskAC(todolistId, response.data.data.item))
       }
     })
-    .finally(() => dispatch(setPreloaderStatusAC('succeeded')))
+    .catch(error => {
+      dispatch(setErrorAC(error.message))
+      dispatch(setTodolistStatusAC(todolistId, 'idle'))
+    })
+    .finally(() => {
+      dispatch(setPreloaderStatusAC('succeeded'))
+      dispatch(setTodolistStatusAC(todolistId, 'idle'))
+    })
 }
 
 export const deleteTaskTC = (todolistId:string, taskId: string) => (dispatch: Dispatch) => {

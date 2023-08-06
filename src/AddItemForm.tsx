@@ -4,6 +4,7 @@ import TextField from '@mui/material/TextField';
 
 export type AddItemFormPropsType = {
   callBack: (text: string) => void
+  disabled?: boolean
 }
 
 export const AddItemForm = memo((props: AddItemFormPropsType) => {
@@ -42,11 +43,6 @@ export const AddItemForm = memo((props: AddItemFormPropsType) => {
   return (
     <div>
       <div>
-        {/*<input className={error ? style.error : ''}
-               value={text}
-               onChange={onChangeHandler}
-               onKeyDown={onPressHandler}
-        />*/}
         <TextField
           error={error}
           size={'small'}
@@ -56,11 +52,16 @@ export const AddItemForm = memo((props: AddItemFormPropsType) => {
           value={text}
           onChange={onChangeHandler}
           onKeyDown={onPressHandler}
+          disabled={props.disabled}
         />
-        {/*<button onClick={anotherTask}>Add</button>*/}
-        <Button onClick={anotherTask} style={buttonStyles} variant="contained">Add</Button>
+        <Button
+          onClick={anotherTask}
+          style={buttonStyles}
+          variant="contained"
+          disabled={props.disabled}>
+          Add
+        </Button>
       </div>
-      {/*{error && <div className={style.errorMessage}>{error}</div>}*/}
     </div>
   );
 })

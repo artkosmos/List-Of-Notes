@@ -86,7 +86,7 @@ export const ToDoListRedux = ({todolist}: ToDoListPropsType) => {
           <span className={style.deleteText}>Delete list</span>
         </IconButton>
         <h2><EditableSpan oldTitle={title} callBack={updateTodolistTitle}/></h2>
-        <AddItemForm callBack={addTaskHandler}/>
+        <AddItemForm callBack={addTaskHandler} disabled={entityStatus === 'loading'}/>
         <ul className={style.list}>
           {mappedTasks}
         </ul>
