@@ -107,9 +107,8 @@ export const setTasksTC = (todolistId: string) => async (dispatch: Dispatch) => 
       dispatch(setPreloaderStatusAC('succeeded'))
     }
   } catch (error) {
-    if (axios.isAxiosError<ResponseType>(error)) {
-      const errorMessage = error.response ? error.response.data.messages[0] : error.message
-      handleServerNetworkError(errorMessage, dispatch)
+    if (axios.isAxiosError(error)) {
+      handleServerNetworkError(error.message, dispatch)
     } else {
       const jsError = 'Code compilation error'
       handleServerNetworkError(jsError, dispatch)
@@ -185,7 +184,7 @@ export const updateTaskTC = (todolistId: string, taskId: string, model: Properti
     try {
       const response = await todolistAPI.updateTask(todolistId, taskId, modelForAPI)
       if (response.data.resultCode !== ResultCodes.OK) {
-        handleServerAppError(response.data, dispatch)
+        handleServerAppError<{ item: TaskType }>(response.data, dispatch)
       } else {
         dispatch(changeTaskAC(todolistId, taskId, model))
         dispatch(setPreloaderStatusAC('succeeded'))
