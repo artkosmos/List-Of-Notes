@@ -1,8 +1,17 @@
 import {AddTodolistACType, GetTodolistACType, RemoveToDoListACType, setTodolistStatusAC} from "./todolists-reducer";
-import {PropertiesToUpdateType,TaskType, todolistAPI, UpdateTaskModelType} from "../api/todolist-api";
+import {
+  PropertiesToUpdateType,
+  ResponseType,
+  ResultCodes,
+  TaskType,
+  todolistAPI,
+  UpdateTaskModelType
+} from "../api/todolist-api";
 import {Dispatch} from "redux";
 import {StateType} from "../store/store";
-import {setErrorAC, setPreloaderStatusAC} from "./app-reducer";
+import {setPreloaderStatusAC} from "./app-reducer";
+import {handleServerAppError, handleServerNetworkError} from "../utils/error-utils";
+import axios from "axios";
 
 type ActionTasksTypes =
   AddTaskACType
@@ -85,7 +94,7 @@ export const getTasksAC = (todolistId: string, tasks: TaskType[]) => {
   } as const
 }
 
-export const setTasksTC = (todolistId:string) => (dispatch: Dispatch) => {
+export const setTasksTC = (todolistId: string) => (dispatch: Dispatch) => {
   dispatch(setPreloaderStatusAC('loading'))
   todolistAPI.getTasks(todolistId)
     .then(response => {
@@ -95,33 +104,33 @@ export const setTasksTC = (todolistId:string) => (dispatch: Dispatch) => {
     .finally(() => dispatch(setPreloaderStatusAC('succeeded')))
 }
 
-export const addTaskTC = (todolistId:string, title: string) => (dispatch: Dispatch) => {
+export const addTaskTC = (todolistId: string, title: string) => async (dispatch: Dispatch) => {
   dispatch(setPreloaderStatusAC('loading'))
   dispatch(setTodolistStatusAC(todolistId, 'loading'))
-  todolistAPI.addTask(todolistId, title)
-    .then(response => {
-      if (response.data.resultCode !== 0) {
-        const error = response.data.messages[0]
-        if (error) {
-          dispatch(setErrorAC(error))
-        } else {
-          dispatch(setErrorAC('Unknown error :('))
-        }
-      } else {
-        dispatch(addTaskAC(todolistId, response.data.data.item))
-      }
-    })
-    .catch(error => {
-      dispatch(setErrorAC(error.message))
-      dispatch(setTodolistStatusAC(todolistId, 'idle'))
-    })
-    .finally(() => {
+  try {
+    const response = await todolistAPI.addTask(todolistId, title)
+    if (response.data.resultCode !== ResultCodes.OK) {
+      handleServerAppError<{ item: TaskType }>(response.data, dispatch)
+    } else {
+      dispatch(addTaskAC(todolistId, response.data.data.item))
       dispatch(setPreloaderStatusAC('succeeded'))
-      dispatch(setTodolistStatusAC(todolistId, 'idle'))
-    })
+    }
+  }
+  catch (error) {
+    if (axios.isAxiosError<ResponseType>(error)) {
+      const errorMessage = error.response ? error.response.data.messages[0] : error.message
+      handleServerNetworkError(errorMessage, dispatch)
+    } else {
+      const jsError = 'Code compilation error'
+      handleServerNetworkError(jsError, dispatch)
+    }
+  }
+  finally {
+    dispatch(setTodolistStatusAC(todolistId, 'idle'))
+  }
 }
 
-export const deleteTaskTC = (todolistId:string, taskId: string) => (dispatch: Dispatch) => {
+export const deleteTaskTC = (todolistId: string, taskId: string) => (dispatch: Dispatch) => {
   dispatch(setPreloaderStatusAC('loading'))
   todolistAPI.deleteTask(todolistId, taskId)
     .then(() => {
@@ -154,3 +163,10 @@ export const updateTaskTC = (todolistId: string, taskId: string, model: Properti
       .finally(() => dispatch(setPreloaderStatusAC('succeeded')))
   }
 }
+
+
+// типизация Error в промисах then\catch
+//   .catch((error: AxiosError<ResponseType>) => {
+//     const errorMessage = error.response ? error.response.data.messages[0] : error.message
+//     handleServerNetworkError(errorMessage, dispatch)
+//   })

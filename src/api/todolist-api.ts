@@ -40,7 +40,7 @@ export type TodolistType = {
 }
 
 // dynamic typing with generic (if value isn't passed, it is taken default)
-type ResponseType<T = {}> = {
+export type ResponseType<T = {}> = {
   resultCode: number
   messages: string[]
   data: T
@@ -66,6 +66,7 @@ type GetTasksResponseType = {
   error: string
 }
 
+// enum как обьект с фиксированными и неперезаписываемыми константами под капотом
 export enum TaskStatuses {
   New = 0,
   InProgress = 1,
@@ -79,6 +80,12 @@ export enum TaskPriorities {
   Hi = 2,
   Urgently = 3,
   Later = 4
+}
+
+export enum ResultCodes {
+  OK = 0,
+  ERROR = 1,
+  ERROR_CAPTCHA = 1
 }
 
 // main model to send with request
