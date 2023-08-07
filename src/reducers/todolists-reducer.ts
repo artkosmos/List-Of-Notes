@@ -1,6 +1,8 @@
 import {Dispatch} from "redux";
-import {todolistAPI, TodolistType} from "../api/todolist-api";
-import {RequestStatusType, setErrorAC, setPreloaderStatusAC} from "./app-reducer";
+import {ResponseType, ResultCodes, todolistAPI, TodolistType} from "../api/todolist-api";
+import {RequestStatusType, setPreloaderStatusAC} from "./app-reducer";
+import {handleServerAppError, handleServerNetworkError} from "../utils/error-utils";
+import axios from "axios";
 
 export type ActionsTodolistsType =
   RemoveToDoListACType
@@ -36,7 +38,10 @@ export const TodoListReducer = (state = initialState, action: ActionsTodolistsTy
     case "GET-TODOLISTS":
       return action.payload.todolists.map(item => ({...item, filter: 'all', entityStatus: 'idle'}))
     case "SET-TODOLIST-STATUS":
-      return state.map(item => item.id === action.payload.todolistId ? {...item, entityStatus: action.payload.status} : item)
+      return state.map(item => item.id === action.payload.todolistId ? {
+        ...item,
+        entityStatus: action.payload.status
+      } : item)
     default:
       return state
   }
@@ -90,47 +95,83 @@ export const setTodolistStatusAC = (todolistId: string, status: RequestStatusTyp
   } as const
 }
 
-export const setTodolistsTC = () => (dispatch: Dispatch) => {
-  todolistAPI.getTodo()
-    .then(response => {
-      dispatch(getTodolistAC(response.data))
-    })
-    .catch(error => alert('Loading error >>>' + error))
-    .finally(() => dispatch(setPreloaderStatusAC('succeeded')))
+export const setTodolistsTC = () => async (dispatch: Dispatch) => {
+  try {
+    const response = await todolistAPI.getTodo()
+    dispatch(getTodolistAC(response.data))
+    dispatch(setPreloaderStatusAC('succeeded'))
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      handleServerNetworkError(error.message, dispatch)
+    } else {
+      const jsError = 'Code compilation error'
+      handleServerNetworkError(jsError, dispatch)
+    }
+  }
 }
 
-export const addTodolistTC = (title: string) => (dispatch: Dispatch) => {
+export const addTodolistTC = (title: string) => async (dispatch: Dispatch) => {
   dispatch(setPreloaderStatusAC('loading'))
-  todolistAPI.addTodo(title)
-    .then(response => {
+  try {
+    const response = await todolistAPI.addTodo(title)
+    if (response.data.resultCode !== ResultCodes.OK) {
+      handleServerAppError<{ item: TodolistType }>(response.data, dispatch)
+    } else {
       dispatch(addTodolistAC(response.data.data.item))
-    })
-    .catch(error => alert('Loading error >>>' + error))
-    .finally(() => dispatch(setPreloaderStatusAC('succeeded')))
+      dispatch(setPreloaderStatusAC('succeeded'))
+    }
+  } catch (error) {
+    if (axios.isAxiosError<ResponseType>(error)) {
+      const errorMessage = error.response ? error.response.data.messages[0] : error.message
+      handleServerNetworkError(errorMessage, dispatch)
+    } else {
+      const jsError = 'Code compilation error'
+      handleServerNetworkError(jsError, dispatch)
+    }
+  }
 }
 
-export const deleteTodolistTC = (todolistId: string) => (dispatch: Dispatch) => {
+export const deleteTodolistTC = (todolistId: string) => async (dispatch: Dispatch) => {
   dispatch(setPreloaderStatusAC('loading'))
   dispatch(setTodolistStatusAC(todolistId, 'loading'))
-  todolistAPI.deleteTodo(todolistId)
-    .then(() => {
+  try {
+    const response = await todolistAPI.deleteTodo(todolistId)
+    if (response.data.resultCode !== ResultCodes.OK) {
+      handleServerAppError(response.data, dispatch)
+    } else {
       dispatch(removeToDoListAC(todolistId))
-    })
-    .catch(error => {
-      dispatch(setErrorAC(error.message))
-      dispatch(setTodolistStatusAC(todolistId, 'idle'))
-    })
-    .finally(() => {
       dispatch(setPreloaderStatusAC('succeeded'))
-    })
+    }
+  } catch (error) {
+    if (axios.isAxiosError<ResponseType>(error)) {
+      const errorMessage = error.response ? error.response.data.messages[0] : error.message
+      handleServerNetworkError(errorMessage, dispatch)
+    } else {
+      const jsError = 'Code compilation error'
+      handleServerNetworkError(jsError, dispatch)
+    }
+  } finally {
+    dispatch(setTodolistStatusAC(todolistId, 'idle'))
+  }
 }
 
-export const updateTodolistTitleTC = (todolistId: string, title: string) => (dispatch: Dispatch) => {
+export const updateTodolistTitleTC = (todolistId: string, title: string) => async (dispatch: Dispatch) => {
   dispatch(setPreloaderStatusAC('loading'))
-  todolistAPI.updateTodo(todolistId, title)
-    .then(() => {
+  try {
+    const response = await todolistAPI.updateTodo(todolistId, title)
+    if (response.data.resultCode !== ResultCodes.OK) {
+      handleServerAppError(response.data, dispatch)
+    } else {
       dispatch(updateTodolistTitleAC(todolistId, title))
-    })
-    .catch(error => alert('Loading error >>>' + error))
-    .finally(() => dispatch(setPreloaderStatusAC('succeeded')))
+      dispatch(setPreloaderStatusAC('succeeded'))
+    }
+  } catch (error) {
+    if (axios.isAxiosError<ResponseType>(error)) {
+      const errorMessage = error.response ? error.response.data.messages[0] : error.message
+      handleServerNetworkError(errorMessage, dispatch)
+    } else {
+      const jsError = 'Code compilation error'
+      handleServerNetworkError(jsError, dispatch)
+    }
+  }
 }
