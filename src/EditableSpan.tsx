@@ -3,6 +3,7 @@ import React, {ChangeEvent, memo, useState} from 'react';
 type SpanPropsType = {
   oldTitle: string
   callBack: (updatedTitle: string) => void
+  disabled?: boolean
 }
 
 export const EditableSpan = memo((props: SpanPropsType) => {
@@ -12,9 +13,11 @@ export const EditableSpan = memo((props: SpanPropsType) => {
   const [updatedTitle, setUpdatedTitle] = useState(props.oldTitle)
 
   const editHandler = () => {
-    setEdit(!edit)
-    if (edit) {
-      addTaskHandler()
+    if (!props.disabled) {
+      setEdit(!edit)
+      if (edit) {
+        addTaskHandler()
+      }
     }
   }
 

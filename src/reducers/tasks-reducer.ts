@@ -9,7 +9,7 @@ import {
 } from "../api/todolist-api";
 import {Dispatch} from "redux";
 import {StateType} from "../store/store";
-import {setErrorAC, setPreloaderStatusAC} from "./app-reducer";
+import {RequestStatusType, setErrorAC, setPreloaderStatusAC} from "./app-reducer";
 import {handleServerAppError, handleServerNetworkError} from "../utils/error-utils";
 import axios from "axios";
 
@@ -21,9 +21,14 @@ type ActionTasksTypes =
   | ChangeTaskACType
   | GetTodolistACType
   | GetTasksACType
+  | setTaskStatusACType
+
+export type AppTaskType = TaskType & {
+  entityStatus: RequestStatusType
+}
 
 export type TasksStateType = {
-  [key: string]: TaskType[]
+  [key: string]: AppTaskType[]
 }
 
 const initialState: TasksStateType = {}
@@ -31,7 +36,13 @@ const initialState: TasksStateType = {}
 export const TaskReducer = (state = initialState, action: ActionTasksTypes): TasksStateType => {
   switch (action.type) {
     case 'ADD-TASK':
-      return {...state, [action.payload.todolistID]: [action.payload.task, ...state[action.payload.todolistID]]}
+      return {
+        ...state,
+        [action.payload.todolistID]: [{
+          ...action.payload.task,
+          entityStatus: 'idle'
+        }, ...state[action.payload.todolistID]]
+      }
     case "REMOVE-TASK":
       return {
         ...state, [action.payload.todolistID]: state[action.payload.todolistID]
@@ -56,7 +67,19 @@ export const TaskReducer = (state = initialState, action: ActionTasksTypes): Tas
       })
       return copyState
     case "GET-TASKS":
-      return {...state, [action.payload.todolistId]: [...action.payload.tasks]}
+      return {
+        ...state,
+        [action.payload.todolistId]: action.payload.tasks.map(item => ({...item, entityStatus: 'idle'}))
+      }
+    case "SET-TASK-STATUS":
+      return {
+        ...state,
+        [action.payload.todolistId]: state[action.payload.todolistId].map(item =>
+          item.id === action.payload.taskId
+            ? {...item, entityStatus: action.payload.status}
+            : item
+        )
+      }
     default:
       return state
   }
@@ -91,6 +114,18 @@ export const getTasksAC = (todolistId: string, tasks: TaskType[]) => {
   return {
     type: 'GET-TASKS',
     payload: {todolistId, tasks}
+  } as const
+}
+
+type setTaskStatusACType = ReturnType<typeof setTaskStatusAC>
+export const setTaskStatusAC = (todolistId: string, taskId: string, status: RequestStatusType) => {
+  return {
+    type: 'SET-TASK-STATUS',
+    payload: {
+      status,
+      todolistId,
+      taskId
+    }
   } as const
 }
 
@@ -144,7 +179,7 @@ export const addTaskTC = (todolistId: string, title: string) => async (dispatch:
 
 export const deleteTaskTC = (todolistId: string, taskId: string) => async (dispatch: Dispatch) => {
   dispatch(setPreloaderStatusAC('loading'))
-  dispatch(setTodolistStatusAC(todolistId, 'loading'))
+  dispatch(setTaskStatusAC(todolistId, taskId, 'loading'))
   try {
     const response = await todolistAPI.deleteTask(todolistId, taskId)
     if (response.data.resultCode !== ResultCodes.OK) {
@@ -162,13 +197,13 @@ export const deleteTaskTC = (todolistId: string, taskId: string) => async (dispa
       handleServerNetworkError(jsError, dispatch)
     }
   } finally {
-    dispatch(setTodolistStatusAC(todolistId, 'idle'))
+    dispatch(setTaskStatusAC(todolistId, taskId, 'idle'))
   }
 }
 
 export const updateTaskTC = (todolistId: string, taskId: string, model: PropertiesToUpdateType) => async (dispatch: Dispatch, getState: () => StateType) => {
   dispatch(setPreloaderStatusAC('loading'))
-
+  dispatch(setTaskStatusAC(todolistId, taskId, 'loading'))
   const task = getState().tasks[todolistId].find(item => item.id === taskId)
   if (task) {
     const modelForAPI: UpdateTaskModelType = {
@@ -197,6 +232,8 @@ export const updateTaskTC = (todolistId: string, taskId: string, model: Properti
         const jsError = 'Code compilation error'
         handleServerNetworkError(jsError, dispatch)
       }
+    } finally {
+      dispatch(setTaskStatusAC(todolistId, taskId, 'idle'))
     }
   }
 }

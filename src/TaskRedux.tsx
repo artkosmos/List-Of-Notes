@@ -4,13 +4,13 @@ import {EditableSpan} from "./EditableSpan";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {useDispatch} from "react-redux";
-import {deleteTaskTC, updateTaskTC} from "./reducers/tasks-reducer";
+import {AppTaskType, deleteTaskTC, updateTaskTC} from "./reducers/tasks-reducer";
 import {ChangeEvent, memo} from "react";
-import {TaskStatuses, TaskType} from "./api/todolist-api";
+import {TaskStatuses} from "./api/todolist-api";
 import {AppDispatchType} from "./store/store";
 
 type TaskReduxType = {
-  task: TaskType
+  task: AppTaskType
 }
 
 export const TaskRedux = memo(({task}: TaskReduxType) => {
@@ -34,6 +34,7 @@ export const TaskRedux = memo(({task}: TaskReduxType) => {
     <div>
       <li className={task.status === 2 ? style.isDone : ''}>
         <Checkbox
+          disabled={task.entityStatus === 'loading'}
           onChange={changeTaskStatusHandler}
           checked={task.status === 2}
           size={'small'}
@@ -41,8 +42,10 @@ export const TaskRedux = memo(({task}: TaskReduxType) => {
         <EditableSpan
           oldTitle={task.title}
           callBack={changeTaskTitleHandler}
+          disabled={task.entityStatus === 'loading'}
         />
         <IconButton
+          disabled={task.entityStatus === 'loading'}
           aria-label="delete"
           size={'small'}
           onClick={removeTaskHandler}>

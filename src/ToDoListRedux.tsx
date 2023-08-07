@@ -5,14 +5,13 @@ import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatchType, StateType} from "./store/store";
-import {addTaskTC, setTasksTC} from "./reducers/tasks-reducer";
+import {addTaskTC, AppTaskType, setTasksTC} from "./reducers/tasks-reducer";
 import {
   AppTodolistType,
   changeToDoListFilterAC, deleteTodolistTC, FilterType, updateTodolistTitleTC
 } from "./reducers/todolists-reducer";
 import {TaskRedux} from "./TaskRedux";
 import React, {memo, useCallback, useEffect} from "react";
-import {TaskType} from "./api/todolist-api";
 import Button from "@mui/material/Button";
 
 type ToDoListPropsType = {
@@ -23,7 +22,7 @@ export const ToDoListRedux = ({todolist}: ToDoListPropsType) => {
 
   const {id, title, filter, entityStatus} = todolist
 
-  const tasks = useSelector<StateType, TaskType[]>(state => state.tasks[id])
+  const tasks = useSelector<StateType, AppTaskType[]>(state => state.tasks[id])
 
   const dispatch = useDispatch<AppDispatchType>()
 
@@ -31,7 +30,7 @@ export const ToDoListRedux = ({todolist}: ToDoListPropsType) => {
     dispatch(setTasksTC(id))
   },[])
 
-  const getFilteredTask = (tasks: TaskType[], filter: FilterType) => {
+  const getFilteredTask = (tasks: AppTaskType[], filter: FilterType) => {
     switch (filter) {
       case "active":
         return tasks.filter((item) => item.status === 1)
