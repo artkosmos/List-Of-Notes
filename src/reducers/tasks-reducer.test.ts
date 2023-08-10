@@ -1,7 +1,7 @@
 import {v1} from "uuid";
-import {TasksStateType} from "../AppReducer";
-import {addTaskAC, changeTaskStatusAC, removeTaskAC, TaskReducer, updateTaskTitleAC} from "./tasks-reducer";
-import {addToDoListAC, removeToDoListAC} from "./todolists-reducer";
+import {addTaskAC, changeTaskAC, removeTaskAC, TaskReducer, TasksStateType} from "./tasks-reducer";
+import {addTodolistAC, removeToDoListAC} from "./todolists-reducer";
+import {TaskStatuses, TaskType, TodolistType} from "../api/todolist-api";
 
 let todolistID1: string
 let todolistID2: string
@@ -9,6 +9,8 @@ let taskID_1: string
 let taskID_2: string
 let taskID_3: string
 let taskID_4: string
+let taskID_5: string
+let taskID_6: string
 
 let startState: TasksStateType
 
@@ -19,27 +21,121 @@ beforeEach(() => {
   taskID_2 = v1()
   taskID_3 = v1()
   taskID_4 = v1()
+  taskID_5 = v1()
+  taskID_6 = v1()
 
   startState = {
     [todolistID1]: [
-      {id: taskID_1, title: "HTML&CSS", isDone: true},
-      {id: taskID_2, title: "JS", isDone: true}
+      {
+        addedDate: "2023-08-10",
+        deadline: 'null',
+        description: 'null',
+        entityStatus: "idle",
+        id: "1",
+        order: -1,
+        priority: 1,
+        startDate: 'null',
+        status: 0,
+        title: "HTML&CSS",
+        todoListId: taskID_1,
+        completed: false
+      },
+      {
+        addedDate: "2023-08-10",
+        deadline: 'null',
+        description: 'null',
+        entityStatus: "idle",
+        id: "2",
+        order: -2,
+        priority: 1,
+        startDate: 'null',
+        status: 0,
+        title: "JS",
+        todoListId: taskID_2,
+        completed: false
+      },
+      {
+        addedDate: "2023-08-10",
+        deadline: 'null',
+        description: 'null',
+        entityStatus: "idle",
+        id: "3",
+        order: -3,
+        priority: 1,
+        startDate: 'null',
+        status: 0,
+        title: "ReactJS",
+        todoListId: taskID_3,
+        completed: false
+      },
     ],
     [todolistID2]: [
-      {id: taskID_3, title: "Cheese", isDone: true},
-      {id: taskID_4, title: "Milk", isDone: true}
+      {
+        addedDate: "2023-08-10",
+        deadline: 'null',
+        description: 'null',
+        entityStatus: "idle",
+        id: "1",
+        order: -1,
+        priority: 1,
+        startDate: 'null',
+        status: 0,
+        title: "Cheese",
+        todoListId: taskID_4,
+        completed: false
+      },
+      {
+        addedDate: "2023-08-10",
+        deadline: 'null',
+        description: 'null',
+        entityStatus: "idle",
+        id: "2",
+        order: -2,
+        priority: 1,
+        startDate: 'null',
+        status: 0,
+        title: "Milk",
+        todoListId: taskID_5,
+        completed: false
+      },
+      {
+        addedDate: "2023-08-10",
+        deadline: 'null',
+        description: 'null',
+        entityStatus: "idle",
+        id: "3",
+        order: -3,
+        priority: 1,
+        startDate: 'null',
+        status: 0,
+        title: "Bread",
+        todoListId: taskID_6,
+        completed: false
+      },
     ]
   }
 })
 
 test('correct task should be added', () => {
 
-  const text: string = 'React'
+  const newTask: TaskType = {
+    addedDate: "2023-08-10",
+    deadline: 'null',
+    description: 'null',
+    id: "3",
+    order: -3,
+    priority: 1,
+    startDate: 'null',
+    status: 0,
+    title: "React",
+    todoListId: taskID_6,
+    completed: false
+  }
 
-  const resultState = TaskReducer(startState, addTaskAC(todolistID1, text))
+  const resultState = TaskReducer(startState, addTaskAC(todolistID1, newTask))
 
-  expect(resultState[todolistID1].length).toBe(3)
-  expect(resultState[todolistID2].length).toBe(2)
+  expect(resultState[todolistID1].length).toBe(4)
+  expect(resultState[todolistID2].length).toBe(3)
   expect(resultState[todolistID1][0].title).toBe('React')
 })
 
@@ -56,22 +152,29 @@ test('correct task should be updated', () => {
 
   const updatedTitle: string = 'Blue Cheese'
 
-  const resultState = TaskReducer(startState, updateTaskTitleAC(todolistID2, taskID_3, updatedTitle))
+  const resultState = TaskReducer(startState, changeTaskAC(todolistID2, taskID_3, {title: updatedTitle}))
 
   expect(resultState[todolistID2][0].title).toBe('Blue Cheese')
-  expect(resultState[todolistID2][1].title).toBe('Milk')
+  expect(resultState[todolistID2][1].title).toBe('Cheese')
 })
 
 test('empty tasks should be added with new todolist', () => {
 
-  const newTodolistID: string = v1()
-  const title: string = 'something'
+  const newTodolistID = v1()
 
-  const resultState = TaskReducer(startState, addToDoListAC(title, newTodolistID))
-  // title don't use in this test
+  const newTodo: TodolistType = {
+    addedDate: "2023-08-10",
+    id: newTodolistID,
+    order: 0,
+    title: "What to learn"
+  }
+
+  const resultState = TaskReducer(startState, addTodolistAC(newTodo))
 
   expect(Object.keys(resultState).length).toBe(3)
   expect(resultState[newTodolistID]).toEqual([])
+  expect(resultState.filter).toBe('all')
+  expect(resultState.entityStatus).toBe('idle')
 })
 
 test('correct tasks should be deleted with deleted todolist', () => {
@@ -79,16 +182,16 @@ test('correct tasks should be deleted with deleted todolist', () => {
   const resultState = TaskReducer(startState, removeToDoListAC(todolistID1))
 
   expect(resultState[todolistID1]).toBe(undefined)
-  expect(resultState[todolistID2].length).toBe(2)
-  expect(Object.keys(resultState).length).toBe(1)
+  expect(resultState[todolistID2].length).toBe(3)
+
 })
 
 test('correct task status should be changed', () => {
 
-  const isDone = false
+  const status = TaskStatuses.New
 
-  const resultState = TaskReducer(startState, changeTaskStatusAC(todolistID1, taskID_2, isDone))
+  const resultState = TaskReducer(startState, changeTaskAC(todolistID1, taskID_2, {status}))
 
-  expect(resultState[todolistID1][1].isDone).toBe(false)
-  expect(resultState[todolistID2][1].isDone).toBe(true)
+  expect(resultState[todolistID1][1].status).toBe(1)
+  expect(resultState[todolistID2][1].status).toBe(0)
 })
