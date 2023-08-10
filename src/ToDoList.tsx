@@ -1,3 +1,4 @@
+/*
 import React, {memo, useCallback, useState} from 'react';
 import {FilterType} from "./AppReducer";
 import style from './ToDoList.module.css'
@@ -119,10 +120,10 @@ const ToDoList = memo(({
           <DeleteIcon/>
           <span className={style.deleteText}>Delete list</span>
         </IconButton>
-        {/*<button onClick={removeToDoListHandler}>Delete list</button>*/}
-        {/*<h3>{title}</h3>*/}
+        {/!*<button onClick={removeToDoListHandler}>Delete list</button>*!/}
+        {/!*<h3>{title}</h3>*!/}
         <h2><EditableSpan oldTitle={title} callBack={updateToDoListTitle}/></h2>
-        {/*<div>
+        {/!*<div>
           <input className={error ? style.error : ''}
                  value={text}
                  onChange={onChangeHandler}
@@ -130,7 +131,7 @@ const ToDoList = memo(({
           />
           <button onClick={anotherTask}>Add</button>
         </div>
-        {error && <div className={style.errorMessage}>{error}</div>}*/}
+        {error && <div className={style.errorMessage}>{error}</div>}*!/}
         <AddItemForm callBack={addTaskHandler}/>
         <ul className={style.list}>
           {tasksJSX}
@@ -157,12 +158,12 @@ const ToDoList = memo(({
             onClick={onClickHandlerCompleted}
             style={{height: '30px'}}
           />
-          {/*<button className={buttonName === 'all' ? style.activeFilter : ''} onClick={onClickHandlerAll}>All</button>
+          {/!*<button className={buttonName === 'all' ? style.activeFilter : ''} onClick={onClickHandlerAll}>All</button>
           <button className={buttonName === 'active' ? style.activeFilter : ''} onClick={onClickHandlerActive}>Active
           </button>
           <button className={buttonName === 'completed' ? style.activeFilter : ''}
                   onClick={onClickHandlerCompleted}>Completed
-          </button>*/}
+          </button>*!/}
         </div>
       </div>
     </div>
@@ -187,4 +188,4 @@ export const ButtonMemo = memo((props: ButtonMemoPropsType) => {
   </Button>
 })
 
-export default ToDoList;
+export default ToDoList;*/

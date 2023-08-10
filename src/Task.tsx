@@ -1,3 +1,4 @@
+/*
 import style from "./ToDoList.module.css";
 import Checkbox from "@mui/material/Checkbox";
 import {EditableSpan} from "./EditableSpan";
@@ -38,3 +39,4 @@ export const Task = memo(({
     </div>
   )
 })
+*/

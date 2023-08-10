@@ -1,3 +1,4 @@
+/*
 import {Reducer, useCallback, useReducer} from 'react';
 import './App.css';
 import ToDoList, {TaskType} from "./ToDoList";
@@ -122,3 +123,4 @@ function AppReducer() {
 }
 
 export default AppReducer;
+*/
