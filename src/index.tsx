@@ -3,8 +3,6 @@ import './index.css';
 import AppRedux from "./AppRedux";
 import {Provider} from "react-redux";
 import {store} from "./store/store";
-import AppReducer from "./AppReducer";
-
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
