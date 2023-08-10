@@ -35,7 +35,7 @@ function AppRedux() {
         <div className={'listsWrapper'}>
           {todolists.map(item => {
             return (
-              <Paper key={item.id} elevation={12} style={{padding: '15px', backgroundColor: '#ececdc'}}>
+              <Paper key={item.id} elevation={12} style={{padding: '15px', backgroundColor: '#ececdc', height: 'max-content'}}>
                 <ToDoListRedux
                   todolist={item}
                 />
