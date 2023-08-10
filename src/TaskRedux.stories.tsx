@@ -3,15 +3,16 @@ import {TaskRedux} from "./TaskRedux";
 import {ReduxStoreProviderDecorator} from "./store/ReduxStoreProviderDecorator";
 import {useDispatch, useSelector} from "react-redux";
 import {StateType} from "./store/store";
-import {TaskType} from "./ToDoListRedux";
 import style from "./ToDoList.module.css";
 import Checkbox from "@mui/material/Checkbox";
-import {changeTaskStatusAC, removeTaskAC, updateTaskTitleAC} from "./reducers/tasks-reducer";
 import {EditableSpan} from "./EditableSpan";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {Dispatch} from "redux";
 import {action} from '@storybook/addon-actions'
+import {TaskStatuses, TaskType} from "./api/todolist-api";
+import {changeTaskAC, updateTaskTC} from "./reducers/tasks-reducer";
+import {ChangeEvent} from "react";
 
 
 const meta: Meta = {
@@ -27,17 +28,25 @@ type Story = StoryObj<typeof meta>;
 const TaskComponent = () => {
   const task = useSelector<StateType, TaskType>(state => state.tasks['1'][0])
   const dispatch: Dispatch = useDispatch()
+
+  const changeTaskStatusHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    const status = event.currentTarget.checked ? TaskStatuses.Completed : TaskStatuses.New
+    dispatch(changeTaskAC('1', task.id, {status}))
+  }
+
   return (
     <div>
-      <li className={task.isDone ? style.isDone : ''}>
+      <li className={task.status === 2 ? style.isDone : ''}>
         <Checkbox
-          onChange={(event) => dispatch(changeTaskStatusAC('1', task.id, event.currentTarget.checked))}
-          checked={task.isDone}
+          onChange={changeTaskStatusHandler}
+          checked={task.status === 2}
           size={'small'}
         />
         <EditableSpan
           oldTitle={task.title}
-          callBack={(updatedTitle) => dispatch(updateTaskTitleAC('1', task.id, updatedTitle))}
+          callBack={(updatedTitle) => {
+            dispatch(changeTaskAC('1', task.id, {title: updatedTitle}))
+          }}
         />
         <IconButton
           aria-label="delete"
