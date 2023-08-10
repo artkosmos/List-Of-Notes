@@ -9,7 +9,7 @@ const settings = {
   withCredentials: true,
 }
 
-const todolistIdForTasks: string = "06d35705-5c98-41e0-9f1d-76aa6f78a81b"
+const todolistIdForTasks: string = "b113e060-8e2b-4802-b21a-acd637df261f"
 
 export const GetTodolists = () => {
   const [state, setState] = useState<any>(null)
@@ -53,9 +53,9 @@ export const UpdateTodolistTitle = () => {
 
   const [state, setState] = useState<any>(null)
 
-  const todolistId = "0b3b62ab-b6ab-496f-b903-4fdcff5a2502"
+  const todolistId = "b113e060-8e2b-4802-b21a-acd637df261f"
 
-  const title = 'It\'s SPARTA!'
+  const title = 'Important meetings'
 
 
   useEffect(() => {
@@ -73,7 +73,7 @@ export const GetTasks = () => {
   const page: number = 1
 
   useEffect(() => {
-    todolistAPI.getTasks(todolistIdForTasks, count, page)
+    todolistAPI.getTasks(todolistIdForTasks)
       .then(response => {
         setState(response.data.items)
       })
@@ -84,7 +84,7 @@ export const GetTasks = () => {
 export const CreateTask = () => {
   const [state, setState] = useState<any>(null)
 
-  const title = 'I\'ll kill you!'
+  const title = 'meeting at 9 AM'
 
   useEffect(() => {
     todolistAPI.addTask(todolistIdForTasks, title)
@@ -108,20 +108,20 @@ export const DeleteTask = () => {
   return <div>{JSON.stringify(state)}</div>
 }
 
-export const UpdateTaskTitle = () => {
-
-  const [state, setState] = useState<any>(null)
-
-  const title: string = 'It\'ll be soon'
-
-  const taskId: string = "4fa6e977-5458-4178-840c-9da3ded40e1f"
-
-
-  useEffect(() => {
-    todolistAPI.updateTask(todolistIdForTasks, taskId, title)
-      .then(response => setState(response.data.data.item))
-  }, [])
-
-  return <div>{JSON.stringify(state)}</div>
-}
+// export const UpdateTaskTitle = () => {
+//
+//   const [state, setState] = useState<any>(null)
+//
+//   const title: string = 'It\'ll be soon'
+//
+//   const taskId: string = "4fa6e977-5458-4178-840c-9da3ded40e1f"
+//
+//
+//   useEffect(() => {
+//     todolistAPI.updateTask(todolistIdForTasks, taskId, title)
+//       .then(response => setState(response.data.data.item))
+//   }, [])
+//
+//   return <div>{JSON.stringify(state)}</div>
+// }
 
