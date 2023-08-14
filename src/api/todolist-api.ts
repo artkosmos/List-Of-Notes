@@ -1,4 +1,5 @@
 import axios, {AxiosResponse} from "axios";
+import {FormType} from "../features/Login";
 
 const instance = axios.create({
   baseURL: `https://social-network.samuraijs.com/api/1.1`,
@@ -30,6 +31,21 @@ export const todolistAPI = {
   updateTask(todolistId: string, taskId: string, model: UpdateTaskModelType) {
     return instance.put<ResponseType<{item: TaskType}>, AxiosResponse<ResponseType<{item: TaskType}>>>(`/todo-lists/${todolistId}/tasks/${taskId}`, model)
   }
+}
+
+export const authAPI = {
+  checkIsLogIn() {
+    return instance.get<ResponseType<IsMeAuthResponseType>>('/auth/me')
+  },
+  logIn(data: FormType) {
+    return instance.post<ResponseType<{userId: number}>>('/auth/login', data)
+  }
+}
+
+export type IsMeAuthResponseType = {
+  id: number
+  email: string
+  login: string
 }
 
 export type TodolistType = {
