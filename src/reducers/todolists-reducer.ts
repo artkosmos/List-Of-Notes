@@ -3,6 +3,8 @@ import {ResponseType, ResultCodes, todolistAPI, TodolistType} from "../api/todol
 import {RequestStatusType, setPreloaderStatusAC} from "./app-reducer";
 import {handleServerAppError, handleServerNetworkError} from "../utils/error-utils";
 import axios from "axios";
+import {setTasksTC} from "./tasks-reducer";
+import {AppDispatchType} from "../store/store";
 
 export type ActionsTodolistsType =
   RemoveToDoListACType
@@ -11,6 +13,7 @@ export type ActionsTodolistsType =
   | UpdateToDoListTitleAC
   | GetTodolistACType
   | SetTodolistStatusACType
+  | CleanDataACType
 
 export type FilterType = 'all' | 'active' | 'completed'
 
@@ -42,6 +45,8 @@ export const TodoListReducer = (state = initialState, action: ActionsTodolistsTy
         ...item,
         entityStatus: action.payload.status
       } : item)
+    case "CLEAN-DATA":
+      return []
     default:
       return state
   }
@@ -95,11 +100,20 @@ export const setTodolistStatusAC = (todolistId: string, status: RequestStatusTyp
   } as const
 }
 
-export const setTodolistsTC = () => async (dispatch: Dispatch) => {
+export type CleanDataACType = ReturnType<typeof cleanDataAC>
+export const cleanDataAC = () => {
+  return {
+    type: "CLEAN-DATA"
+  } as const
+}
+
+export const setTodolistsTC = () => async (dispatch: AppDispatchType) => {
   try {
-    const response = await todolistAPI.getTodo()
-    dispatch(getTodolistAC(response.data))
-    dispatch(setPreloaderStatusAC('succeeded'))
+    const responseTodo = await todolistAPI.getTodo()
+    dispatch(getTodolistAC(responseTodo.data))
+    responseTodo.data.forEach(todo => {
+      dispatch(setTasksTC(todo.id))
+    })
   } catch (error) {
     if (axios.isAxiosError(error)) {
       handleServerNetworkError(error.message, dispatch)
@@ -107,6 +121,8 @@ export const setTodolistsTC = () => async (dispatch: Dispatch) => {
       const jsError = 'Code compilation error'
       handleServerNetworkError(jsError, dispatch)
     }
+  } finally {
+    dispatch(setPreloaderStatusAC('succeeded'))
   }
 }
 

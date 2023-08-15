@@ -26,10 +26,6 @@ export const ToDoListRedux = ({todolist}: ToDoListPropsType) => {
 
   const dispatch = useDispatch<AppDispatchType>()
 
-  useEffect(() => {
-    dispatch(setTasksTC(id))
-  },[])
-
   const getFilteredTask = (tasks: AppTaskType[], filter: FilterType) => {
     switch (filter) {
       case "active":

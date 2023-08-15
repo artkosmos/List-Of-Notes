@@ -4,6 +4,7 @@ import {handleServerAppError, handleServerNetworkError} from "../utils/error-uti
 import axios from "axios";
 import {FormType} from "../features/Login";
 import {setIsInitializedAC, setPreloaderStatusAC} from "./app-reducer";
+import {cleanDataAC} from "./todolists-reducer";
 
 type AuthStateType = {
   isLogin: boolean
@@ -96,6 +97,7 @@ export const logOutTC = () => async (dispatch: Dispatch) => {
       handleServerAppError(response.data, dispatch)
     } else {
       dispatch(setIsLogInAC(false))
+      dispatch(cleanDataAC())
     }
   } catch (error) {
     if (axios.isAxiosError<ResponseType>(error)) {

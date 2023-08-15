@@ -1,4 +1,10 @@
-import {AddTodolistACType, GetTodolistACType, RemoveToDoListACType, setTodolistStatusAC} from "./todolists-reducer";
+import {
+  AddTodolistACType,
+  CleanDataACType,
+  GetTodolistACType,
+  RemoveToDoListACType,
+  setTodolistStatusAC
+} from "./todolists-reducer";
 import {
   PropertiesToUpdateType,
   ResponseType,
@@ -22,6 +28,7 @@ type ActionTasksTypes =
   | GetTodolistACType
   | GetTasksACType
   | setTaskStatusACType
+  | CleanDataACType
 
 export type AppTaskType = TaskType & {
   entityStatus: RequestStatusType
@@ -80,6 +87,8 @@ export const TaskReducer = (state = initialState, action: ActionTasksTypes): Tas
             : item
         )
       }
+    case "CLEAN-DATA":
+      return  {}
     default:
       return state
   }
