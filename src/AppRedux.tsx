@@ -1,10 +1,8 @@
 import './App.css';
-import {AddItemForm} from "./AddItemForm";
 import ButtonAppBar from "./ButtonAppBar";
 import LinearProgress from '@mui/material/LinearProgress';
-import {addTodolistTC, setTodolistsTC} from "./reducers/todolists-reducer";
 import {useDispatch} from "react-redux";
-import {useCallback, useEffect} from "react";
+import {useEffect} from "react";
 import {AppDispatchType, useAppSelector} from "./store/store";
 import {RequestStatusType} from "./reducers/app-reducer";
 import {ErrorSnackbar} from "./ErrorSnackBar";
@@ -12,16 +10,25 @@ import {Login} from "./features/Login";
 import {Navigate, Route, Routes} from "react-router-dom";
 import {ListOfTodolists} from "./ListOfTodolists";
 import {Error} from "./features/Error";
+import {checkIsLogInTC} from "./reducers/auth-reducer";
+import CircularProgress from "@mui/material/CircularProgress";
 
 function AppRedux() {
 
   const status = useAppSelector<RequestStatusType>(state => state.app.status)
+  const isInitialized = useAppSelector<boolean>(state => state.app.isInitialized)
   const dispatch = useDispatch<AppDispatchType>()
 
   useEffect(() => {
     dispatch(checkIsLogInTC())
   }, [])
 
+  if (!isInitialized) {
+    return <div
+      style={{position: 'fixed', top: '30%', textAlign: 'center', width: '100%'}}>
+      <CircularProgress/>
+    </div>
+  }
 
   return (
     <div className="App">

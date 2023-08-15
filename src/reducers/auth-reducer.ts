@@ -48,6 +48,8 @@ export const checkIsLogInTC = () => async (dispatch: Dispatch) => {
       const jsError = 'Code compilation error'
       handleServerNetworkError(jsError, dispatch)
     }
+  } finally {
+    dispatch(setIsInitializedAC(true))
   }
 }
 
