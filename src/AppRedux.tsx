@@ -19,7 +19,7 @@ function AppRedux() {
   const dispatch = useDispatch<AppDispatchType>()
 
   useEffect(() => {
-    dispatch(setTodolistsTC())
+    dispatch(checkIsLogInTC())
   }, [])
 
 

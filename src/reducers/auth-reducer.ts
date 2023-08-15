@@ -3,7 +3,7 @@ import {authAPI, ResponseType, ResultCodes} from "../api/todolist-api";
 import {handleServerAppError, handleServerNetworkError} from "../utils/error-utils";
 import axios from "axios";
 import {FormType} from "../features/Login";
-import {setPreloaderStatusAC} from "./app-reducer";
+import {setIsInitializedAC, setPreloaderStatusAC} from "./app-reducer";
 
 type AuthStateType = {
   isLogin: boolean

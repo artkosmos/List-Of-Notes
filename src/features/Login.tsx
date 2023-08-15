@@ -9,14 +9,26 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {useFormik} from "formik";
 import style from './Login.module.css'
+import {useDispatch} from "react-redux";
+import {AppDispatchType, useAppSelector} from "../store/store";
+import {logInTC} from "../reducers/auth-reducer";
+import {Navigate} from "react-router-dom";
 
 type ValidateFieldType = {
   email?: string
   password?: string
-  rememberMe?: boolean
+}
+
+export type FormType = {
+  email: string
+  password: string
+  rememberMe: boolean
 }
 
 export const Login = () => {
+
+  const isLogIn = useAppSelector<boolean>(state => state.auth.isLogin)
+  const dispatch = useDispatch<AppDispatchType>()
 
   const formik = useFormik({
     initialValues: {
@@ -26,7 +38,7 @@ export const Login = () => {
     },
     onSubmit: values => {
       formik.resetForm()
-      alert(JSON.stringify(values));
+      dispatch(logInTC(values))
     },
     validate: (values => {
       const errors: ValidateFieldType = {}
@@ -48,6 +60,10 @@ export const Login = () => {
       return errors
     })
   })
+
+  if (isLogIn) {
+    return <Navigate to={'/'}/>
+  }
 
   return <Grid container justifyContent={'center'}>
     <Grid item justifyContent={'center'}>
