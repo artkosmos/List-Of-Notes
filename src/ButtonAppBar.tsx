@@ -8,7 +8,7 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import {useDispatch} from "react-redux";
 import {AppDispatchType, useAppSelector} from "./store/store";
-import {logOutTC} from "./reducers/auth-reducer";
+import {logOutTC, setAuthUserAC} from "./reducers/auth-reducer";
 
 
 export default function ButtonAppBar() {
@@ -21,7 +21,7 @@ export default function ButtonAppBar() {
     dispatch(logOutTC())
   }
 
-  const loginToShow = authUserLogin !== null ? authUserLogin : 'Log Out'
+  const loginToShow = authUserLogin ? authUserLogin : ''
 
   return (
     <Box sx={{flexGrow: 1}}>

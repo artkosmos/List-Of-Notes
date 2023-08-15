@@ -5,6 +5,7 @@ import axios from "axios";
 import {FormType} from "../features/Login";
 import {setIsInitializedAC, setPreloaderStatusAC} from "./app-reducer";
 import {cleanDataAC} from "./todolists-reducer";
+import {AppDispatchType} from "../store/store";
 
 type AuthStateType = {
   isLogin: boolean
@@ -38,7 +39,7 @@ export const setIsLogInAC = (value: boolean) => {
 }
 
 type SetAuthUserACType = ReturnType<typeof setAuthUserAC>
-export const setAuthUserAC = (userLogin: string) => {
+export const setAuthUserAC = (userLogin: string | null) => {
   return {
     type: 'SET-AUTH-USER',
     userLogin
@@ -67,14 +68,14 @@ export const checkIsLogInTC = () => async (dispatch: Dispatch) => {
   }
 }
 
-export const logInTC = (data: FormType) => async (dispatch: Dispatch) => {
+export const logInTC = (data: FormType) => async (dispatch: AppDispatchType) => {
   dispatch(setPreloaderStatusAC('loading'))
   try {
     const response = await authAPI.logIn(data)
     if (response.data.resultCode !== ResultCodes.OK) {
       handleServerAppError(response.data, dispatch)
     } else {
-      dispatch(setIsLogInAC(true))
+      dispatch(checkIsLogInTC())
     }
   } catch (error) {
     if (axios.isAxiosError<ResponseType>(error)) {
@@ -97,6 +98,7 @@ export const logOutTC = () => async (dispatch: Dispatch) => {
       handleServerAppError(response.data, dispatch)
     } else {
       dispatch(setIsLogInAC(false))
+      dispatch(setAuthUserAC(null))
       dispatch(cleanDataAC())
     }
   } catch (error) {
