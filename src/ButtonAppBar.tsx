@@ -7,14 +7,12 @@ import Button from "@mui/material/Button"
 import IconButton from "@mui/material/IconButton"
 import MenuIcon from "@mui/icons-material/Menu"
 import { useDispatch } from "react-redux"
-import { AppDispatchType, useAppSelector } from "./store/store"
-import { logOutTC, setAuthUserAC } from "./reducers/auth-reducer"
+import { AppDispatchType, useAppSelector } from "store/store"
+import { logOutTC } from "reducers/auth-reducer"
 
 export default function ButtonAppBar() {
   const dispatch = useDispatch<AppDispatchType>()
-  const authUserLogin = useAppSelector<string | null>(
-    (state) => state.auth.authUserLogin,
-  )
+  const authUserLogin = useAppSelector<string | null>((state) => state.auth.authUserLogin)
   const isLogIn = useAppSelector<boolean>((state) => state.auth.isLogin)
 
   const logOutHandler = () => {
@@ -27,20 +25,10 @@ export default function ButtonAppBar() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-          >
+          <IconButton size="large" edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}>
             <MenuIcon />
           </IconButton>
-          <Typography
-            variant="h6"
-            component="div"
-            sx={{ flexGrow: 1, marginLeft: "30px" }}
-          >
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1, marginLeft: "30px" }}>
             {loginToShow}
           </Typography>
           <Button onClick={logOutHandler} color="inherit">

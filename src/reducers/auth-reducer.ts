@@ -3,10 +3,10 @@ import { authAPI, ResponseType, ResultCodes } from "api/todolist-api"
 import { handleServerAppError, handleServerNetworkError } from "utils/error-utils"
 import axios from "axios"
 import { FormType } from "features/Login"
-import { setIsInitializedAC, setPreloaderStatusAC } from "./app-reducer"
 import { cleanDataAC } from "./todolists-reducer"
-import { AppDispatchType, AppThunk } from "store/store"
+import { AppThunk } from "store/store"
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
+import { appAction } from "reducers/app-reducer"
 
 type AuthStateType = {
   isLogin: boolean
@@ -51,14 +51,14 @@ export const checkIsLogInTC = () => async (dispatch: Dispatch) => {
       handleServerNetworkError(jsError, dispatch)
     }
   } finally {
-    dispatch(setIsInitializedAC(true))
+    dispatch(appAction.setIsInitialized({ isInitialized: true }))
   }
 }
 
 export const logInTC =
   (data: FormType): AppThunk =>
   async (dispatch) => {
-    dispatch(setPreloaderStatusAC("loading"))
+    dispatch(appAction.setPreloaderStatus({ status: "loading" }))
     try {
       const response = await authAPI.logIn(data)
       if (response.data.resultCode !== ResultCodes.OK) {
@@ -75,12 +75,12 @@ export const logInTC =
         handleServerNetworkError(jsError, dispatch)
       }
     } finally {
-      dispatch(setPreloaderStatusAC("succeeded"))
+      dispatch(appAction.setPreloaderStatus({ status: "succeeded" }))
     }
   }
 
 export const logOutTC = (): AppThunk => async (dispatch) => {
-  dispatch(setPreloaderStatusAC("loading"))
+  dispatch(appAction.setPreloaderStatus({ status: "loading" }))
   try {
     const response = await authAPI.logOut()
     if (response.data.resultCode !== ResultCodes.OK) {
@@ -99,6 +99,6 @@ export const logOutTC = (): AppThunk => async (dispatch) => {
       handleServerNetworkError(jsError, dispatch)
     }
   } finally {
-    dispatch(setPreloaderStatusAC("succeeded"))
+    dispatch(appAction.setPreloaderStatus({ status: "succeeded" }))
   }
 }
