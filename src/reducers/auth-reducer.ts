@@ -3,10 +3,10 @@ import { authAPI, ResponseType, ResultCodes } from "api/todolist-api"
 import { handleServerAppError, handleServerNetworkError } from "utils/error-utils"
 import axios from "axios"
 import { FormType } from "features/Login"
-import { cleanDataAC } from "./todolists-reducer"
 import { AppThunk } from "store/store"
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { appAction } from "reducers/app-reducer"
+import { todolistsAction } from "reducers/todolists-reducer"
 
 type AuthStateType = {
   isLogin: boolean
@@ -88,7 +88,7 @@ export const logOutTC = (): AppThunk => async (dispatch) => {
     } else {
       dispatch(authAction.setIsLoggedIn({ isLogin: false }))
       dispatch(authAction.setAuthUser({ userLogin: null }))
-      dispatch(cleanDataAC())
+      dispatch(todolistsAction.cleanStateData())
     }
   } catch (error) {
     if (axios.isAxiosError<ResponseType>(error)) {
