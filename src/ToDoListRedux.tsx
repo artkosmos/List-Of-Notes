@@ -1,28 +1,32 @@
-import style from './ToDoList.module.css'
-import {AddItemForm} from "./AddItemForm";
-import {EditableSpan} from "./EditableSpan";
-import IconButton from '@mui/material/IconButton';
-import DeleteIcon from '@mui/icons-material/Delete';
-import {useDispatch, useSelector} from "react-redux";
-import {AppDispatchType, StateType} from "./store/store";
-import {addTaskTC, AppTaskType, setTasksTC} from "./reducers/tasks-reducer";
+import style from "./ToDoList.module.css"
+import { AddItemForm } from "./AddItemForm"
+import { EditableSpan } from "./EditableSpan"
+import IconButton from "@mui/material/IconButton"
+import DeleteIcon from "@mui/icons-material/Delete"
+import { useDispatch, useSelector } from "react-redux"
+import { AppDispatchType, StateType } from "./store/store"
+import { addTaskTC, AppTaskType, setTasksTC } from "./reducers/tasks-reducer"
 import {
   AppTodolistType,
-  changeToDoListFilterAC, deleteTodolistTC, FilterType, updateTodolistTitleTC
-} from "./reducers/todolists-reducer";
-import {TaskRedux} from "./TaskRedux";
-import React, {memo, useCallback, useEffect} from "react";
-import Button from "@mui/material/Button";
+  changeToDoListFilterAC,
+  deleteTodolistTC,
+  FilterType,
+  updateTodolistTitleTC,
+} from "./reducers/todolists-reducer"
+import { TaskRedux } from "./TaskRedux"
+import React, { memo, useCallback, useEffect } from "react"
+import Button from "@mui/material/Button"
 
 type ToDoListPropsType = {
   todolist: AppTodolistType
 }
 
-export const ToDoListRedux = ({todolist}: ToDoListPropsType) => {
+export const ToDoListRedux = ({ todolist }: ToDoListPropsType) => {
+  const { id, title, filter, entityStatus } = todolist
 
-  const {id, title, filter, entityStatus} = todolist
-
-  const tasks = useSelector<StateType, AppTaskType[]>(state => state.tasks[id])
+  const tasks = useSelector<StateType, AppTaskType[]>(
+    (state) => state.tasks[id],
+  )
 
   const dispatch = useDispatch<AppDispatchType>()
 
@@ -63,9 +67,7 @@ export const ToDoListRedux = ({todolist}: ToDoListPropsType) => {
   }, [])
 
   const mappedTasks = filteredTasksData.map((item) => {
-    return (
-      <TaskRedux key={item.id} task={item}/>
-    )
+    return <TaskRedux key={item.id} task={item} />
   })
 
   // render
@@ -76,36 +78,44 @@ export const ToDoListRedux = ({todolist}: ToDoListPropsType) => {
           aria-label="delete"
           onClick={removeToDoListHandler}
           className={style.delete}
-          disabled={entityStatus === 'loading'}>
+          disabled={entityStatus === "loading"}
+        >
           <DeleteIcon />
           <span className={style.deleteText}>Delete list</span>
         </IconButton>
-        <h2><EditableSpan oldTitle={title} callBack={updateTodolistTitle} disabled={entityStatus === 'loading'}/></h2>
-        <AddItemForm callBack={addTaskHandler} disabled={entityStatus === 'loading'}/>
-        <ul className={style.list}>
-          {mappedTasks}
-        </ul>
+        <h2>
+          <EditableSpan
+            oldTitle={title}
+            callBack={updateTodolistTitle}
+            disabled={entityStatus === "loading"}
+          />
+        </h2>
+        <AddItemForm
+          callBack={addTaskHandler}
+          disabled={entityStatus === "loading"}
+        />
+        <ul className={style.list}>{mappedTasks}</ul>
         <div className={style.buttonWrapper}>
           <ButtonMemo
-            title={'All'}
-            variant={filter === 'all' ? "outlined" : "contained"}
+            title={"All"}
+            variant={filter === "all" ? "outlined" : "contained"}
             color={"secondary"}
             onClick={onClickHandlerAll}
-            style={{height: '30px'}}
+            style={{ height: "30px" }}
           />
           <ButtonMemo
-            title={'Active'}
-            variant={filter === 'active' ? "outlined" : "contained"}
+            title={"Active"}
+            variant={filter === "active" ? "outlined" : "contained"}
             color={"success"}
             onClick={onClickHandlerActive}
-            style={{height: '30px'}}
+            style={{ height: "30px" }}
           />
           <ButtonMemo
-            title={'Completed'}
-            variant={filter === 'completed' ? "outlined" : "contained"}
+            title={"Completed"}
+            variant={filter === "completed" ? "outlined" : "contained"}
             color={"error"}
             onClick={onClickHandlerCompleted}
-            style={{height: '30px'}}
+            style={{ height: "30px" }}
           />
         </div>
       </div>
@@ -115,18 +125,28 @@ export const ToDoListRedux = ({todolist}: ToDoListPropsType) => {
 
 type ButtonMemoPropsType = {
   title: string
-  variant: 'text' | 'outlined' | 'contained'
-  color: 'inherit' | 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning'
+  variant: "text" | "outlined" | "contained"
+  color:
+    | "inherit"
+    | "primary"
+    | "secondary"
+    | "success"
+    | "error"
+    | "info"
+    | "warning"
   style?: {}
   onClick: () => void
 }
 
 export const ButtonMemo = memo((props: ButtonMemoPropsType) => {
-  return <Button
-    variant={props.variant}
-    color={props.color}
-    onClick={props.onClick}
-    style={props.style}
-  >{props.title}
-  </Button>
+  return (
+    <Button
+      variant={props.variant}
+      color={props.color}
+      onClick={props.onClick}
+      style={props.style}
+    >
+      {props.title}
+    </Button>
+  )
 })

@@ -1,35 +1,37 @@
-import type {Meta, StoryObj} from '@storybook/react';
-import {AddItemForm, AddItemFormPropsType} from "./AddItemForm";
-import React, {ChangeEvent, KeyboardEvent, useState} from "react";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import {action} from '@storybook/addon-actions'
+import type { Meta, StoryObj } from "@storybook/react"
+import { AddItemForm, AddItemFormPropsType } from "./AddItemForm"
+import React, { ChangeEvent, KeyboardEvent, useState } from "react"
+import TextField from "@mui/material/TextField"
+import Button from "@mui/material/Button"
+import { action } from "@storybook/addon-actions"
 
 const meta: Meta = {
-  title: 'TODOLIST/AddItemForm',
+  title: "TODOLIST/AddItemForm",
   component: AddItemForm,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   argTypes: {
-    callBack: {description: 'callback function on click ADD', action: 'send string in callback'}
+    callBack: {
+      description: "callback function on click ADD",
+      action: "send string in callback",
+    },
   },
 }
 
-export default meta;
-type Story = StoryObj<typeof meta>;
-
+export default meta
+type Story = StoryObj<typeof meta>
 
 export const AddItemFormStory: Story = {
   args: {},
 }
 
 const Component = (props: AddItemFormPropsType) => {
-  const [text1, setText1] = useState('')
+  const [text1, setText1] = useState("")
   const [error1, setError1] = useState<boolean>(true)
 
   const anotherTask = () => {
     if (text1.trim()) {
       props.callBack(text1.trim())
-      setText1('')
+      setText1("")
     } else {
       setError1(true)
     }
@@ -41,17 +43,17 @@ const Component = (props: AddItemFormPropsType) => {
   }
 
   const onPressHandler = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
+    if (event.key === "Enter") {
       anotherTask()
     }
   }
 
   const buttonStyles = {
-    maxWidth: '40px',
-    maxHeight: '40px',
-    minWidth: '40px',
-    minHeight: '40px',
-    marginLeft: '10px'
+    maxWidth: "40px",
+    maxHeight: "40px",
+    minWidth: "40px",
+    minHeight: "40px",
+    marginLeft: "10px",
   }
 
   return (
@@ -59,7 +61,7 @@ const Component = (props: AddItemFormPropsType) => {
       <div>
         <TextField
           error={error1}
-          size={'small'}
+          size={"small"}
           id="outlined-basic"
           label={error1 ? "Title is required" : "Write something..."}
           variant="outlined"
@@ -67,7 +69,9 @@ const Component = (props: AddItemFormPropsType) => {
           onChange={onChangeHandler}
           onKeyDown={onPressHandler}
         />
-        <Button onClick={anotherTask} style={buttonStyles} variant="contained">Add</Button>
+        <Button onClick={anotherTask} style={buttonStyles} variant="contained">
+          Add
+        </Button>
       </div>
     </div>
   )
@@ -75,6 +79,6 @@ const Component = (props: AddItemFormPropsType) => {
 
 export const AddItemFormErrorStory: Story = {
   render: (args) => {
-    return <Component callBack={action('send string in callback')}/>
-  }
+    return <Component callBack={action("send string in callback")} />
+  },
 }

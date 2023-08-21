@@ -1,8 +1,7 @@
 .error {
   outline: red 1px solid;
-  box-shadow: inset 0 0 1px 2px rgb(204, 0, 0, 0.8)
+  box-shadow: inset 0 0 1px 2px rgb(204, 0, 0, 0.8);
 }
-
 
 .errorMessage {
   color: red;

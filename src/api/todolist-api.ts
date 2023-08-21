@@ -1,48 +1,64 @@
-import axios, {AxiosResponse} from "axios";
-import {FormType} from "../features/Login";
+import axios, { AxiosResponse } from "axios"
+import { FormType } from "../features/Login"
 
 const instance = axios.create({
   baseURL: `https://social-network.samuraijs.com/api/1.1`,
-  withCredentials: true
+  withCredentials: true,
 })
 
 export const todolistAPI = {
   getTodo() {
     return instance.get<TodolistType[]>(`/todo-lists`) // instance экземпляр класса axios с начальными настройками
-  },                                       // для укорочения (пишем только endpoints и payload) и возможно взаимодействие с несколькими API
+  }, // для укорочения (пишем только endpoints и payload) и возможно взаимодействие с несколькими API
   addTodo(title: string) {
-    return instance.post<ResponseType<{item: TodolistType}>, AxiosResponse<ResponseType<{item: TodolistType}>>, {title: string}>(`/todo-lists`, {title})
+    return instance.post<
+      ResponseType<{ item: TodolistType }>,
+      AxiosResponse<ResponseType<{ item: TodolistType }>>,
+      { title: string }
+    >(`/todo-lists`, { title })
   },
   deleteTodo(todolistId: string) {
     return instance.delete<ResponseType>(`/todo-lists/${todolistId}`)
   },
   updateTodo(todolistId: string, title: string) {
-    return instance.put<ResponseType, AxiosResponse<ResponseType>, {title: string}>(`/todo-lists/${todolistId}`, {title})
+    return instance.put<
+      ResponseType,
+      AxiosResponse<ResponseType>,
+      { title: string }
+    >(`/todo-lists/${todolistId}`, { title })
   },
   getTasks(todolistId: string) {
     return instance.get<GetTasksResponseType>(`/todo-lists/${todolistId}/tasks`)
   },
   addTask(todolistId: string, title: string) {
-    return instance.post<ResponseType<{item: TaskType}>>(`/todo-lists/${todolistId}/tasks`, {title})
+    return instance.post<ResponseType<{ item: TaskType }>>(
+      `/todo-lists/${todolistId}/tasks`,
+      { title },
+    )
   },
   deleteTask(todolistId: string, taskId: string) {
-    return instance.delete<ResponseType>(`/todo-lists/${todolistId}/tasks/${taskId}`)
+    return instance.delete<ResponseType>(
+      `/todo-lists/${todolistId}/tasks/${taskId}`,
+    )
   },
   updateTask(todolistId: string, taskId: string, model: UpdateTaskModelType) {
-    return instance.put<ResponseType<{item: TaskType}>, AxiosResponse<ResponseType<{item: TaskType}>>>(`/todo-lists/${todolistId}/tasks/${taskId}`, model)
-  }
+    return instance.put<
+      ResponseType<{ item: TaskType }>,
+      AxiosResponse<ResponseType<{ item: TaskType }>>
+    >(`/todo-lists/${todolistId}/tasks/${taskId}`, model)
+  },
 }
 
 export const authAPI = {
   checkIsLogIn() {
-    return instance.get<ResponseType<IsMeAuthResponseType>>('/auth/me')
+    return instance.get<ResponseType<IsMeAuthResponseType>>("/auth/me")
   },
   logIn(data: FormType) {
-    return instance.post<ResponseType<{userId: number}>>('/auth/login', data)
+    return instance.post<ResponseType<{ userId: number }>>("/auth/login", data)
   },
   logOut() {
-    return instance.delete<ResponseType>('/auth/login')
-  }
+    return instance.delete<ResponseType>("/auth/login")
+  },
 }
 
 export type IsMeAuthResponseType = {
@@ -90,7 +106,7 @@ export enum TaskStatuses {
   New = 0,
   InProgress = 1,
   Completed = 2,
-  Draft = 3
+  Draft = 3,
 }
 
 export enum TaskPriorities {
@@ -98,13 +114,13 @@ export enum TaskPriorities {
   Middle = 1,
   Hi = 2,
   Urgently = 3,
-  Later = 4
+  Later = 4,
 }
 
 export enum ResultCodes {
   OK = 0,
   ERROR = 1,
-  ERROR_CAPTCHA = 1
+  ERROR_CAPTCHA = 1,
 }
 
 // main model to send with request
@@ -126,4 +142,3 @@ export type PropertiesToUpdateType = {
   startDate?: string
   deadline?: string
 }
-
