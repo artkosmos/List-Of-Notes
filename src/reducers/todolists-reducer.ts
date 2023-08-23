@@ -38,7 +38,7 @@ const slice = createSlice({
       const index = state.findIndex((todo) => todo.id === action.payload.todolistId)
       state[index].title = action.payload.title
     },
-    getTodolist: (state, action: PayloadAction<{ todolists: TodolistType[] }>) => {
+    getTodolists: (state, action: PayloadAction<{ todolists: TodolistType[] }>) => {
       return action.payload.todolists.forEach((item) => {
         state.push({
           ...item,
@@ -63,7 +63,7 @@ export const todolistsAction = slice.actions
 export const setTodolistsTC = () => async (dispatch: AppDispatchType) => {
   try {
     const responseTodo = await todolistAPI.getTodo()
-    dispatch(todolistsAction.getTodolist({ todolists: responseTodo.data }))
+    dispatch(todolistsAction.getTodolists({ todolists: responseTodo.data }))
     responseTodo.data.forEach((todo) => {
       dispatch(setTasksTC(todo.id))
     })
