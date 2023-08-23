@@ -1,22 +1,22 @@
-import { AnyAction, combineReducers } from "redux"
-import { TaskReducer } from "reducers/tasks-reducer"
-import { ThunkAction, ThunkDispatch } from "redux-thunk"
-import { appReducer } from "reducers/app-reducer"
-import { TypedUseSelectorHook, useSelector } from "react-redux"
-import { authReducer } from "reducers/auth-reducer"
-import { configureStore } from "@reduxjs/toolkit"
-import { todolistsReducer } from "reducers/todolists-reducer"
+import { AnyAction } from 'redux'
+import { ThunkAction, ThunkDispatch } from 'redux-thunk'
+import { appReducer } from 'reducers/app-reducer'
+import { TypedUseSelectorHook, useSelector } from 'react-redux'
+import { authReducer } from 'reducers/auth-reducer'
+import { configureStore } from '@reduxjs/toolkit'
+import { todolistsReducer } from 'reducers/todolists-reducer'
+import { tasksReducer } from 'reducers/tasks-reducer'
 
 export type StateType = ReturnType<typeof store.getState>
 
-const rootReducer = combineReducers({
-  todolists: todolistsReducer,
-  tasks: TaskReducer,
-  app: appReducer,
-  auth: authReducer,
+export const store = configureStore({
+  reducer: {
+    todolists: todolistsReducer,
+    tasks: tasksReducer,
+    app: appReducer,
+    auth: authReducer,
+  },
 })
-
-export const store = configureStore({ reducer: rootReducer })
 
 // @ts-ignore
 window.store = store
