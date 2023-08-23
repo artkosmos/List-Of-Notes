@@ -31,13 +31,13 @@ beforeEach(() => {
         deadline: 'null',
         description: 'null',
         entityStatus: 'idle',
-        id: '1',
+        id: taskID_1,
         order: -1,
         priority: 1,
         startDate: 'null',
         status: 0,
         title: 'HTML&CSS',
-        todoListId: taskID_1,
+        todoListId: todolistID1,
         completed: false,
       },
       {
@@ -45,13 +45,13 @@ beforeEach(() => {
         deadline: 'null',
         description: 'null',
         entityStatus: 'idle',
-        id: '2',
+        id: taskID_2,
         order: -2,
         priority: 1,
         startDate: 'null',
         status: 0,
         title: 'JS',
-        todoListId: taskID_2,
+        todoListId: todolistID1,
         completed: false,
       },
       {
@@ -59,13 +59,13 @@ beforeEach(() => {
         deadline: 'null',
         description: 'null',
         entityStatus: 'idle',
-        id: '3',
+        id: taskID_3,
         order: -3,
         priority: 1,
         startDate: 'null',
         status: 0,
         title: 'ReactJS',
-        todoListId: taskID_3,
+        todoListId: todolistID1,
         completed: false,
       },
     ],
@@ -75,13 +75,13 @@ beforeEach(() => {
         deadline: 'null',
         description: 'null',
         entityStatus: 'idle',
-        id: '1',
+        id: taskID_4,
         order: -1,
         priority: 1,
         startDate: 'null',
         status: 0,
         title: 'Cheese',
-        todoListId: taskID_4,
+        todoListId: todolistID2,
         completed: false,
       },
       {
@@ -89,13 +89,13 @@ beforeEach(() => {
         deadline: 'null',
         description: 'null',
         entityStatus: 'idle',
-        id: '2',
+        id: taskID_5,
         order: -2,
         priority: 1,
         startDate: 'null',
         status: 0,
         title: 'Milk',
-        todoListId: taskID_5,
+        todoListId: todolistID2,
         completed: false,
       },
       {
@@ -103,13 +103,13 @@ beforeEach(() => {
         deadline: 'null',
         description: 'null',
         entityStatus: 'idle',
-        id: '3',
+        id: taskID_6,
         order: -3,
         priority: 1,
         startDate: 'null',
         status: 0,
         title: 'Bread',
-        todoListId: taskID_6,
+        todoListId: todolistID2,
         completed: false,
       },
     ],
@@ -139,10 +139,10 @@ test('correct task should be added', () => {
 })
 
 test('correct task should be removed', () => {
-  const resultState = tasksReducer(startState, tasksAction.removeTask({ todolistId: todolistID2, taskId: taskID_3 }))
+  const resultState = tasksReducer(startState, tasksAction.removeTask({ todolistId: todolistID2, taskId: taskID_4 }))
 
-  expect(resultState[todolistID1].length).toBe(2)
-  expect(resultState[todolistID2].length).toBe(1)
+  expect(resultState[todolistID1].length).toBe(3)
+  expect(resultState[todolistID2].length).toBe(2)
   expect(resultState[todolistID2][0].title).toBe('Milk')
 })
 
@@ -151,11 +151,11 @@ test('correct task should be updated', () => {
 
   const resultState = tasksReducer(
     startState,
-    tasksAction.updateTask({ todolistId: todolistID2, taskId: taskID_3, model: { title: updatedTitle } }),
+    tasksAction.updateTask({ todolistId: todolistID2, taskId: taskID_4, model: { title: updatedTitle } }),
   )
 
   expect(resultState[todolistID2][0].title).toBe('Blue Cheese')
-  expect(resultState[todolistID2][1].title).toBe('Cheese')
+  expect(resultState[todolistID2][1].title).toBe('Milk')
 })
 
 test('empty tasks should be added with new todolist', () => {
@@ -172,8 +172,6 @@ test('empty tasks should be added with new todolist', () => {
 
   expect(Object.keys(resultState).length).toBe(3)
   expect(resultState[newTodolistID]).toEqual([])
-  expect(resultState.filter).toBe('all')
-  expect(resultState.entityStatus).toBe('idle')
 })
 
 test('correct tasks should be deleted with deleted todolist', () => {
@@ -184,7 +182,7 @@ test('correct tasks should be deleted with deleted todolist', () => {
 })
 
 test('correct task status should be changed', () => {
-  const status = TaskStatuses.New
+  const status = TaskStatuses.InProgress
 
   const resultState = tasksReducer(
     startState,
@@ -193,4 +191,10 @@ test('correct task status should be changed', () => {
 
   expect(resultState[todolistID1][1].status).toBe(1)
   expect(resultState[todolistID2][1].status).toBe(0)
+})
+
+test('tasks data should be removed after log out', () => {
+  const resultState = tasksReducer(startState, todolistsAction.cleanStateData())
+
+  expect(resultState).toEqual({})
 })
