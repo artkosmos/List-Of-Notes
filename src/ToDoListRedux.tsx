@@ -3,8 +3,8 @@ import { AddItemForm } from 'AddItemForm'
 import { EditableSpan } from 'EditableSpan'
 import IconButton from '@mui/material/IconButton'
 import DeleteIcon from '@mui/icons-material/Delete'
-import { useDispatch, useSelector } from 'react-redux'
-import { AppDispatchType, StateType } from 'store/store'
+import { useDispatch } from 'react-redux'
+import { AppDispatchType, useAppSelector } from 'store/store'
 import { addTaskTC, AppTaskType } from 'reducers/tasks-reducer'
 import {
   AppTodolistType,
@@ -17,6 +17,7 @@ import { TaskRedux } from 'TaskRedux'
 import React, { memo, useCallback } from 'react'
 import Button from '@mui/material/Button'
 import { TaskStatuses } from 'api/todolist-api'
+import { tasksSelector } from 'selectors/app-selectors'
 
 type ToDoListPropsType = {
   todolist: AppTodolistType
@@ -25,7 +26,7 @@ type ToDoListPropsType = {
 export const ToDoListRedux = ({ todolist }: ToDoListPropsType) => {
   const { id, title, filter, entityStatus } = todolist
 
-  const tasks = useSelector<StateType, AppTaskType[]>((state) => state.tasks[id])
+  const tasks = useAppSelector(tasksSelector(id))
 
   const dispatch = useDispatch<AppDispatchType>()
 

@@ -1,4 +1,4 @@
-import React, { ChangeEvent, memo, useState } from "react"
+import React, { ChangeEvent, memo, useState } from 'react'
 
 type SpanPropsType = {
   oldTitle: string
@@ -7,8 +7,6 @@ type SpanPropsType = {
 }
 
 export const EditableSpan = memo((props: SpanPropsType) => {
-  console.log("Rendering EditableSpan")
-
   const [edit, setEdit] = useState(false)
   const [updatedTitle, setUpdatedTitle] = useState(props.oldTitle)
 
@@ -30,12 +28,7 @@ export const EditableSpan = memo((props: SpanPropsType) => {
   }
 
   return edit ? (
-    <input
-      onChange={onChangeHandler}
-      onBlur={editHandler}
-      value={updatedTitle}
-      autoFocus
-    />
+    <input onChange={onChangeHandler} onBlur={editHandler} value={updatedTitle} autoFocus />
   ) : (
     <span onDoubleClick={editHandler}>{updatedTitle}</span>
   )
