@@ -73,6 +73,9 @@ const slice = createSlice({
           state[todo.id] = []
         })
       })
+      .addCase(todolistsAction.cleanStateData, () => {
+        return {}
+      })
   },
 })
 

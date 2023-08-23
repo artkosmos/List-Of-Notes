@@ -89,7 +89,6 @@ export const logOutTC = (): AppThunk => async (dispatch) => {
       dispatch(authAction.setIsLoggedIn({ isLogin: false }))
       dispatch(authAction.setAuthUser({ userLogin: null }))
       dispatch(todolistsAction.cleanStateData())
-      dispatch(tasksAction.cleanStateData())
     }
   } catch (error) {
     if (axios.isAxiosError<ResponseType>(error)) {
