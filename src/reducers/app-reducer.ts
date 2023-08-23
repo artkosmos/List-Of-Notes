@@ -1,12 +1,12 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit"
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-export type RequestStatusType = "idle" | "loading" | "succeeded" | "failed"
+export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 export type ErrorType = string | null
 
 const slice = createSlice({
-  name: "app",
+  name: 'app',
   initialState: {
-    status: "loading" as RequestStatusType,
+    status: 'loading' as RequestStatusType,
     error: null as ErrorType,
     isInitialized: false,
   },
@@ -25,3 +25,5 @@ const slice = createSlice({
 
 export const appReducer = slice.reducer
 export const appAction = slice.actions
+
+export type AppReducerState = ReturnType<typeof slice.getInitialState>
