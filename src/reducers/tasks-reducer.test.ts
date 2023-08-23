@@ -1,5 +1,5 @@
 import { v1 } from 'uuid'
-import { addTaskAC, changeTaskAC, removeTaskAC, TaskReducer, TasksStateType } from './tasks-reducer'
+import { tasksAction, tasksReducer, TasksStateType } from './tasks-reducer'
 import { TaskStatuses, TaskType, TodolistType } from 'api/todolist-api'
 import { todolistsAction } from 'reducers/todolists-reducer'
 
@@ -131,7 +131,7 @@ test('correct task should be added', () => {
     completed: false,
   }
 
-  const resultState = TaskReducer(startState, addTaskAC(todolistID1, newTask))
+  const resultState = tasksReducer(startState, tasksAction.addTask({ todolistId: todolistID1, task: newTask }))
 
   expect(resultState[todolistID1].length).toBe(4)
   expect(resultState[todolistID2].length).toBe(3)
@@ -139,7 +139,7 @@ test('correct task should be added', () => {
 })
 
 test('correct task should be removed', () => {
-  const resultState = TaskReducer(startState, removeTaskAC(todolistID2, taskID_3))
+  const resultState = tasksReducer(startState, tasksAction.removeTask({ todolistId: todolistID2, taskId: taskID_3 }))
 
   expect(resultState[todolistID1].length).toBe(2)
   expect(resultState[todolistID2].length).toBe(1)
@@ -149,7 +149,10 @@ test('correct task should be removed', () => {
 test('correct task should be updated', () => {
   const updatedTitle: string = 'Blue Cheese'
 
-  const resultState = TaskReducer(startState, changeTaskAC(todolistID2, taskID_3, { title: updatedTitle }))
+  const resultState = tasksReducer(
+    startState,
+    tasksAction.updateTask({ todolistId: todolistID2, taskId: taskID_3, model: { title: updatedTitle } }),
+  )
 
   expect(resultState[todolistID2][0].title).toBe('Blue Cheese')
   expect(resultState[todolistID2][1].title).toBe('Cheese')
@@ -165,8 +168,7 @@ test('empty tasks should be added with new todolist', () => {
     title: 'What to learn',
   }
 
-  // @ts-ignore
-  const resultState = TaskReducer(startState, todolistsAction.addTodolist({ todolist: newTodo }))
+  const resultState = tasksReducer(startState, todolistsAction.addTodolist({ todolist: newTodo }))
 
   expect(Object.keys(resultState).length).toBe(3)
   expect(resultState[newTodolistID]).toEqual([])
@@ -175,8 +177,7 @@ test('empty tasks should be added with new todolist', () => {
 })
 
 test('correct tasks should be deleted with deleted todolist', () => {
-  // @ts-ignore
-  const resultState = TaskReducer(startState, todolistsAction.removeToDoList({ todolistId: todolistID1 }))
+  const resultState = tasksReducer(startState, todolistsAction.removeToDoList({ todolistId: todolistID1 }))
 
   expect(resultState[todolistID1]).toBe(undefined)
   expect(resultState[todolistID2].length).toBe(3)
@@ -185,7 +186,10 @@ test('correct tasks should be deleted with deleted todolist', () => {
 test('correct task status should be changed', () => {
   const status = TaskStatuses.New
 
-  const resultState = TaskReducer(startState, changeTaskAC(todolistID1, taskID_2, { status }))
+  const resultState = tasksReducer(
+    startState,
+    tasksAction.updateTask({ todolistId: todolistID1, taskId: taskID_2, model: { status } }),
+  )
 
   expect(resultState[todolistID1][1].status).toBe(1)
   expect(resultState[todolistID2][1].status).toBe(0)

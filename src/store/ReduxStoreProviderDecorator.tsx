@@ -2,12 +2,12 @@ import { Provider } from 'react-redux'
 import { StateType } from './store'
 import React from 'react'
 import { combineReducers, legacy_createStore } from 'redux'
-import { TaskReducer } from 'reducers/tasks-reducer'
 import { todolistsReducer } from 'reducers/todolists-reducer'
+import { tasksReducer } from 'reducers/tasks-reducer'
 
 const rootReducer = combineReducers({
   todolists: todolistsReducer,
-  tasks: TaskReducer,
+  tasks: tasksReducer,
 })
 
 const initState: StateType = {
