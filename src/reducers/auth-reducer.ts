@@ -7,7 +7,6 @@ import { AppThunk } from 'store/store'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { appAction } from 'reducers/app-reducer'
 import { todolistsAction } from 'reducers/todolists-reducer'
-import { tasksAction } from 'reducers/tasks-reducer'
 
 type AuthStateType = {
   isLogin: boolean
@@ -32,6 +31,8 @@ const slice = createSlice({
 
 export const authAction = slice.actions
 export const authReducer = slice.reducer
+
+export type AuthReducerState = ReturnType<typeof slice.getInitialState>
 
 export const checkIsLogInTC = () => async (dispatch: Dispatch) => {
   try {
