@@ -16,6 +16,7 @@ import {
 import { TaskRedux } from 'TaskRedux'
 import React, { memo, useCallback } from 'react'
 import Button from '@mui/material/Button'
+import { TaskStatuses } from 'api/todolist-api'
 
 type ToDoListPropsType = {
   todolist: AppTodolistType
@@ -31,9 +32,9 @@ export const ToDoListRedux = ({ todolist }: ToDoListPropsType) => {
   const getFilteredTask = (tasks: AppTaskType[], filter: FilterType) => {
     switch (filter) {
       case 'active':
-        return tasks.filter((item) => item.status === 1)
+        return tasks.filter((item) => item.status === TaskStatuses.New)
       case 'completed':
-        return tasks.filter((item) => item.status === 2)
+        return tasks.filter((item) => item.status === TaskStatuses.Completed)
       default:
         return tasks
     }
