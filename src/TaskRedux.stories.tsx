@@ -12,7 +12,7 @@ import { Dispatch } from 'redux'
 import { action } from '@storybook/addon-actions'
 import { TaskStatuses, TaskType } from 'api/todolist-api'
 import { ChangeEvent } from 'react'
-import { tasksAction } from 'reducers/tasks-reducer'
+import { tasksAction, tasksThunk } from 'reducers/tasks-reducer'
 
 const meta: Meta = {
   title: 'TODOLIST/TaskRedux',
@@ -30,7 +30,8 @@ const TaskComponent = () => {
 
   const changeTaskStatusHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const status = event.currentTarget.checked ? TaskStatuses.Completed : TaskStatuses.New
-    dispatch(tasksAction.updateTask({ todolistId: '1', taskId: task.id, model: { status } }))
+    // @ts-ignore
+    dispatch(tasksThunk.updateTask({ todolistId: '1', taskId: task.id, model: { status } }))
   }
 
   return (
@@ -40,7 +41,8 @@ const TaskComponent = () => {
         <EditableSpan
           oldTitle={task.title}
           callBack={(updatedTitle) => {
-            dispatch(tasksAction.updateTask({ todolistId: '1', taskId: task.id, model: { title: updatedTitle } }))
+            // @ts-ignore
+            dispatch(tasksThunk.updateTask({ todolistId: '1', taskId: task.id, model: { title: updatedTitle } }))
           }}
         />
         <IconButton aria-label="delete" size={'small'} onClick={action('task is deleted')}>

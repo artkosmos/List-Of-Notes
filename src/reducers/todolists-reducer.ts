@@ -3,9 +3,9 @@ import { ResponseType, ResultCodes, todolistAPI, TodolistType } from 'api/todoli
 import { appAction, RequestStatusType } from './app-reducer'
 import { handleServerAppError, handleServerNetworkError } from 'utils/error-utils'
 import axios from 'axios'
-import { setTasksTC } from './tasks-reducer'
 import { AppDispatchType } from 'store/store'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { tasksThunk } from 'reducers/tasks-reducer'
 
 export type FilterType = 'all' | 'active' | 'completed'
 
@@ -65,7 +65,7 @@ export const setTodolistsTC = () => async (dispatch: AppDispatchType) => {
     const responseTodo = await todolistAPI.getTodo()
     dispatch(todolistsAction.getTodolists({ todolists: responseTodo.data }))
     responseTodo.data.forEach((todo) => {
-      dispatch(setTasksTC(todo.id))
+      dispatch(tasksThunk.setTasks(todo.id))
     })
   } catch (error) {
     if (axios.isAxiosError(error)) {

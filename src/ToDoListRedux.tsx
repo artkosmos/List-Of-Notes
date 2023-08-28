@@ -5,7 +5,7 @@ import IconButton from '@mui/material/IconButton'
 import DeleteIcon from '@mui/icons-material/Delete'
 import { useDispatch } from 'react-redux'
 import { AppDispatchType, useAppSelector } from 'store/store'
-import { addTaskTC, AppTaskType } from 'reducers/tasks-reducer'
+import { AppTaskType, tasksThunk } from 'reducers/tasks-reducer'
 import {
   AppTodolistType,
   deleteTodolistTC,
@@ -59,7 +59,7 @@ export const ToDoListRedux = ({ todolist }: ToDoListPropsType) => {
   }, [])
 
   const addTaskHandler = useCallback((title: string) => {
-    dispatch(addTaskTC(id, title)).then()
+    dispatch(tasksThunk.addTask({ todolistId: id, title }))
   }, [])
 
   const updateTodolistTitle = useCallback((updatedTitle: string) => {
