@@ -29,21 +29,20 @@ export const ListOfTodolists = () => {
     return <Navigate to={'/login'} />
   }
 
+  const paperStyles = {
+    padding: '15px',
+    backgroundColor: '#ecf5fd',
+    height: 'max-content',
+    borderRadius: '15px',
+  }
+
   return (
     <>
       <AddItemForm callBack={addToDoList} />
       <div className={'listsWrapper'}>
         {todolists.map((item) => {
           return (
-            <Paper
-              key={item.id}
-              elevation={12}
-              style={{
-                padding: '15px',
-                backgroundColor: '#ececdc',
-                height: 'max-content',
-              }}
-            >
+            <Paper key={item.id} elevation={12} sx={paperStyles}>
               <ToDoListRedux todolist={item} />
             </Paper>
           )
