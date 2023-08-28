@@ -1,4 +1,4 @@
-import { AppTodolistType, FilterType, todolistsAction, todolistsReducer } from './todolists-reducer'
+import { AppTodolistType, FilterType, todolistsAction, todolistsReducer, todolistsThunk } from './todolists-reducer'
 import { v1 } from 'uuid'
 import { TodolistType } from 'api/todolist-api'
 
@@ -47,7 +47,10 @@ beforeEach(() => {
 })
 
 test('correct todolist should be removed', () => {
-  const resultState = todolistsReducer(appState, todolistsAction.removeToDoList({ todolistId: todolistId1 }))
+  const resultState = todolistsReducer(
+    appState,
+    todolistsThunk.deleteTodolist.fulfilled({ todolistId: todolistId1 }, 'requestId', todolistId1),
+  )
 
   expect(resultState.length).toBe(1)
   expect(resultState[0].id).toBe(todolistId2)
@@ -63,7 +66,10 @@ test('correct todolist should be added', () => {
     title: 'What to drink',
   }
 
-  const resultState = todolistsReducer(appState, todolistsAction.addTodolist({ todolist: newTodo }))
+  const resultState = todolistsReducer(
+    appState,
+    todolistsThunk.addTodolist.fulfilled({ todolist: newTodo }, 'requestId', newTodo.title),
+  )
 
   expect(resultState.length).toBe(3)
   expect(resultState[0].title).toBe('What to drink')
@@ -87,7 +93,10 @@ test('correct todolist title should be updated', () => {
 
   const resultState = todolistsReducer(
     appState,
-    todolistsAction.updateTodolistTitle({ todolistId: todolistId1, title }),
+    todolistsThunk.updateTodoTitle.fulfilled({ todolistId: todolistId1, title }, 'requestId', {
+      todolistId: todolistId1,
+      title,
+    }),
   )
 
   expect(resultState[0].title).toBe('What to drink')

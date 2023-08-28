@@ -1,7 +1,7 @@
 import { v1 } from 'uuid'
 import { tasksReducer, TasksStateType, tasksThunk } from './tasks-reducer'
 import { TaskStatuses, TaskType, TodolistType } from 'api/todolist-api'
-import { todolistsAction } from 'reducers/todolists-reducer'
+import { todolistsAction, todolistsThunk } from 'reducers/todolists-reducer'
 
 let todolistID1: string
 let todolistID2: string
@@ -183,14 +183,20 @@ test('empty tasks should be added with new todolist', () => {
     title: 'What to learn',
   }
 
-  const resultState = tasksReducer(startState, todolistsAction.addTodolist({ todolist: newTodo }))
+  const resultState = tasksReducer(
+    startState,
+    todolistsThunk.addTodolist.fulfilled({ todolist: newTodo }, 'requestId', newTodo.title),
+  )
 
   expect(Object.keys(resultState).length).toBe(3)
   expect(resultState[newTodolistID]).toEqual([])
 })
 
 test('correct tasks should be deleted with deleted todolist', () => {
-  const resultState = tasksReducer(startState, todolistsAction.removeToDoList({ todolistId: todolistID1 }))
+  const resultState = tasksReducer(
+    startState,
+    todolistsThunk.deleteTodolist.fulfilled({ todolistId: todolistID1 }, 'requestId', todolistID1),
+  )
 
   expect(resultState[todolistID1]).toBe(undefined)
   expect(resultState[todolistID2].length).toBe(3)
@@ -202,8 +208,8 @@ test('correct task status should be changed', () => {
 
   const resultState = tasksReducer(startState, tasksThunk.updateTask.fulfilled(payload, 'requestId', payload))
 
-  expect(resultState[todolistID1][1].status).toBe(1)
-  expect(resultState[todolistID2][1].status).toBe(0)
+  expect(resultState[todolistID2][0].status).toBe(1)
+  expect(resultState[todolistID1][0].status).toBe(0)
 })
 
 test('tasks data should be removed after log out', () => {
