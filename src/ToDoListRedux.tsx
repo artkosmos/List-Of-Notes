@@ -6,13 +6,7 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import { useDispatch } from 'react-redux'
 import { AppDispatchType, useAppSelector } from 'store/store'
 import { AppTaskType, tasksThunk } from 'reducers/tasks-reducer'
-import {
-  AppTodolistType,
-  deleteTodolistTC,
-  FilterType,
-  todolistsAction,
-  updateTodolistTitleTC,
-} from 'reducers/todolists-reducer'
+import { AppTodolistType, FilterType, todolistsAction, todolistsThunk } from 'reducers/todolists-reducer'
 import { TaskRedux } from 'TaskRedux'
 import React, { memo, useCallback } from 'react'
 import Button from '@mui/material/Button'
@@ -55,15 +49,15 @@ export const ToDoListRedux = ({ todolist }: ToDoListPropsType) => {
   }, [])
 
   const removeToDoListHandler = useCallback(() => {
-    dispatch(deleteTodolistTC(id)).then()
+    dispatch(todolistsThunk.deleteTodolist(id))
   }, [])
 
   const addTaskHandler = useCallback((title: string) => {
     dispatch(tasksThunk.addTask({ todolistId: id, title }))
   }, [])
 
-  const updateTodolistTitle = useCallback((updatedTitle: string) => {
-    dispatch(updateTodolistTitleTC(id, updatedTitle)).then()
+  const updateTodolistTitle = useCallback((title: string) => {
+    dispatch(todolistsThunk.updateTodoTitle({ todolistId: id, title }))
   }, [])
 
   const mappedTasks = filteredTasksData?.map((item) => {

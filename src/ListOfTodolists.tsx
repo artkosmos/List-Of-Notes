@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect } from 'react'
 import { AppDispatchType, useAppSelector } from 'store/store'
-import { addTodolistTC, setTodolistsTC } from 'reducers/todolists-reducer'
+import { todolistsThunk } from 'reducers/todolists-reducer'
 import { ToDoListRedux } from 'ToDoListRedux'
 import Paper from '@mui/material/Paper'
 import { AddItemForm } from 'AddItemForm'
@@ -17,12 +17,12 @@ export const ListOfTodolists = () => {
 
   useEffect(() => {
     if (isLogIn) {
-      dispatch(setTodolistsTC())
+      dispatch(todolistsThunk.setTodolists({}))
     }
   }, [])
 
   const addToDoList = useCallback((title: string) => {
-    dispatch(addTodolistTC(title))
+    dispatch(todolistsThunk.addTodolist(title))
   }, [])
 
   if (!isLogIn) {
