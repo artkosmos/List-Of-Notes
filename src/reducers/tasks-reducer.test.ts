@@ -1,5 +1,5 @@
 import { v1 } from 'uuid'
-import { tasksAction, tasksReducer, TasksStateType } from './tasks-reducer'
+import { tasksReducer, TasksStateType, tasksThunk } from './tasks-reducer'
 import { TaskStatuses, TaskType, TodolistType } from 'api/todolist-api'
 import { todolistsAction } from 'reducers/todolists-reducer'
 
@@ -131,7 +131,14 @@ test('correct task should be added', () => {
     completed: false,
   }
 
-  const resultState = tasksReducer(startState, tasksAction.addTask({ todolistId: todolistID1, task: newTask }))
+  const resultState = tasksReducer(
+    startState,
+    tasksThunk.addTask.fulfilled({ todolistId: todolistID1, task: newTask }, 'requestId', {
+      todolistId: newTask.todoListId,
+      title: newTask.title,
+      // second and third parameter are only for TypeScript
+    }),
+  )
 
   expect(resultState[todolistID1].length).toBe(4)
   expect(resultState[todolistID2].length).toBe(3)
@@ -139,20 +146,28 @@ test('correct task should be added', () => {
 })
 
 test('correct task should be removed', () => {
-  const resultState = tasksReducer(startState, tasksAction.removeTask({ todolistId: todolistID2, taskId: taskID_4 }))
+  const resultState = tasksReducer(
+    startState,
+    tasksThunk.deleteTask.fulfilled(
+      {
+        todolistId: todolistID2,
+        taskId: taskID_4,
+      },
+      'requestId',
+      { todolistId: todolistID2, taskId: taskID_4 },
+    ),
+  )
 
   expect(resultState[todolistID1].length).toBe(3)
   expect(resultState[todolistID2].length).toBe(2)
   expect(resultState[todolistID2][0].title).toBe('Milk')
 })
 
-test('correct task should be updated', () => {
+test('correct task title should be updated', () => {
   const updatedTitle: string = 'Blue Cheese'
+  const payload = { todolistId: todolistID2, taskId: taskID_4, model: { title: updatedTitle } }
 
-  const resultState = tasksReducer(
-    startState,
-    tasksAction.updateTask({ todolistId: todolistID2, taskId: taskID_4, model: { title: updatedTitle } }),
-  )
+  const resultState = tasksReducer(startState, tasksThunk.updateTask.fulfilled(payload, 'requestId', payload))
 
   expect(resultState[todolistID2][0].title).toBe('Blue Cheese')
   expect(resultState[todolistID2][1].title).toBe('Milk')
@@ -183,11 +198,9 @@ test('correct tasks should be deleted with deleted todolist', () => {
 
 test('correct task status should be changed', () => {
   const status = TaskStatuses.InProgress
+  const payload = { todolistId: todolistID2, taskId: taskID_4, model: { status } }
 
-  const resultState = tasksReducer(
-    startState,
-    tasksAction.updateTask({ todolistId: todolistID1, taskId: taskID_2, model: { status } }),
-  )
+  const resultState = tasksReducer(startState, tasksThunk.updateTask.fulfilled(payload, 'requestId', payload))
 
   expect(resultState[todolistID1][1].status).toBe(1)
   expect(resultState[todolistID2][1].status).toBe(0)
