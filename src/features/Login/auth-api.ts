@@ -1,6 +1,5 @@
-import { FormType } from 'features/Login/Login'
 import { instance } from 'api/api'
-import { BaseResponseType, IsMeAuthResponseType } from 'common/types/api_types'
+import { BaseResponseType, FormType, IsMeAuthResponseType } from 'common/types/api_types'
 
 export const authAPI = {
   checkIsLogIn() {

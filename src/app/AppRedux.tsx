@@ -4,33 +4,26 @@ import { useDispatch } from 'react-redux'
 import { useEffect } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { Error, ErrorSnackbar } from 'common/components'
-import { checkIsLogInTC } from 'features/Login/auth-reducer'
 import CircularProgress from '@mui/material/CircularProgress'
 import { appStatusSelector, isInitializedSelector } from 'app/app-selectors'
 import { ButtonAppBar } from 'common/components'
 import { ListOfTodolists, Login } from 'features'
 import { useAppSelector } from 'common/utils'
 import { AppDispatchType } from 'common/types/app-types'
+import { authThunk } from 'features/Login/auth-reducer'
 
 function AppRedux() {
-  const status = useAppSelector(appStatusSelector)
+  const preloaderStatus = useAppSelector(appStatusSelector)
   const isInitialized = useAppSelector(isInitializedSelector)
   const dispatch = useDispatch<AppDispatchType>()
 
   useEffect(() => {
-    dispatch(checkIsLogInTC())
+    dispatch(authThunk.checkIsAuth({}))
   }, [])
 
   if (!isInitialized) {
     return (
-      <div
-        style={{
-          position: 'fixed',
-          top: '30%',
-          textAlign: 'center',
-          width: '100%',
-        }}
-      >
+      <div className={'preloader'}>
         <CircularProgress />
       </div>
     )
@@ -39,7 +32,7 @@ function AppRedux() {
   return (
     <div className="App">
       <ButtonAppBar />
-      {status === 'loading' && <LinearProgress color="secondary" />}
+      {preloaderStatus === 'loading' && <LinearProgress color="secondary" />}
       <div className={'contentWrapper'}>
         <ErrorSnackbar />
         <Routes>

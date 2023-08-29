@@ -10,24 +10,18 @@ import Button from '@mui/material/Button'
 import { useFormik } from 'formik'
 import style from 'features/Login/Login.module.css'
 import { useDispatch } from 'react-redux'
-import { logInTC } from 'features/Login/auth-reducer'
 import { Navigate } from 'react-router-dom'
 import { useAppSelector } from 'common/utils'
 import { AppDispatchType } from 'common/types/app-types'
+import { authThunk } from 'features/Login/auth-reducer'
 
 type ValidateFieldType = {
   email?: string
   password?: string
 }
 
-export type FormType = {
-  email: string
-  password: string
-  rememberMe: boolean
-}
-
 export const Login = () => {
-  const isLogIn = useAppSelector<boolean>((state) => state.auth.isLogin)
+  const isLogIn = useAppSelector<boolean>((state) => state.auth.isAuth)
   const dispatch = useDispatch<AppDispatchType>()
 
   const formik = useFormik({
@@ -38,7 +32,7 @@ export const Login = () => {
     },
     onSubmit: (values) => {
       formik.resetForm()
-      dispatch(logInTC(values))
+      dispatch(authThunk.logIn(values))
     },
     validate: (values) => {
       const errors: ValidateFieldType = {}

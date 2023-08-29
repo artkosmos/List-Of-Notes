@@ -8,6 +8,13 @@
 .listsWrapper {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 80px;
+}
+
+.preloader {
+  position: fixed;
+  top: 30%;
+  text-align: center;
+  width: 100%;
 }

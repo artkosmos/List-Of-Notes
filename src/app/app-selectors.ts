@@ -10,7 +10,7 @@ export const isInitializedSelector = (state: StateType): boolean => state.app.is
 
 export const appStatusSelector = (state: StateType): RequestStatusType => state.app.status
 
-export const isLoginSelector = (state: StateType): boolean => state.auth.isLogin
+export const isLoginSelector = (state: StateType): boolean => state.auth.isAuth
 
 export const authLoginSelector = (state: StateType): string | null => state.auth.authUserLogin
 

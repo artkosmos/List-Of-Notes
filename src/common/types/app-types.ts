@@ -16,7 +16,7 @@ export type TasksStateType = {
 }
 
 export type AuthStateType = {
-  isLogin: boolean
+  isAuth: boolean
   authUserLogin: null | string
 }
 

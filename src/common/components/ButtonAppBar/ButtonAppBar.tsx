@@ -7,10 +7,10 @@ import Button from '@mui/material/Button'
 import IconButton from '@mui/material/IconButton'
 import MenuIcon from '@mui/icons-material/Menu'
 import { useDispatch } from 'react-redux'
-import { logOutTC } from 'features/Login/auth-reducer'
 import { authLoginSelector, isLoginSelector } from 'app/app-selectors'
 import { AppDispatchType } from 'common/types/app-types'
 import { useAppSelector } from 'common/utils'
+import { authThunk } from 'features/Login/auth-reducer'
 
 export function ButtonAppBar() {
   const dispatch = useDispatch<AppDispatchType>()
@@ -20,7 +20,7 @@ export function ButtonAppBar() {
   const isLogIn = useAppSelector(isLoginSelector)
 
   const logOutHandler = () => {
-    dispatch(logOutTC())
+    dispatch(authThunk.logOut({}))
   }
 
   const loginToShow = authUserLogin ? authUserLogin : ''

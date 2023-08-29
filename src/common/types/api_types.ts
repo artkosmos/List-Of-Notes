@@ -18,6 +18,12 @@ export type BaseResponseType<T = {}> = {
   data: T
 }
 
+export type FormType = {
+  email: string
+  password: string
+  rememberMe: boolean
+}
+
 export type TaskType = {
   description: string
   title: string
