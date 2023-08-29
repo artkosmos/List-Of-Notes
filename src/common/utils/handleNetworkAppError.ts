@@ -1,7 +1,7 @@
 import { appAction } from 'app/app-reducer'
 import axios from 'axios'
-import { AppDispatchType } from 'app/store'
 import { BaseResponseType } from 'common/types/api_types'
+import { AppDispatchType } from 'common/types/app-types'
 
 export const handleServerNetworkError = (error: unknown, dispatch: AppDispatchType) => {
   if (axios.isAxiosError<BaseResponseType>(error)) {

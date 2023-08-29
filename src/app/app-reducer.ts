@@ -1,7 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-
-export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
-export type ErrorType = string | null
+import { ErrorType, RequestStatusType } from 'common/types/app-types'
 
 const slice = createSlice({
   name: 'app',

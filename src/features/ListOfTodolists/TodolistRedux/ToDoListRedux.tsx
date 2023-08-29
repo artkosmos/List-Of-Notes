@@ -2,26 +2,22 @@ import style from 'features/ListOfTodolists/TodolistRedux/ToDoList.module.css'
 import IconButton from '@mui/material/IconButton'
 import DeleteIcon from '@mui/icons-material/Delete'
 import { useDispatch } from 'react-redux'
-import { AppDispatchType, useAppSelector } from 'app/store'
-import { AppTaskType, tasksThunk } from 'features/ListOfTodolists/tasks-reducer'
-import {
-  AppTodolistType,
-  FilterType,
-  todolistsAction,
-  todolistsThunk,
-} from 'features/ListOfTodolists/todolists-reducer'
+import { tasksThunk } from 'features/ListOfTodolists/tasks-reducer'
+import { todolistsAction, todolistsThunk } from 'features/ListOfTodolists/todolists-reducer'
 import React, { memo, useCallback } from 'react'
 import Button from '@mui/material/Button'
 import { tasksSelector } from 'app/app-selectors'
 import { TaskRedux } from 'features'
 import { AddItemForm, EditableSpan } from 'common/components'
 import { TaskStatuses } from 'common/types/api_types'
+import { useAppSelector } from 'common/utils'
+import { AppDispatchType, AppTaskType, AppTodolistType, FilterType } from 'common/types/app-types'
 
-type ToDoListPropsType = {
+type ToDoListProps = {
   todolist: AppTodolistType
 }
 
-export const ToDoListRedux = ({ todolist }: ToDoListPropsType) => {
+export const ToDoListRedux = ({ todolist }: ToDoListProps) => {
   const { id, title, filter, entityStatus } = todolist
 
   const tasks = useAppSelector(tasksSelector(id))

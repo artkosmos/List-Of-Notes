@@ -2,18 +2,13 @@ import { Dispatch } from 'redux'
 import { handleServerNetworkError } from 'common/utils/handleNetworkAppError'
 import axios from 'axios'
 import { FormType } from 'features/Login/Login'
-import { AppThunk } from 'app/store'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { appAction } from 'app/app-reducer'
 import { todolistsAction } from 'features/ListOfTodolists/todolists-reducer'
 import { authAPI } from 'features/Login/auth-api'
 import { BaseResponseType, ResultCodes } from 'common/types/api_types'
 import { handleServerAppError } from 'common/utils'
-
-type AuthStateType = {
-  isLogin: boolean
-  authUserLogin: null | string
-}
+import { AppThunk, AuthStateType } from 'common/types/app-types'
 
 const slice = createSlice({
   name: 'auth',

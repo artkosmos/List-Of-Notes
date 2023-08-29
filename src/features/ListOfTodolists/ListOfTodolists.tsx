@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect } from 'react'
-import { AppDispatchType, useAppSelector } from 'app/store'
 import { todolistsThunk } from 'features/ListOfTodolists/todolists-reducer'
 import Paper from '@mui/material/Paper'
 import { useDispatch } from 'react-redux'
@@ -7,6 +6,8 @@ import { Navigate } from 'react-router-dom'
 import { isLoginSelector, todolistsSelector } from 'app/app-selectors'
 import { AddItemForm } from 'common/components'
 import { ToDoListRedux } from 'features'
+import { AppDispatchType } from 'common/types/app-types'
+import { useAppSelector } from 'common/utils'
 
 export const ListOfTodolists = () => {
   const dispatch = useDispatch<AppDispatchType>()

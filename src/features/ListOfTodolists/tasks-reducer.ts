@@ -1,17 +1,10 @@
-import { appAction, RequestStatusType } from 'app/app-reducer'
+import { appAction } from 'app/app-reducer'
 import { todolistsAction, todolistsThunk } from 'features/ListOfTodolists/todolists-reducer'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { createAppAsyncThunk, handleServerAppError, handleServerNetworkError } from 'common/utils'
 import { PropertiesToUpdateType, ResultCodes, TaskType, UpdateTaskModelType } from 'common/types/api_types'
 import { tasksAPI } from 'features/ListOfTodolists/tasks_api'
-
-export type AppTaskType = TaskType & {
-  entityStatus: RequestStatusType
-}
-
-export type TasksStateType = {
-  [key: string]: AppTaskType[]
-}
+import { RequestStatusType, TasksStateType } from 'common/types/app-types'
 
 const slice = createSlice({
   name: 'tasks',

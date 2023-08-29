@@ -7,9 +7,10 @@ import Button from '@mui/material/Button'
 import IconButton from '@mui/material/IconButton'
 import MenuIcon from '@mui/icons-material/Menu'
 import { useDispatch } from 'react-redux'
-import { AppDispatchType, useAppSelector } from 'app/store'
 import { logOutTC } from 'features/Login/auth-reducer'
 import { authLoginSelector, isLoginSelector } from 'app/app-selectors'
+import { AppDispatchType } from 'common/types/app-types'
+import { useAppSelector } from 'common/utils'
 
 export function ButtonAppBar() {
   const dispatch = useDispatch<AppDispatchType>()

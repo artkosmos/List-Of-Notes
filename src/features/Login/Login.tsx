@@ -10,9 +10,10 @@ import Button from '@mui/material/Button'
 import { useFormik } from 'formik'
 import style from 'features/Login/Login.module.css'
 import { useDispatch } from 'react-redux'
-import { AppDispatchType, useAppSelector } from 'app/store'
 import { logInTC } from 'features/Login/auth-reducer'
 import { Navigate } from 'react-router-dom'
+import { useAppSelector } from 'common/utils'
+import { AppDispatchType } from 'common/types/app-types'
 
 type ValidateFieldType = {
   email?: string

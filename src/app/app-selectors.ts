@@ -1,7 +1,5 @@
 import { StateType } from 'app/store'
-import { AppTaskType } from 'features/ListOfTodolists/tasks-reducer'
-import { ErrorType, RequestStatusType } from 'app/app-reducer'
-import { AppTodolistType } from 'features/ListOfTodolists/todolists-reducer'
+import { AppTaskType, AppTodolistType, ErrorType, RequestStatusType } from 'common/types/app-types'
 
 export const tasksSelector =
   (id: string) =>

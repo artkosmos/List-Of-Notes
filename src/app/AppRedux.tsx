@@ -2,7 +2,6 @@ import 'app/App.css'
 import LinearProgress from '@mui/material/LinearProgress'
 import { useDispatch } from 'react-redux'
 import { useEffect } from 'react'
-import { AppDispatchType, useAppSelector } from 'app/store'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { Error, ErrorSnackbar } from 'common/components'
 import { checkIsLogInTC } from 'features/Login/auth-reducer'
@@ -10,6 +9,8 @@ import CircularProgress from '@mui/material/CircularProgress'
 import { appStatusSelector, isInitializedSelector } from 'app/app-selectors'
 import { ButtonAppBar } from 'common/components'
 import { ListOfTodolists, Login } from 'features'
+import { useAppSelector } from 'common/utils'
+import { AppDispatchType } from 'common/types/app-types'
 
 function AppRedux() {
   const status = useAppSelector(appStatusSelector)

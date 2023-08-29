@@ -1,16 +1,10 @@
-import { appAction, RequestStatusType } from 'app/app-reducer'
+import { appAction } from 'app/app-reducer'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { tasksThunk } from 'features/ListOfTodolists/tasks-reducer'
 import { createAppAsyncThunk, handleServerAppError, handleServerNetworkError } from 'common/utils'
 import { ResultCodes, TodolistType } from 'common/types/api_types'
 import { todoAPI } from 'features/ListOfTodolists/todo_api'
-
-export type FilterType = 'all' | 'active' | 'completed'
-
-export type AppTodolistType = TodolistType & {
-  filter: FilterType
-  entityStatus: RequestStatusType
-}
+import { AppTodolistType, FilterType, RequestStatusType } from 'common/types/app-types'
 
 const slice = createSlice({
   name: 'todolists',
