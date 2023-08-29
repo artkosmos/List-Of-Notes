@@ -1,5 +1,5 @@
-import axios, { AxiosResponse } from "axios"
-import { FormType } from "../features/Login"
+import axios, { AxiosResponse } from 'axios'
+import { FormType } from 'features/Login/Login'
 
 const instance = axios.create({
   baseURL: `https://social-network.samuraijs.com/api/1.1`,
@@ -21,43 +21,36 @@ export const todolistAPI = {
     return instance.delete<ResponseType>(`/todo-lists/${todolistId}`)
   },
   updateTodo(todolistId: string, title: string) {
-    return instance.put<
-      ResponseType,
-      AxiosResponse<ResponseType>,
-      { title: string }
-    >(`/todo-lists/${todolistId}`, { title })
+    return instance.put<ResponseType, AxiosResponse<ResponseType>, { title: string }>(`/todo-lists/${todolistId}`, {
+      title,
+    })
   },
   getTasks(todolistId: string) {
     return instance.get<GetTasksResponseType>(`/todo-lists/${todolistId}/tasks`)
   },
   addTask(todolistId: string, title: string) {
-    return instance.post<ResponseType<{ item: TaskType }>>(
-      `/todo-lists/${todolistId}/tasks`,
-      { title },
-    )
+    return instance.post<ResponseType<{ item: TaskType }>>(`/todo-lists/${todolistId}/tasks`, { title })
   },
   deleteTask(todolistId: string, taskId: string) {
-    return instance.delete<ResponseType>(
-      `/todo-lists/${todolistId}/tasks/${taskId}`,
-    )
+    return instance.delete<ResponseType>(`/todo-lists/${todolistId}/tasks/${taskId}`)
   },
   updateTask(todolistId: string, taskId: string, model: UpdateTaskModelType) {
-    return instance.put<
-      ResponseType<{ item: TaskType }>,
-      AxiosResponse<ResponseType<{ item: TaskType }>>
-    >(`/todo-lists/${todolistId}/tasks/${taskId}`, model)
+    return instance.put<ResponseType<{ item: TaskType }>, AxiosResponse<ResponseType<{ item: TaskType }>>>(
+      `/todo-lists/${todolistId}/tasks/${taskId}`,
+      model,
+    )
   },
 }
 
 export const authAPI = {
   checkIsLogIn() {
-    return instance.get<ResponseType<IsMeAuthResponseType>>("/auth/me")
+    return instance.get<ResponseType<IsMeAuthResponseType>>('/auth/me')
   },
   logIn(data: FormType) {
-    return instance.post<ResponseType<{ userId: number }>>("/auth/login", data)
+    return instance.post<ResponseType<{ userId: number }>>('/auth/login', data)
   },
   logOut() {
-    return instance.delete<ResponseType>("/auth/login")
+    return instance.delete<ResponseType>('/auth/login')
   },
 }
 
@@ -120,7 +113,7 @@ export enum TaskPriorities {
 export enum ResultCodes {
   OK = 0,
   ERROR = 1,
-  ERROR_CAPTCHA = 1,
+  ERROR_CAPTCHA = 10,
 }
 
 // main model to send with request
