@@ -1,8 +1,9 @@
-import { PropertiesToUpdateType, ResultCodes, TaskType, todolistAPI, UpdateTaskModelType } from 'api/todolist-api'
 import { appAction, RequestStatusType } from 'app/app-reducer'
 import { todolistsAction, todolistsThunk } from 'features/ListOfTodolists/todolists-reducer'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { createAppAsyncThunk, handleServerAppError, handleServerNetworkError } from 'common/utils'
+import { PropertiesToUpdateType, ResultCodes, TaskType, UpdateTaskModelType } from 'common/types/api_types'
+import { tasksAPI } from 'features/ListOfTodolists/tasks_api'
 
 export type AppTaskType = TaskType & {
   entityStatus: RequestStatusType
@@ -70,7 +71,7 @@ const setTasks = createAppAsyncThunk<{ tasks: TaskType[]; todolistId: string }, 
 
     dispatch(appAction.setPreloaderStatus({ status: 'loading' }))
     try {
-      const response = await todolistAPI.getTasks(todolistId)
+      const response = await tasksAPI.getTasks(todolistId)
       if (response.data.error) {
         const errorMessage = response.data.error
         dispatch(appAction.setError({ error: errorMessage }))
@@ -99,7 +100,7 @@ const addTask = createAppAsyncThunk<{ todolistId: string; task: TaskType }, { to
     dispatch(appAction.setPreloaderStatus({ status: 'loading' }))
     dispatch(todolistsAction.changeTodolistStatus({ todolistId: todolistId, entityStatus: 'loading' }))
     try {
-      const response = await todolistAPI.addTask(todolistId, title)
+      const response = await tasksAPI.addTask(todolistId, title)
       if (response.data.resultCode !== ResultCodes.OK) {
         handleServerAppError<{ item: TaskType }>(response.data, dispatch)
         return rejectWithValue(null)
@@ -125,7 +126,7 @@ const deleteTask = createAppAsyncThunk<{ todolistId: string; taskId: string }, {
     dispatch(appAction.setPreloaderStatus({ status: 'loading' }))
     dispatch(tasksAction.changeTaskStatus({ todolistId, taskId, entityStatus: 'loading' }))
     try {
-      const response = await todolistAPI.deleteTask(todolistId, taskId)
+      const response = await tasksAPI.deleteTask(todolistId, taskId)
       if (response.data.resultCode !== ResultCodes.OK) {
         handleServerAppError(response.data, dispatch)
         return rejectWithValue(null)
@@ -168,7 +169,7 @@ const updateTask = createAppAsyncThunk<
   }
 
   try {
-    const response = await todolistAPI.updateTask(todolistId, taskId, modelForAPI)
+    const response = await tasksAPI.updateTask(todolistId, taskId, modelForAPI)
     if (response.data.resultCode !== ResultCodes.OK) {
       handleServerAppError<{ item: TaskType }>(response.data, dispatch)
       return rejectWithValue(null)

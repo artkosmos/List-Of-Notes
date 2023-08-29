@@ -1,7 +1,7 @@
 import { v1 } from 'uuid'
 import { tasksReducer, TasksStateType, tasksThunk } from 'features/ListOfTodolists/tasks-reducer'
-import { TaskStatuses, TaskType, TodolistType } from 'api/todolist-api'
 import { todolistsAction, todolistsThunk } from 'features/ListOfTodolists/todolists-reducer'
+import { TaskStatuses, TaskType, TodolistType } from 'common/types/api_types'
 
 let todolistID1: string
 let todolistID2: string

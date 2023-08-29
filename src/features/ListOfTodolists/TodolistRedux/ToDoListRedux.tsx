@@ -12,10 +12,10 @@ import {
 } from 'features/ListOfTodolists/todolists-reducer'
 import React, { memo, useCallback } from 'react'
 import Button from '@mui/material/Button'
-import { TaskStatuses } from 'api/todolist-api'
 import { tasksSelector } from 'app/app-selectors'
 import { TaskRedux } from 'features'
 import { AddItemForm, EditableSpan } from 'common/components'
+import { TaskStatuses } from 'common/types/api_types'
 
 type ToDoListPropsType = {
   todolist: AppTodolistType

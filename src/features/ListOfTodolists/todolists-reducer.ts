@@ -1,8 +1,9 @@
-import { ResultCodes, todolistAPI, TodolistType } from 'api/todolist-api'
 import { appAction, RequestStatusType } from 'app/app-reducer'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { tasksThunk } from 'features/ListOfTodolists/tasks-reducer'
 import { createAppAsyncThunk, handleServerAppError, handleServerNetworkError } from 'common/utils'
+import { ResultCodes, TodolistType } from 'common/types/api_types'
+import { todoAPI } from 'features/ListOfTodolists/todo_api'
 
 export type FilterType = 'all' | 'active' | 'completed'
 
@@ -62,7 +63,7 @@ const setTodolists = createAppAsyncThunk<{ todolists: TodolistType[] }, {}>(
   async (_, thunkAPI) => {
     const { dispatch, rejectWithValue } = thunkAPI
     try {
-      const response = await todolistAPI.getTodo()
+      const response = await todoAPI.getTodo()
       response.data.forEach((todo) => {
         dispatch(tasksThunk.setTasks(todo.id))
       })
@@ -82,7 +83,7 @@ const addTodolist = createAppAsyncThunk<{ todolist: TodolistType }, string>(
     const { dispatch, rejectWithValue } = thunkAPI
     dispatch(appAction.setPreloaderStatus({ status: 'loading' }))
     try {
-      const response = await todolistAPI.addTodo(title)
+      const response = await todoAPI.addTodo(title)
       if (response.data.resultCode !== ResultCodes.OK) {
         handleServerAppError<{ item: TodolistType }>(response.data, dispatch)
         return rejectWithValue(null)
@@ -105,7 +106,7 @@ const deleteTodolist = createAppAsyncThunk<{ todolistId: string }, string>(
     dispatch(appAction.setPreloaderStatus({ status: 'loading' }))
     dispatch(todolistsAction.changeTodolistStatus({ todolistId: todolistId, entityStatus: 'loading' }))
     try {
-      const response = await todolistAPI.deleteTodo(todolistId)
+      const response = await todoAPI.deleteTodo(todolistId)
       if (response.data.resultCode !== ResultCodes.OK) {
         handleServerAppError(response.data, dispatch)
         return rejectWithValue(null)
@@ -129,7 +130,7 @@ const updateTodoTitle = createAppAsyncThunk<
   const { dispatch, rejectWithValue } = thunkAPI
   dispatch(appAction.setPreloaderStatus({ status: 'loading' }))
   try {
-    const response = await todolistAPI.updateTodo(todolistId, title)
+    const response = await todoAPI.updateTodo(todolistId, title)
     if (response.data.resultCode !== ResultCodes.OK) {
       handleServerAppError(response.data, dispatch)
       return rejectWithValue(null)

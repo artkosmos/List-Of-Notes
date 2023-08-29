@@ -1,12 +1,14 @@
 import { Dispatch } from 'redux'
-import { authAPI, ResponseType, ResultCodes } from 'api/todolist-api'
-import { handleServerAppError, handleServerNetworkError } from 'common/utils/handleNetworkAppError'
+import { handleServerNetworkError } from 'common/utils/handleNetworkAppError'
 import axios from 'axios'
 import { FormType } from 'features/Login/Login'
 import { AppThunk } from 'app/store'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { appAction } from 'app/app-reducer'
 import { todolistsAction } from 'features/ListOfTodolists/todolists-reducer'
+import { authAPI } from 'features/Login/auth-api'
+import { BaseResponseType, ResultCodes } from 'common/types/api_types'
+import { handleServerAppError } from 'common/utils'
 
 type AuthStateType = {
   isLogin: boolean
@@ -44,7 +46,7 @@ export const checkIsLogInTC = () => async (dispatch: Dispatch) => {
       dispatch(authAction.setAuthUser({ userLogin: response.data.data.login }))
     }
   } catch (error) {
-    if (axios.isAxiosError<ResponseType>(error)) {
+    if (axios.isAxiosError<BaseResponseType>(error)) {
       const errorMessage = error.response ? error.response.data.messages[0] : error.message
       handleServerNetworkError(errorMessage, dispatch)
     } else {
@@ -68,7 +70,7 @@ export const logInTC =
         dispatch(checkIsLogInTC()).then()
       }
     } catch (error) {
-      if (axios.isAxiosError<ResponseType>(error)) {
+      if (axios.isAxiosError<BaseResponseType>(error)) {
         const errorMessage = error.response ? error.response.data.messages[0] : error.message
         handleServerNetworkError(errorMessage, dispatch)
       } else {
@@ -92,7 +94,7 @@ export const logOutTC = (): AppThunk => async (dispatch) => {
       dispatch(todolistsAction.cleanStateData())
     }
   } catch (error) {
-    if (axios.isAxiosError<ResponseType>(error)) {
+    if (axios.isAxiosError<BaseResponseType>(error)) {
       const errorMessage = error.response ? error.response.data.messages[0] : error.message
       handleServerNetworkError(errorMessage, dispatch)
     } else {

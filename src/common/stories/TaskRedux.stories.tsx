@@ -10,9 +10,9 @@ import IconButton from '@mui/material/IconButton'
 import DeleteIcon from '@mui/icons-material/Delete'
 import { Dispatch } from 'redux'
 import { action } from '@storybook/addon-actions'
-import { TaskStatuses, TaskType } from 'api/todolist-api'
 import { ChangeEvent } from 'react'
-import { tasksAction, tasksThunk } from 'features/ListOfTodolists/tasks-reducer'
+import { tasksThunk } from 'features/ListOfTodolists/tasks-reducer'
+import { TaskStatuses, TaskType } from 'common/types/api_types'
 
 const meta: Meta = {
   title: 'TODOLIST/TaskRedux',

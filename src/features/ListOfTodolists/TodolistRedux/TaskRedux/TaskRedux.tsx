@@ -5,9 +5,9 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import { useDispatch } from 'react-redux'
 import { AppTaskType, tasksThunk } from 'features/ListOfTodolists/tasks-reducer'
 import { ChangeEvent, memo } from 'react'
-import { TaskStatuses } from 'api/todolist-api'
 import { AppDispatchType } from 'app/store'
 import { EditableSpan } from 'common/components'
+import { TaskStatuses } from 'common/types/api_types'
 
 type TaskReduxType = {
   task: AppTaskType
