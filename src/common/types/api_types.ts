@@ -1,3 +1,5 @@
+import { string } from 'prop-types'
+
 export type IsMeAuthResponseType = {
   id: number
   email: string
@@ -16,6 +18,12 @@ export type BaseResponseType<T = {}> = {
   resultCode: number
   messages: string[]
   data: T
+  fieldsErrors: FieldErrorType[]
+}
+
+export type FieldErrorType = {
+  error: string
+  field: string
 }
 
 export type FormType = {
