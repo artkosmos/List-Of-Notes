@@ -61,12 +61,11 @@ const setTodolists = createAppAsyncThunk<{ todolists: TodolistType[] }, {}>(
       response.data.forEach((todo) => {
         dispatch(tasksThunk.setTasks(todo.id))
       })
+      dispatch(appAction.setPreloaderStatus({ status: 'succeeded' }))
       return { todolists: response.data }
     } catch (error) {
       handleServerNetworkError(error, dispatch)
       return rejectWithValue(null)
-    } finally {
-      dispatch(appAction.setPreloaderStatus({ status: 'idle' }))
     }
   },
 )
@@ -82,13 +81,12 @@ const addTodolist = createAppAsyncThunk<{ todolist: TodolistType }, string>(
         handleServerAppError<{ item: TodolistType }>(response.data, dispatch)
         return rejectWithValue(null)
       } else {
+        dispatch(appAction.setPreloaderStatus({ status: 'succeeded' }))
         return { todolist: response.data.data.item }
       }
     } catch (error) {
       handleServerNetworkError(error, dispatch)
       return rejectWithValue(null)
-    } finally {
-      dispatch(appAction.setPreloaderStatus({ status: 'idle' }))
     }
   },
 )
@@ -105,13 +103,12 @@ const deleteTodolist = createAppAsyncThunk<{ todolistId: string }, string>(
         handleServerAppError(response.data, dispatch)
         return rejectWithValue(null)
       } else {
+        dispatch(appAction.setPreloaderStatus({ status: 'succeeded' }))
         return { todolistId }
       }
     } catch (error) {
       handleServerNetworkError(error, dispatch)
       return rejectWithValue(null)
-    } finally {
-      dispatch(appAction.setPreloaderStatus({ status: 'idle' }))
     }
   },
 )
@@ -129,13 +126,12 @@ const updateTodoTitle = createAppAsyncThunk<
       handleServerAppError(response.data, dispatch)
       return rejectWithValue(null)
     } else {
+      dispatch(appAction.setPreloaderStatus({ status: 'succeeded' }))
       return { todolistId: todolistId, title: title }
     }
   } catch (error) {
     handleServerNetworkError(error, dispatch)
     return rejectWithValue(null)
-  } finally {
-    dispatch(appAction.setPreloaderStatus({ status: 'idle' }))
   }
 })
 

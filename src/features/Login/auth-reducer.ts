@@ -38,6 +38,7 @@ const checkIsAuth = createAppAsyncThunk<{ userLogin: string | null }, {}>('auth/
       handleServerAppError(response.data, dispatch)
       return rejectWithValue(null)
     } else {
+      dispatch(appAction.setPreloaderStatus({ status: 'succeeded' }))
       return { userLogin: response.data.data.login }
     }
   } catch (error) {
@@ -58,13 +59,12 @@ const logIn = createAppAsyncThunk<any, FormType>('auth/logIn', async (data, thun
       handleServerAppError(response.data, dispatch)
       return rejectWithValue(null)
     } else {
+      dispatch(appAction.setPreloaderStatus({ status: 'succeeded' }))
       dispatch(authThunk.checkIsAuth({}))
     }
   } catch (error) {
     handleServerNetworkError(error, dispatch)
     return rejectWithValue(null)
-  } finally {
-    dispatch(appAction.setPreloaderStatus({ status: 'idle' }))
   }
 })
 
@@ -78,16 +78,14 @@ const logOut = createAppAsyncThunk<{ userLogin: string | null }, {}>('auth/logOu
       return rejectWithValue(null)
     } else {
       dispatch(todolistsAction.cleanStateData())
+      dispatch(appAction.setPreloaderStatus({ status: 'succeeded' }))
       return { userLogin: null }
     }
   } catch (error) {
     handleServerNetworkError(error, dispatch)
     return rejectWithValue(null)
-  } finally {
-    dispatch(appAction.setPreloaderStatus({ status: 'idle' }))
   }
 })
 
-export const authAction = slice.actions
 export const authReducer = slice.reducer
 export const authThunk = { checkIsAuth, logOut, logIn }
