@@ -35,7 +35,7 @@ const checkIsAuth = createAppAsyncThunk<{ userLogin: string | null }, {}>('auth/
   try {
     const response = await authAPI.checkIsLogIn()
     if (response.data.resultCode !== ResultCodes.OK) {
-      handleServerAppError(response.data, dispatch)
+      handleServerAppError(response.data, dispatch, false)
       return rejectWithValue(null)
     } else {
       dispatch(appAction.setPreloaderStatus({ status: 'succeeded' }))
@@ -49,7 +49,7 @@ const checkIsAuth = createAppAsyncThunk<{ userLogin: string | null }, {}>('auth/
   }
 })
 
-const logIn = createAppAsyncThunk<any, FormType>('auth/logIn', async (data, thunkAPI) => {
+const logIn = createAppAsyncThunk<undefined, FormType>('auth/logIn', async (data, thunkAPI) => {
   const { dispatch, rejectWithValue } = thunkAPI
 
   dispatch(appAction.setPreloaderStatus({ status: 'loading' }))
