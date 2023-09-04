@@ -1,10 +1,10 @@
-import { appAction } from 'app/app-reducer'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { tasksThunk } from 'features/ListOfTodolists/tasks-reducer'
-import { createAppAsyncThunk, handleServerAppError, handleServerNetworkError } from 'common/utils'
+import { createAppAsyncThunk, handleServerAppError } from 'common/utils'
 import { ResultCodes, TodolistType } from 'common/types/api_types'
 import { todoAPI } from 'features/ListOfTodolists/todo_api'
 import { AppTodolistType, FilterType, RequestStatusType } from 'common/types/app-types'
+import { handlerTryCatchThunk } from 'common/utils/handlerTryCatchThunk'
 
 const slice = createSlice({
   name: 'todolists',
@@ -55,18 +55,15 @@ const slice = createSlice({
 const setTodolists = createAppAsyncThunk<{ todolists: TodolistType[] }, {}>(
   'todolists/setTodolists',
   async (_, thunkAPI) => {
-    const { dispatch, rejectWithValue } = thunkAPI
-    try {
+    const { dispatch } = thunkAPI
+
+    return handlerTryCatchThunk(thunkAPI, async () => {
       const response = await todoAPI.getTodo()
       response.data.forEach((todo) => {
         dispatch(tasksThunk.setTasks(todo.id))
       })
-      dispatch(appAction.setPreloaderStatus({ status: 'succeeded' }))
       return { todolists: response.data }
-    } catch (error) {
-      handleServerNetworkError(error, dispatch)
-      return rejectWithValue(null)
-    }
+    })
   },
 )
 
@@ -74,20 +71,16 @@ const addTodolist = createAppAsyncThunk<{ todolist: TodolistType }, string>(
   'todolists/addTodolist',
   async (title, thunkAPI) => {
     const { dispatch, rejectWithValue } = thunkAPI
-    dispatch(appAction.setPreloaderStatus({ status: 'loading' }))
-    try {
+
+    return handlerTryCatchThunk(thunkAPI, async () => {
       const response = await todoAPI.addTodo(title)
       if (response.data.resultCode !== ResultCodes.OK) {
         handleServerAppError<{ item: TodolistType }>(response.data, dispatch)
         return rejectWithValue(null)
       } else {
-        dispatch(appAction.setPreloaderStatus({ status: 'succeeded' }))
         return { todolist: response.data.data.item }
       }
-    } catch (error) {
-      handleServerNetworkError(error, dispatch)
-      return rejectWithValue(null)
-    }
+    })
   },
 )
 
@@ -95,21 +88,17 @@ const deleteTodolist = createAppAsyncThunk<{ todolistId: string }, string>(
   'todolists/deleteTodolist',
   async (todolistId, thunkAPI) => {
     const { dispatch, rejectWithValue } = thunkAPI
-    dispatch(appAction.setPreloaderStatus({ status: 'loading' }))
-    dispatch(todolistsAction.changeTodolistStatus({ todolistId: todolistId, entityStatus: 'loading' }))
-    try {
+
+    return handlerTryCatchThunk(thunkAPI, async () => {
+      dispatch(todolistsAction.changeTodolistStatus({ todolistId: todolistId, entityStatus: 'loading' }))
       const response = await todoAPI.deleteTodo(todolistId)
       if (response.data.resultCode !== ResultCodes.OK) {
         handleServerAppError(response.data, dispatch)
         return rejectWithValue(null)
       } else {
-        dispatch(appAction.setPreloaderStatus({ status: 'succeeded' }))
         return { todolistId }
       }
-    } catch (error) {
-      handleServerNetworkError(error, dispatch)
-      return rejectWithValue(null)
-    }
+    })
   },
 )
 
@@ -119,20 +108,16 @@ const updateTodoTitle = createAppAsyncThunk<
 >('todolists/updateTodolistTitle', async (arg, thunkAPI) => {
   const { todolistId, title } = arg
   const { dispatch, rejectWithValue } = thunkAPI
-  dispatch(appAction.setPreloaderStatus({ status: 'loading' }))
-  try {
+
+  return handlerTryCatchThunk(thunkAPI, async () => {
     const response = await todoAPI.updateTodo(todolistId, title)
     if (response.data.resultCode !== ResultCodes.OK) {
       handleServerAppError(response.data, dispatch)
       return rejectWithValue(null)
     } else {
-      dispatch(appAction.setPreloaderStatus({ status: 'succeeded' }))
       return { todolistId: todolistId, title: title }
     }
-  } catch (error) {
-    handleServerNetworkError(error, dispatch)
-    return rejectWithValue(null)
-  }
+  })
 })
 
 export const todolistsReducer = slice.reducer
