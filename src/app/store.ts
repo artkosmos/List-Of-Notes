@@ -1,8 +1,8 @@
 import { appReducer } from 'app/app-reducer'
-import { authReducer } from 'features/Login/auth-reducer'
+import { authReducer } from 'features/Login/model/auth-reducer'
 import { configureStore } from '@reduxjs/toolkit'
-import { todolistsReducer } from 'features/ListOfTodolists/todolists-reducer'
-import { tasksReducer } from 'features/ListOfTodolists/tasks-reducer'
+import { todolistsReducer } from 'features/ListOfTodolists/model/todolists-reducer'
+import { tasksReducer } from 'features/ListOfTodolists/model/tasks-reducer'
 
 export type StateType = ReturnType<typeof store.getState>
 

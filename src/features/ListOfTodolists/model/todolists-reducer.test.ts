@@ -1,4 +1,4 @@
-import { todolistsAction, todolistsReducer, todolistsThunk } from 'features/ListOfTodolists/todolists-reducer'
+import { todolistsAction, todolistsReducer, todolistsThunk } from 'features/ListOfTodolists/model/todolists-reducer'
 import { v1 } from 'uuid'
 import { TodolistType } from 'common/types/api_types'
 import { AppTodolistType, FilterType } from 'common/types/app-types'

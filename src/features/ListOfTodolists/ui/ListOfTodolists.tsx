@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect } from 'react'
-import { todolistsThunk } from 'features/ListOfTodolists/todolists-reducer'
+import { todolistsThunk } from 'features/ListOfTodolists/model/todolists-reducer'
 import Paper from '@mui/material/Paper'
 import { useDispatch } from 'react-redux'
 import { Navigate } from 'react-router-dom'
 import { isLoginSelector, todolistsSelector } from 'app/app-selectors'
 import { AddItemForm } from 'common/components'
-import { ToDoListRedux } from 'features'
+import { ToDoListRedux } from 'features/index'
 import { AppDispatchType } from 'common/types/app-types'
 import { useAppSelector } from 'common/utils'
 

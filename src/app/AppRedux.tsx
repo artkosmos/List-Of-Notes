@@ -10,7 +10,7 @@ import { ButtonAppBar } from 'common/components'
 import { ListOfTodolists, Login } from 'features'
 import { useAppSelector } from 'common/utils'
 import { AppDispatchType } from 'common/types/app-types'
-import { authThunk } from 'features/Login/auth-reducer'
+import { authThunk } from 'features/Login/model/auth-reducer'
 
 function AppRedux() {
   const preloaderStatus = useAppSelector(appStatusSelector)

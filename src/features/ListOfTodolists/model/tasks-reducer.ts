@@ -1,9 +1,9 @@
 import { appAction } from 'app/app-reducer'
-import { todolistsAction, todolistsThunk } from 'features/ListOfTodolists/todolists-reducer'
+import { todolistsAction, todolistsThunk } from 'features/ListOfTodolists/model/todolists-reducer'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { createAppAsyncThunk, handleServerAppError } from 'common/utils'
 import { PropertiesToUpdateType, ResultCodes, TaskType, UpdateTaskModelType } from 'common/types/api_types'
-import { tasksAPI } from 'features/ListOfTodolists/tasks_api'
+import { tasksAPI } from 'features/ListOfTodolists/api/tasks_api'
 import { RequestStatusType, TasksStateType } from 'common/types/app-types'
 import { handlerTryCatchThunk } from 'common/utils/handlerTryCatchThunk'
 

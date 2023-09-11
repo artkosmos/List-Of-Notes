@@ -10,7 +10,7 @@ import { useDispatch } from 'react-redux'
 import { authLoginSelector, isLoginSelector } from 'app/app-selectors'
 import { AppDispatchType } from 'common/types/app-types'
 import { useAppSelector } from 'common/utils'
-import { authThunk } from 'features/Login/auth-reducer'
+import { authThunk } from 'features/Login/model/auth-reducer'
 
 export function ButtonAppBar() {
   const dispatch = useDispatch<AppDispatchType>()

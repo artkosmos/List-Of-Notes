@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { tasksThunk } from 'features/ListOfTodolists/tasks-reducer'
+import { tasksThunk } from 'features/ListOfTodolists/model/tasks-reducer'
 import { createAppAsyncThunk, handleServerAppError } from 'common/utils'
 import { ResultCodes, TodolistType } from 'common/types/api_types'
-import { todoAPI } from 'features/ListOfTodolists/todo_api'
+import { todoAPI } from 'features/ListOfTodolists/api/todo_api'
 import { AppTodolistType, FilterType, RequestStatusType } from 'common/types/app-types'
 import { handlerTryCatchThunk } from 'common/utils/handlerTryCatchThunk'
 

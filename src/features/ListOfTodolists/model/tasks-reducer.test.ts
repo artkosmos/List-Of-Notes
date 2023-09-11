@@ -1,6 +1,6 @@
 import { v1 } from 'uuid'
-import { tasksReducer, tasksThunk } from 'features/ListOfTodolists/tasks-reducer'
-import { todolistsAction, todolistsThunk } from 'features/ListOfTodolists/todolists-reducer'
+import { tasksReducer, tasksThunk } from 'features/ListOfTodolists/model/tasks-reducer'
+import { todolistsAction, todolistsThunk } from 'features/ListOfTodolists/model/todolists-reducer'
 import { TaskStatuses, TaskType, TodolistType } from 'common/types/api_types'
 import { TasksStateType } from 'common/types/app-types'
 
