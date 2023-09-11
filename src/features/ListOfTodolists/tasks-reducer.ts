@@ -64,7 +64,6 @@ const setTasks = createAppAsyncThunk<{ tasks: TaskType[]; todolistId: string }, 
     const { dispatch, rejectWithValue } = thunkAPI
 
     return handlerTryCatchThunk(thunkAPI, async () => {
-      dispatch(todolistsAction.changeTodolistStatus({ todolistId: todolistId, entityStatus: 'loading' }))
       const response = await tasksAPI.getTasks(todolistId)
       if (response.data.error) {
         const errorMessage = response.data.error
@@ -74,7 +73,7 @@ const setTasks = createAppAsyncThunk<{ tasks: TaskType[]; todolistId: string }, 
       } else {
         return { todolistId, tasks: response.data.items }
       }
-    }).finally(() => dispatch(todolistsAction.changeTodolistStatus({ todolistId: todolistId, entityStatus: 'idle' })))
+    })
   },
 )
 
