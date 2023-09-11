@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { appAction } from 'app/app-reducer'
 import { todolistsAction } from 'features/ListOfTodolists/todolists-reducer'
-import { authAPI } from 'features/Login/auth-api'
+import { authAPI } from 'features/Login/api/auth-api'
 import { FormType, ResultCodes } from 'common/types/api_types'
 import { createAppAsyncThunk, handleServerAppError } from 'common/utils'
 import { AuthStateType } from 'common/types/app-types'

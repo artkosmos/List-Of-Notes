@@ -7,53 +7,12 @@ import FormGroup from '@mui/material/FormGroup'
 import FormLabel from '@mui/material/FormLabel'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
-import { useFormik } from 'formik'
-import style from 'features/Login/Login.module.css'
-import { useDispatch } from 'react-redux'
+import style from 'features/Login/ui/Login.module.css'
 import { Navigate } from 'react-router-dom'
-import { useAppSelector } from 'common/utils'
-import { AppDispatchType } from 'common/types/app-types'
-import { authThunk } from 'features/Login/auth-reducer'
-
-type ValidateFieldType = {
-  email?: string
-  password?: string
-}
+import { useLogin } from 'features/Login/lib/useLogin'
 
 export const Login = () => {
-  const isLogIn = useAppSelector<boolean>((state) => state.auth.isAuth)
-  const dispatch = useDispatch<AppDispatchType>()
-
-  const formik = useFormik({
-    initialValues: {
-      email: '',
-      password: '',
-      rememberMe: false,
-    },
-    onSubmit: (values) => {
-      formik.resetForm()
-      dispatch(authThunk.logIn(values))
-    },
-    validate: (values) => {
-      const errors: ValidateFieldType = {}
-      const checkEmail = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i
-      const checkPassword = /^(?=.*[A-Z])(?=.*[!@#$%^&*])(?!.*[\s.,;:!])[a-zA-Z0-9@#$%^&*]{8,}$/i
-
-      if (!values.email) {
-        errors.email = 'Required'
-      } else if (!checkEmail.test(values.email)) {
-        errors.email = 'Invalid email address'
-      }
-
-      if (!values.password) {
-        errors.password = 'Required'
-      } else if (!checkPassword.test(values.password)) {
-        errors.password = 'Invalid password'
-      }
-
-      return errors
-    },
-  })
+  const { formik, isLogIn } = useLogin()
 
   if (isLogIn) {
     return <Navigate to={'/'} />

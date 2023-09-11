@@ -1,4 +1,4 @@
-import { authReducer, AuthReducerState, authThunk } from 'features/Login/auth-reducer'
+import { authReducer, AuthReducerState, authThunk } from 'features/Login/model/auth-reducer'
 
 let authState: AuthReducerState
 
