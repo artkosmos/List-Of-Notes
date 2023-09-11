@@ -3,15 +3,15 @@ import IconButton from '@mui/material/IconButton'
 import DeleteIcon from '@mui/icons-material/Delete'
 import { useDispatch } from 'react-redux'
 import { tasksThunk } from 'features/ListOfTodolists/model/tasks-reducer'
-import { todolistsAction, todolistsThunk } from 'features/ListOfTodolists/model/todolists-reducer'
-import React, { memo, useCallback } from 'react'
-import Button from '@mui/material/Button'
+import { todolistsThunk } from 'features/ListOfTodolists/model/todolists-reducer'
+import { useCallback } from 'react'
 import { tasksSelector } from 'app/app-selectors'
 import { TaskRedux } from 'features/index'
 import { AddItemForm, EditableSpan } from 'common/components'
 import { TaskStatuses } from 'common/types/api_types'
 import { useAppSelector } from 'common/utils'
 import { AppDispatchType, AppTaskType, AppTodolistType, FilterType } from 'common/types/app-types'
+import { TaskFilterButtons } from 'features/ListOfTodolists/ui/TodolistRedux/TaskFilterButtons/TaskFilterButtons'
 
 type ToDoListProps = {
   todolist: AppTodolistType
@@ -35,18 +35,6 @@ export const ToDoListRedux = ({ todolist }: ToDoListProps) => {
     }
   }
   const filteredTasksData = getFilteredTask(tasks, filter)
-
-  const onClickHandlerAll = useCallback(() => {
-    dispatch(todolistsAction.changeToDoListFilter({ todolistId: id, filter: 'all' }))
-  }, [])
-
-  const onClickHandlerActive = useCallback(() => {
-    dispatch(todolistsAction.changeToDoListFilter({ todolistId: id, filter: 'active' }))
-  }, [])
-
-  const onClickHandlerCompleted = useCallback(() => {
-    dispatch(todolistsAction.changeToDoListFilter({ todolistId: id, filter: 'completed' }))
-  }, [])
 
   const removeToDoListHandler = useCallback(() => {
     dispatch(todolistsThunk.deleteTodolist(id))
@@ -82,45 +70,9 @@ export const ToDoListRedux = ({ todolist }: ToDoListProps) => {
         <AddItemForm callBack={addTaskHandler} disabled={entityStatus === 'loading'} />
         <ul className={style.list}>{mappedTasks}</ul>
         <div className={style.buttonWrapper}>
-          <ButtonMemo
-            title={'All'}
-            variant={filter === 'all' ? 'outlined' : 'contained'}
-            color={'secondary'}
-            onClick={onClickHandlerAll}
-            style={{ height: '30px' }}
-          />
-          <ButtonMemo
-            title={'Active'}
-            variant={filter === 'active' ? 'outlined' : 'contained'}
-            color={'success'}
-            onClick={onClickHandlerActive}
-            style={{ height: '30px' }}
-          />
-          <ButtonMemo
-            title={'Completed'}
-            variant={filter === 'completed' ? 'outlined' : 'contained'}
-            color={'error'}
-            onClick={onClickHandlerCompleted}
-            style={{ height: '30px' }}
-          />
+          <TaskFilterButtons id={id} filter={filter} />
         </div>
       </div>
     </div>
   )
 }
-
-type ButtonMemoPropsType = {
-  title: string
-  variant: 'text' | 'outlined' | 'contained'
-  color: 'inherit' | 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning'
-  style?: {}
-  onClick: () => void
-}
-
-export const ButtonMemo = memo((props: ButtonMemoPropsType) => {
-  return (
-    <Button variant={props.variant} color={props.color} onClick={props.onClick} style={props.style}>
-      {props.title}
-    </Button>
-  )
-})
