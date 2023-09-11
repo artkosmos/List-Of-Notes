@@ -11,9 +11,7 @@ export type AppTaskType = TaskType & {
   entityStatus: RequestStatusType
 }
 
-export type TasksStateType = {
-  [key: string]: AppTaskType[]
-}
+export type TasksStateType = Record<string, AppTaskType[]>
 
 export type AuthStateType = {
   isAuth: boolean

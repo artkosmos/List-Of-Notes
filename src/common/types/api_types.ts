@@ -1,5 +1,3 @@
-import { string } from 'prop-types'
-
 export type IsMeAuthResponseType = {
   id: number
   email: string
@@ -31,6 +29,8 @@ export type FormType = {
   password: string
   rememberMe: boolean
 }
+
+export type ValidateFieldType = Partial<Omit<FormType, 'rememberMe'>>
 
 export type TaskType = {
   description: string
