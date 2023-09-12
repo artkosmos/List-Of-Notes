@@ -196,7 +196,7 @@ test('empty tasks should be added with new todolist', () => {
 test('correct tasks should be deleted with deleted todolist', () => {
   const resultState = tasksReducer(
     startState,
-    todolistsThunk.deleteTodolist.fulfilled({ todolistId: todolistID1 }, 'requestId', todolistID1),
+    todolistsThunk.deleteTodolist.fulfilled({ todolistId: todolistID1 }, 'requestId', { todolistId: todolistID1 }),
   )
 
   expect(resultState[todolistID1]).toBe(undefined)

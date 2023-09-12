@@ -17,7 +17,7 @@ export const TodoTitle = ({ id, title, entityStatus }: TodoTitleProps) => {
   const dispatch = useDispatch<AppDispatchType>()
 
   const removeToDoListHandler = () => {
-    dispatch(todolistsThunk.deleteTodolist(id))
+    dispatch(todolistsThunk.deleteTodolist({ todolistId: id }))
   }
 
   const updateTodolistTitle = useCallback((title: string) => {
