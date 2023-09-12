@@ -1,5 +1,6 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice, isFulfilled, isPending, isRejected, PayloadAction } from '@reduxjs/toolkit'
 import { ErrorType, RequestStatusType } from 'common/types/app-types'
+import { AnyAction } from 'redux'
 
 const slice = createSlice({
   name: 'app',
@@ -18,6 +19,23 @@ const slice = createSlice({
     setIsInitialized: (state, action: PayloadAction<{ isInitialized: boolean }>) => {
       state.isInitialized = action.payload.isInitialized
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addMatcher(isPending, (state, _) => {
+        state.status = 'loading'
+      })
+      .addMatcher(isFulfilled, (state, _) => {
+        state.status = 'succeeded'
+      })
+      .addMatcher(isRejected, (state, action: AnyAction) => {
+        if (action.payload) {
+          state.error = action.payload.messages[0]
+        } else {
+          state.error = action.error.message ? action.error.message : 'Unknown error'
+        }
+        state.status = 'failed'
+      })
   },
 })
 
