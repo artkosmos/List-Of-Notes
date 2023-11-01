@@ -18,3 +18,11 @@
   text-align: center;
   width: 100%;
 }
+
+.app {
+  background-image: url("./bg.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 100vh;
+}

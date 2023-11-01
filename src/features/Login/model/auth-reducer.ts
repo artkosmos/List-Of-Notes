@@ -36,7 +36,7 @@ const checkIsAuth = createAppAsyncThunk<{ userLogin: string | null }, {}>('auth/
     const response = await authAPI.checkIsLogIn()
     if (response.data.resultCode !== ResultCodes.OK) {
       handleServerAppError(response.data, dispatch, false)
-      return rejectWithValue(null)
+      return rejectWithValue(response.data)
     } else {
       return { userLogin: response.data.data.login }
     }

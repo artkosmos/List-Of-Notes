@@ -1,4 +1,4 @@
-import 'app/App.css'
+import './App.css'
 import LinearProgress from '@mui/material/LinearProgress'
 import { useDispatch } from 'react-redux'
 import { useEffect } from 'react'
@@ -30,7 +30,7 @@ function AppRedux() {
   }
 
   return (
-    <div className="App">
+    <div className={'app'}>
       <ButtonAppBar />
       {preloaderStatus === 'loading' && <LinearProgress color="secondary" />}
       <div className={'contentWrapper'}>
