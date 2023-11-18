@@ -22,7 +22,7 @@ export const TaskFilterButtons = ({ id, filter }: TaskFilterButtonsProps) => {
       <div className={style.buttonWrapper}>
         <ButtonMemo
           variant={filter === 'all' ? 'outlined' : 'contained'}
-          color={'secondary'}
+          color={'warning'}
           onClick={() => setFilterHandler('all')}
         >
           All

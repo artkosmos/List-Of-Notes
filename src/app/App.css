@@ -1,5 +1,5 @@
 .contentWrapper {
-  padding: 50px;
+  padding: 20px 50px;
   display: flex;
   flex-direction: column;
   gap: 50px;
@@ -7,9 +7,9 @@
 
 .listsWrapper {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   justify-content: flex-start;
-  gap: 80px;
+  gap: 50px;
 }
 
 .preloader {
@@ -19,10 +19,10 @@
   width: 100%;
 }
 
-.app {
-  background-image: url("./bg.jpg");
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  height: 100vh;
-}
+/*.app {*/
+/*  background-image: url("./bg.jpg");*/
+/*  background-size: cover;*/
+/*  background-repeat: repeat;*/
+/*  background-position: center;*/
+/*  height: 100vh;*/
+/*}*/

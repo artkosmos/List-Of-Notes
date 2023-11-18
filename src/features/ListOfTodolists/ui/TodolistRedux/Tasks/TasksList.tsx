@@ -28,5 +28,9 @@ export const TasksList = ({ id, filter }: TasksListProps) => {
     return <TaskRedux key={item.id} task={item} />
   })
 
-  return <ul className={style.list}>{mappedTasks}</ul>
+  return (
+    <ul style={{ maxHeight: 'calc(80vh - 340px)' }} className={style.list}>
+      {mappedTasks}
+    </ul>
+  )
 }

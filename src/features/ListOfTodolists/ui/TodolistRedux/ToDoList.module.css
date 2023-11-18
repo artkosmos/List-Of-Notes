@@ -19,6 +19,23 @@
   list-style-type: none;
   padding: 0;
   align-self: flex-start;
+  overflow-y: auto;
+  width: 100%;
+  max-height: calc(80vh - 340px);
+}
+
+.list::-webkit-scrollbar {
+  width: 5px;
+}
+
+.list::-webkit-scrollbar-thumb {
+  background-color: #1975d1;
+  border-radius: 5px;
+}
+
+.list::-webkit-scrollbar-track {
+  background-color: #ecf0f1;
+  border-radius: 5px;
 }
 
 .buttonWrapper {
