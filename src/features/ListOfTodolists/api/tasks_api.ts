@@ -4,7 +4,7 @@ import { BaseResponseType, GetTasksResponseType, TaskType, UpdateTaskModelType }
 
 export const tasksAPI = {
   getTasks(todolistId: string) {
-    return instance.get<GetTasksResponseType>(`/todo-lists/${todolistId}/tasks`)
+    return instance.get<GetTasksResponseType>(`/todo-lists/${todolistId}/tasks?count=50`)
   },
   addTask(todolistId: string, title: string) {
     return instance.post<BaseResponseType<{ item: TaskType }>>(`/todo-lists/${todolistId}/tasks`, { title })

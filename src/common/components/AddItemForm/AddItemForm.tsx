@@ -5,6 +5,8 @@ import TextField from '@mui/material/TextField'
 export type AddItemFormProps = {
   callBack: (text: string) => void
   disabled?: boolean
+  fieldColor?: 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning'
+  textColor?: string
 }
 
 export const AddItemForm = memo((props: AddItemFormProps) => {
@@ -52,6 +54,12 @@ export const AddItemForm = memo((props: AddItemFormProps) => {
           onChange={onChangeHandler}
           onKeyDown={onPressHandler}
           disabled={props.disabled}
+          color={props.fieldColor || 'primary'}
+          sx={{
+            '& .MuiInputBase-input': {
+              color: `${props.textColor}`,
+            },
+          }}
         />
         <Button onClick={anotherTask} style={buttonStyles} variant="contained" disabled={props.disabled}>
           Add

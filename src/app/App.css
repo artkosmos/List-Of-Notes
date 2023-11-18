@@ -19,6 +19,10 @@
   width: 100%;
 }
 
+.preloaderPlace {
+  height: 3px;
+}
+
 /*.app {*/
 /*  background-image: url("./bg.jpg");*/
 /*  background-size: cover;*/

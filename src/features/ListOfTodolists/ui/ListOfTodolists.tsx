@@ -36,11 +36,12 @@ export const ListOfTodolists = () => {
     height: '100%',
     borderRadius: '15px',
     maxWidth: '290px',
+    wordWrap: 'break-word',
   }
 
   return (
     <>
-      <AddItemForm callBack={addToDoList} />
+      <AddItemForm callBack={addToDoList} fieldColor={'warning'} textColor={'#c3c1c7'} />
       <div className={'listsWrapper'}>
         {todolists.map((item) => {
           return (

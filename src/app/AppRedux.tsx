@@ -32,7 +32,7 @@ function AppRedux() {
   return (
     <div className={'app'}>
       <ButtonAppBar />
-      {preloaderStatus === 'loading' && <LinearProgress color="secondary" />}
+      <div className={'preloaderPlace'}>{preloaderStatus === 'loading' && <LinearProgress color="primary" />}</div>
       <div className={'contentWrapper'}>
         <ErrorSnackbar />
         <Routes>
