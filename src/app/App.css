@@ -1,9 +1,22 @@
 .contentWrapper {
-  padding: 20px 50px;
+  padding: 20px 50px 30px;
   display: flex;
   flex-direction: column;
   gap: 50px;
+  overflow-x: auto;
+  height: 100%;
 }
+
+.contentWrapper::-webkit-scrollbar-thumb {
+  background-color: rgba(64, 161, 232, 0.6);
+  border-radius: 5px;
+}
+
+.contentWrapper::-webkit-scrollbar {
+  height: 10px;
+  background-color: rgba(0, 23, 40, 0.50);
+}
+
 
 .listsWrapper {
   display: flex;
@@ -22,11 +35,3 @@
 .preloaderPlace {
   height: 3px;
 }
-
-/*.app {*/
-/*  background-image: url("./bg.jpg");*/
-/*  background-size: cover;*/
-/*  background-repeat: repeat;*/
-/*  background-position: center;*/
-/*  height: 100vh;*/
-/*}*/

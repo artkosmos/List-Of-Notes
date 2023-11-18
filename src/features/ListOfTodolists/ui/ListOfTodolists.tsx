@@ -33,7 +33,7 @@ export const ListOfTodolists = () => {
   const paperStyles = {
     padding: '15px',
     backgroundColor: '#d9e4f5',
-    height: '100%',
+    height: 'max-content',
     borderRadius: '15px',
     maxWidth: '290px',
     wordWrap: 'break-word',

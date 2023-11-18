@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import IconButton from '@mui/material/IconButton'
 import style from 'features/ListOfTodolists/ui/TodolistRedux/ToDoList.module.css'
-import DeleteIcon from '@mui/icons-material/Delete'
+import CloseIcon from '@mui/icons-material/Close'
 import { EditableSpan } from 'common/components'
 import { todolistsThunk } from 'features/ListOfTodolists/model/todolists-reducer'
 import { useDispatch } from 'react-redux'
@@ -32,8 +32,8 @@ export const TodoTitle = ({ id, title, entityStatus }: TodoTitleProps) => {
         className={style.delete}
         disabled={entityStatus === 'loading'}
       >
-        <DeleteIcon />
-        <span className={style.deleteText}>Delete list</span>
+        <CloseIcon className={style.closeButton} />
+        <span className={style.deleteText}>Delete</span>
       </IconButton>
       <h2>
         <EditableSpan oldTitle={title} callBack={updateTodolistTitle} disabled={entityStatus === 'loading'} />
