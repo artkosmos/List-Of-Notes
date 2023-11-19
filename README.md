@@ -5,8 +5,7 @@
 ### Deploy link: https://artkosmos.github.io/PlanPilot
 
 This app is a place where you can create, edit (double click) and delete notes, 
-keep them in active or complete and divide into cards. 
-Implement loginization as well (register on site https://social-network.samuraijs.com/).
+keep them in active or complete and divide into cards. Implement loginization.
 
 #### Test Account
 
