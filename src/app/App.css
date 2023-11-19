@@ -1,37 +1,55 @@
 .contentWrapper {
-  padding: 20px 50px 30px;
-  display: flex;
-  flex-direction: column;
-  gap: 50px;
-  overflow-x: auto;
-  height: 100%;
+    padding: 20px 50px 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    overflow-x: auto;
 }
 
 .contentWrapper::-webkit-scrollbar-thumb {
-  background-color: rgba(64, 161, 232, 0.6);
-  border-radius: 5px;
+    background-color: rgba(58, 100, 134, 0.7);
+    border-radius: 5px;
 }
 
 .contentWrapper::-webkit-scrollbar {
-  height: 10px;
-  background-color: rgba(0, 23, 40, 0.50);
+    height: 10px;
+    background-color: rgba(0, 23, 40, 0.7);
 }
 
 
 .listsWrapper {
-  display: flex;
-  flex-wrap: nowrap;
-  justify-content: flex-start;
-  gap: 50px;
+    display: flex;
+    gap: 50px;
 }
 
 .preloader {
-  position: fixed;
-  top: 30%;
-  text-align: center;
-  width: 100%;
+    position: fixed;
+    top: 30%;
+    text-align: center;
+    width: 100%;
 }
 
 .preloaderPlace {
-  height: 3px;
+    height: 3px;
+}
+
+.app {
+    background-image: url("./bg.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 100vh;
+    overflow: auto;
+}
+
+@media (width < 600px) {
+    .listsWrapper {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .contentWrapper {
+        padding: 20px 15px;
+        align-items: center;
+    }
 }

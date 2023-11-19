@@ -21,7 +21,7 @@
   align-self: flex-start;
   overflow-y: auto;
   width: 100%;
-  max-height: calc(80vh - 340px);
+  max-height: 50vh;
 }
 
 .list::-webkit-scrollbar {
@@ -83,3 +83,59 @@
   font-weight: 500;
   font-size: 15px;
 }
+
+.addForm {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 10px;
+}
+
+@media (height <= 1000px) {
+  .list {
+    max-height: 45vh;
+  }
+}
+
+@media (height <= 900px) {
+  .list {
+    max-height: 40vh;
+  }
+}
+
+@media (height <= 820px) {
+  .list {
+    max-height: 35vh;
+  }
+}
+
+@media (height <= 750px) {
+  .list {
+    max-height: 30vh;
+  }
+}
+
+@media (height <= 700px) {
+  .list {
+    max-height: 25vh;
+  }
+}
+
+@media (height <= 650px) {
+  .list {
+    max-height: 20vh;
+  }
+}
+
+@media (height <= 600px) {
+  .list {
+    max-height: 15vh;
+  }
+}
+
+@media (width < 600px) {
+  .list {
+    overflow-y: visible;
+    max-height: max-content;
+  }
+}
+

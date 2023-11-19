@@ -1,6 +1,8 @@
-import React, { ChangeEvent, KeyboardEvent, memo, useState } from 'react'
+import React, {ChangeEvent, KeyboardEvent, memo, useState} from 'react'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
+import style from 'features/ListOfTodolists/ui/TodolistRedux/ToDoList.module.css'
+import styled from "@emotion/styled";
 
 export type AddItemFormProps = {
   callBack: (text: string) => void
@@ -33,38 +35,36 @@ export const AddItemForm = memo((props: AddItemFormProps) => {
     }
   }
 
-  const buttonStyles = {
-    maxWidth: '40px',
-    maxHeight: '40px',
-    minWidth: '40px',
-    minHeight: '40px',
-    marginLeft: '10px',
-  }
-
   return (
-    <div>
-      <div>
-        <TextField
-          error={error}
-          size={'small'}
-          id="outlined-basic"
-          label={error ? 'Title is required' : 'Write something...'}
-          variant="outlined"
-          value={text}
-          onChange={onChangeHandler}
-          onKeyDown={onPressHandler}
-          disabled={props.disabled}
-          color={props.fieldColor || 'primary'}
-          sx={{
-            '& .MuiInputBase-input': {
-              color: `${props.textColor}`,
-            },
-          }}
-        />
-        <Button onClick={anotherTask} style={buttonStyles} variant="contained" disabled={props.disabled}>
-          Add
-        </Button>
-      </div>
+    <div className={style.addForm}>
+      <TextField
+        error={error}
+        size={'small'}
+        id="outlined-basic"
+        label={error ? 'Title is required' : 'Write something...'}
+        variant="outlined"
+        value={text}
+        onChange={onChangeHandler}
+        onKeyDown={onPressHandler}
+        disabled={props.disabled}
+        color={props.fieldColor || 'primary'}
+        sx={{
+          '& .MuiInputBase-input': {
+            color: `${props.textColor}`,
+          },
+        }}
+      />
+      <StyledButton onClick={anotherTask} variant="contained" disabled={props.disabled}>
+        Add
+      </StyledButton>
     </div>
   )
 })
+
+
+const StyledButton = styled(Button)`
+  max-width: 40px;
+  max-height: 40px;
+  min-width: 40px;
+  min-height: 40px;
+`
