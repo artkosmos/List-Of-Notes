@@ -31,18 +31,20 @@ export const TaskRedux = memo(({ task }: TaskReduxProps) => {
 
   return (
     <div>
-      <li className={task.status === 2 ? style.isDone : ''}>
+      <li className={`${style.task} ${task.status === 2 ? style.isDone : ''}`}>
         <Checkbox
           disabled={task.entityStatus === 'loading'}
           onChange={changeTaskStatusHandler}
           checked={task.status === 2}
           size={'small'}
         />
-        <EditableSpan
-          oldTitle={task.title}
-          callBack={changeTaskTitleHandler}
-          disabled={task.entityStatus === 'loading'}
-        />
+        <div className={style.taskText}>
+          <EditableSpan
+            oldTitle={task.title}
+            callBack={changeTaskTitleHandler}
+            disabled={task.entityStatus === 'loading'}
+          />
+        </div>
         <IconButton
           disabled={task.entityStatus === 'loading'}
           aria-label="delete"

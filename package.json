@@ -1,6 +1,6 @@
 {
-  "homepage": "https://artkosmos.github.io/List-Of-Notes",
-  "name": "list-of-notes",
+  "homepage": "https://artkosmos.github.io/PlanPilot",
+  "name": "plan-pilot",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

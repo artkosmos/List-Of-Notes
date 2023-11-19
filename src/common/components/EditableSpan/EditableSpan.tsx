@@ -1,4 +1,4 @@
-import React, { ChangeEvent, memo, useState } from 'react'
+import React, { ChangeEvent, memo, useRef, useState } from 'react'
 
 type SpanPropsType = {
   oldTitle: string
@@ -19,6 +19,8 @@ export const EditableSpan = memo((props: SpanPropsType) => {
     }
   }
 
+  const taskTitleRef = useRef<HTMLSpanElement>(null)
+
   const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     setUpdatedTitle(event.currentTarget.value)
   }
@@ -30,6 +32,8 @@ export const EditableSpan = memo((props: SpanPropsType) => {
   return edit ? (
     <input onChange={onChangeHandler} onBlur={editHandler} value={updatedTitle} autoFocus />
   ) : (
-    <span onDoubleClick={editHandler}>{updatedTitle}</span>
+    <span ref={taskTitleRef} onDoubleClick={editHandler}>
+      {updatedTitle}
+    </span>
   )
 })

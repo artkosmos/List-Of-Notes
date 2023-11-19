@@ -59,3 +59,12 @@
 .deleteText {
   font-size: 12px;
 }
+
+.task {
+  display: flex;
+  align-items: center;
+}
+
+.taskText {
+  word-break: break-word;
+}
