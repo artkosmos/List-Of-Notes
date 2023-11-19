@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/PlanPilot/static/css/main.6b6874a2.css",
+    "main.css": "/PlanPilot/static/css/main.e81f1637.css",
     "main.js": "/PlanPilot/static/js/main.f9d6d10b.js",
     "static/media/bg.jpg": "/PlanPilot/static/media/bg.f190cc68ecde6ed132b0.jpg",
     "index.html": "/PlanPilot/index.html",
-    "main.6b6874a2.css.map": "/PlanPilot/static/css/main.6b6874a2.css.map",
+    "main.e81f1637.css.map": "/PlanPilot/static/css/main.e81f1637.css.map",
     "main.f9d6d10b.js.map": "/PlanPilot/static/js/main.f9d6d10b.js.map"
   },
   "entrypoints": [
-    "static/css/main.6b6874a2.css",
+    "static/css/main.e81f1637.css",
     "static/js/main.f9d6d10b.js"
   ]
 }
