@@ -35,7 +35,7 @@ export const ListOfTodolists = () => {
     backgroundColor: '#d9e4f5',
     height: 'max-content',
     borderRadius: '15px',
-    maxWidth: '290px',
+    width: '300px',
     wordWrap: 'break-word',
   }
 

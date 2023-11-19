@@ -63,8 +63,23 @@
 .task {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 2px;
+}
+
+.task:last-child {
+  margin-bottom: 0;
+}
+
+.checkAndText {
+  display: flex;
+  align-items: flex-start;
 }
 
 .taskText {
   word-break: break-word;
+  margin-top: 7px;
+  font-weight: 500;
+  font-size: 15px;
 }
