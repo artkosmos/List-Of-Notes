@@ -1,19 +1,21 @@
 .contentWrapper {
+    height: calc(100% - 150px);
     padding: 20px 50px 30px;
     display: flex;
     flex-direction: column;
     gap: 50px;
     overflow-x: auto;
+    overflow-y: hidden;
 }
 
 .contentWrapper::-webkit-scrollbar-thumb {
-    background-color: rgba(58, 100, 134, 0.7);
+    background-color: rgb(64, 161, 232);
     border-radius: 5px;
 }
 
 .contentWrapper::-webkit-scrollbar {
     height: 10px;
-    background-color: rgba(0, 23, 40, 0.7);
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
 
